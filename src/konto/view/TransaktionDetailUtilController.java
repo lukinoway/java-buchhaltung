@@ -65,6 +65,8 @@ public class TransaktionDetailUtilController {
     	this.transaktion = selectedTransaktion;
     }
 
+
+    // das passt noch gar nicht
     public void createTransaktionDetail() {
     	try {
 	    	// prepare some stuff
