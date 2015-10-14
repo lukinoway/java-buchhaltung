@@ -59,7 +59,6 @@ public class TransaktionDetailOverviewController {
      */
     @FXML
     private void initialize() {
-    	//setTransaktionDetail();
     }
 
     /**
@@ -108,14 +107,17 @@ public class TransaktionDetailOverviewController {
 
 	}
 
+	/**
+	 * Function to fill up Detail List
+	 * @param selectedTransaktion
+	 */
 	public void setTransaktionDetail(Transaktion selectedTransaktion) {
 		this.transaktion =  selectedTransaktion;
 
 		// lösche alte einträge
-		transaktionDetailData.removeAll();
+		transaktionDetailData.removeAll(this.transaktion.transaktionDetail);
+		TransaktionsDetailTable.setItems(getTransaktionDetailData());
 
-		// teste meine neue detail model classe
-		//transaktion.transaktionDetail.get(0);
 		for (int i = 0; i < this.transaktion.transaktionDetail.size(); i++) {
 
 			transaktionDetailData.add(this.transaktion.transaktionDetail.get(i));
@@ -147,9 +149,23 @@ public class TransaktionDetailOverviewController {
 	        }
 	    } catch(NullPointerException e){
 	    	System.out.println("Hier fehlt uns was - handlCreateDetail");
-	    	//System.out.println(this.transaktion.getTransaktions_text());
 	    }
     }
+
+    @FXML
+    private void handleDeleteDetail() {
+    	try {
+    		TransaktionDetail selectedDetail = TransaktionsDetailTable.getSelectionModel().getSelectedItem();
+    		Transaktion selectedTransaktion = this.transaktion;
+    	    if (selectedTransaktion != null) {
+    	    	selectedTransaktion.transaktionDetail.remove(selectedDetail);
+    	    	setTransaktionDetail(selectedTransaktion);
+	        }
+	    } catch(NullPointerException e){
+	    	System.out.println("Hier fehlt uns was - handlCreateDetail");
+	    }
+    }
+
 
     /**
      * Is called by the main application to give a reference back to itself.
