@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="konto.view.TransaktionOverviewController">
+   <children>
+      <SplitPane dividerPositions="0.2436399217221135" layoutX="182.0" layoutY="121.0" prefHeight="600.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <DatePicker layoutX="14.0" layoutY="193.0" promptText="Springe zu Datum" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="193.0" />
+                  <Label layoutX="14.0" layoutY="14.0" text="Konto auswählen" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                  <ComboBox layoutX="14.0" layoutY="31.0" prefWidth="150.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="31.0" />
+                  <PasswordField layoutX="15.0" layoutY="82.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="82.0" />
+                  <Label layoutX="14.0" layoutY="65.0" text="Passwort" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="65.0" />
+                  <ButtonBar layoutX="52.0" layoutY="120.0" prefHeight="40.0" prefWidth="136.0" AnchorPane.leftAnchor="52.0" AnchorPane.topAnchor="120.0">
+                    <buttons>
+                      <Button mnemonicParsing="false" text="OK" />
+                        <Button mnemonicParsing="false" text="vergessen" />
+                    </buttons>
+                  </ButtonBar>
+                  <Separator layoutX="-9.0" layoutY="163.0" prefHeight="3.0" prefWidth="260.0" />
+                  <Label layoutX="14.0" layoutY="176.0" text="Datum auswählen" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TableView fx:id="TransaktionsTable" layoutX="14.0" layoutY="14.0" prefHeight="533.0" prefWidth="770.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="trDateColumn" prefWidth="88.0" text="Datum" />
+                      <TableColumn fx:id="trBetragColumn" prefWidth="93.0" text="Betrag" />
+                        <TableColumn fx:id="trTextColumn" prefWidth="499.0" text="Buchungstext" />
+                        <TableColumn fx:id="trIDColumn" prefWidth="89.0" text="TR_ID" />
+                    </columns>
+                  </TableView>
+                  <ButtonBar layoutX="343.0" layoutY="544.0" prefHeight="40.0" prefWidth="413.0">
+                    <buttons>
+                      <Button mnemonicParsing="false" text="erstelle Detail" />
+                        <Button mnemonicParsing="false" onAction="#handleShowDetail" text="zeige Details" />
+                        <Button mnemonicParsing="false" text="Jahres Statistik" />
+                    </buttons>
+                  </ButtonBar>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

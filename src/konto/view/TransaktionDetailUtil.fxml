@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="150.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="konto.view.TransaktionDetailUtilController">
+   <children>
+      <GridPane layoutX="16.0" layoutY="14.0" prefHeight="93.0" prefWidth="270.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="130.0" minWidth="10.0" prefWidth="76.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.0" minWidth="10.0" prefWidth="194.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Text:" />
+            <Label text="Betrag:" GridPane.rowIndex="1" />
+            <Label text="Type:" GridPane.rowIndex="2" />
+            <TextField fx:id="trdText" GridPane.columnIndex="1" />
+            <TextField fx:id="trdBetrag" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="trdType" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+      <ButtonBar layoutX="100.0" layoutY="107.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+        <buttons>
+          <Button mnemonicParsing="false" onAction="#handleOk" text="OK" />
+            <Button mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
+        </buttons>
+      </ButtonBar>
+   </children>
+</AnchorPane>
