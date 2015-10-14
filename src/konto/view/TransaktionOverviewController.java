@@ -29,24 +29,8 @@ public class TransaktionOverviewController {
     @FXML
     private TableColumn<Transaktion, Number> trIDColumn;
 
-    /*
-    @FXML
-    private Label firstNameLabel;
-    @FXML
-    private Label lastNameLabel;
-    @FXML
-    private Label streetLabel;
-    @FXML
-    private Label postalCodeLabel;
-    @FXML
-    private Label cityLabel;
-    @FXML
-    private Label birthdayLabel;
-	*/
-
     // Reference to the main application.
     private MainApp mainApp;
-
 
     /**
      * Constructor, allways set it to public!!
@@ -84,8 +68,8 @@ public class TransaktionOverviewController {
             Alert alert = new Alert(AlertType.WARNING);
             alert.initOwner(mainApp.getPrimaryStage());
             alert.setTitle("No Selection");
-            alert.setHeaderText("No Person Selected");
-            alert.setContentText("Please select a person in the table.");
+            alert.setHeaderText("Keine Transaktion ausgewählt");
+            alert.setContentText("Bitte Transaktion ausgewählt.");
 
             alert.showAndWait();
         }
@@ -102,5 +86,4 @@ public class TransaktionOverviewController {
         // Add observable list data to the table
         TransaktionsTable.setItems(mainApp.getTransaktionData());
     }
-
 }
