@@ -38,7 +38,6 @@ public class TransaktionDetailUtilController {
 
     @FXML
     private void handleOk() {
-    	System.out.println("Größe des array" + this.transaktion.transaktionDetail.size());
     	createTransaktionDetail();
     	okClicked = true;
         dialogStage.close();
@@ -66,23 +65,22 @@ public class TransaktionDetailUtilController {
     }
 
 
-    // das passt noch gar nicht
+    /**
+     * Function to create new Details
+     */
     public void createTransaktionDetail() {
     	try {
 	    	// prepare some stuff
 	    	int count, type;
 	    	double betrag;
 	    	String tmptxt;
-	    	System.out.println(transaktion.getTransaktions_text());
-	    	count = transaktion.transaktionDetail.size();
+	    	count = transaktion.transaktionDetail.size() + 1;
 	    	type = Integer.parseInt(trdType.getText());
 	    	betrag = Double.parseDouble(trdBetrag.getText());
 	    	tmptxt = trdText.getText();
 
-	    	System.out.println(tmptxt);
-
-	    	transaktion.transaktionDetail.add(new TransaktionDetail(count, betrag, tmptxt, type));
-	    	System.out.println("Größe des array" + transaktion.transaktionDetail.size());
+	    	// now create our Detail
+	    	this.transaktion.transaktionDetail.add(new TransaktionDetail(count, betrag, tmptxt, type));
     	} catch(NullPointerException e) {
     		System.out.println("kann nicht erstellt werden da etwas fehlt");
     	}
