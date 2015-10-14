@@ -38,9 +38,9 @@
                   </TableView>
                   <ButtonBar layoutX="343.0" layoutY="544.0" prefHeight="40.0" prefWidth="413.0">
                     <buttons>
-                      <Button mnemonicParsing="false" text="erstelle Detail" />
                         <Button mnemonicParsing="false" onAction="#handleShowDetail" text="zeige Details" />
                         <Button mnemonicParsing="false" text="Jahres Statistik" />
+                        <Button mnemonicParsing="false" text="close" />
                     </buttons>
                   </ButtonBar>
                </children>
