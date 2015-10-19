@@ -7,9 +7,13 @@ import konto.view.RootLayoutController;
 import konto.view.TransaktionDetailOverviewController;
 import konto.view.TransaktionDetailUtilController;
 import konto.view.TransaktionOverviewController;
+import konto.Util.DB_Util;
+import konto.Util.ParseCSV;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 
 import javafx.application.Application;
@@ -19,6 +23,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -29,14 +34,13 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private ObservableList<Transaktion> transaktionData = FXCollections.observableArrayList();
+	// Initialize Konto
+	Konto kn = new Konto("1","temp");
 
 
 
     // Constructor
     public MainApp() {
-    	transaktionData.add(new Transaktion(LocalDate.of(1999, 2, 21), 20.0 , "test"));
-    	transaktionData.add(new Transaktion(LocalDate.of(1999, 2, 21), -300.0 , "test2"));
-    	transaktionData.add(new Transaktion(LocalDate.of(1999, 2, 21), 420.0 , "test3"));
     }
 
     /**
@@ -52,6 +56,7 @@ public class MainApp extends Application {
 	public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("KontoApp");
+        //this.primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("D:\\Programmieren\\java-buchhaltung\\img\\main_icon.png")));
 
         initRootLayout();
         showTransaktionOverview();
@@ -74,7 +79,7 @@ public class MainApp extends Application {
 
 	        // Give the controller access to the main app.
 	        RootLayoutController controller = loader.getController();
-	        //controller.setMainApp(this);
+	        controller.setMainApp(this);
 
 	        primaryStage.show();
 	    } catch (IOException e) {
@@ -105,13 +110,27 @@ public class MainApp extends Application {
         }
     }
 
-    public void loadDataFromFile (File file) {
-    	Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText("Could not load data");
-        alert.setContentText("Could not load data from file:\n" + file.getPath());
+    /**
+     * With this function we will read data from csv and insert to DB 
+     * @param file
+     * @throws Exception 
+     */
+    public void loadDataFromFile (File file) throws Exception {
+    	try {
+			new ParseCSV(file.toString(), kn);
+			DB_Util con = new DB_Util();
+			con.writeDataBase(kn);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+	    	Alert alert = new Alert(AlertType.ERROR);
+	        alert.setTitle("Error");
+	        alert.setHeaderText("Could not load data");
+	        alert.setContentText("Could not load data from file:\n" + file.getPath());
 
-        alert.showAndWait();
+	        alert.showAndWait();
+		}
     }
 
     /**

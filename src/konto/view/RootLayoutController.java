@@ -48,12 +48,19 @@ public class RootLayoutController {
     public void loadCSVFile() {
     	FileChooser fileChooser = new FileChooser();
     	FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
+    	fileChooser.getExtensionFilters().add(extFilter);
 
     	//Show save file dialog
     	File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
 
         if (file != null) {
-            mainApp.loadDataFromFile(file);
+            try {
+				mainApp.loadDataFromFile(file);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("ausgewähltes File: " + file.toString());
+			}
         }
     }
 

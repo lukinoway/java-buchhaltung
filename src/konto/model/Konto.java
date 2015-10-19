@@ -1,6 +1,8 @@
 package konto.model;
 
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javafx.beans.property.DoubleProperty;
@@ -15,15 +17,15 @@ import javafx.beans.property.StringProperty;
 
 public class Konto {
 
-	private final StringProperty kontonr;
-	private final StringProperty kontoname;
-	private ArrayList<Transaktion> transaktion;
+	private StringProperty kontonr;
+	private StringProperty kontoname;
+	public ArrayList<Transaktion> transaktion;
 
 	Konto() {
 		this(null, null);
 	}
 
-	Konto(String knr, String kname) {
+	public Konto(String knr, String kname) {
 		this.kontonr = new SimpleStringProperty(knr);
 		this.kontoname = new SimpleStringProperty(kname);
 		this.transaktion = new ArrayList<Transaktion>();
@@ -55,8 +57,12 @@ public class Konto {
 		return kontoname;
 	}
 
-	public void createTransaktion() {
-		this.transaktion.add(new Transaktion()); // hier muss der Aufruf noch angepasst werden
+	public void createTransaktion(String text, String Datum1, String Datum2, String betrag, String Waehrung) throws NoSuchAlgorithmException {
+		// convert date to LocalDate
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+		LocalDate trdate = LocalDate.parse(Datum1, formatter);
+		
+		this.transaktion.add(new Transaktion(trdate, Double.parseDouble(betrag), text));
 	}
 
 }
