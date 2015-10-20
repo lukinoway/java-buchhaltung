@@ -39,15 +39,6 @@ public class MainApp extends Application {
 
     // Constructor
     public MainApp() {
-    	// added test data
-    	try {
-			transaktionData.add(new Transaktion(LocalDate.of(2015, 2, 21), 20.0 , "test"));
-	    	transaktionData.add(new Transaktion(LocalDate.of(2015, 3, 21), -300.0 , "test2"));
-	    	transaktionData.add(new Transaktion(LocalDate.of(2015, 4, 21), 420.0 , "test3"));
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
     }
 
     /**
@@ -163,15 +154,28 @@ public class MainApp extends Application {
 	/**
 	 * load details for selected transaction
 	 * @param kn
+	 * @throws IOException 
 	 */
-	public void loadDetailForSelectedTransaktion(Transaktion selectedTransaktion) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(MainApp.class.getResource("view/TransaktionDetailOverview.fxml"));
-        TransaktionDetailOverviewController controller = loader.getController();
-        controller.setMainApp(this);
-        controller.setTransaktion(selectedTransaktion);
-        controller.setTransaktionDetail(selectedTransaktion);
+	public void loadDetailForSelectedTransaktion(Transaktion selectedTransaktion) throws IOException {
+		try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/TransaktionDetailOverview.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
 
+            // load to the right site of rootLayout
+            rootLayout.setRight(page);
+
+            TransaktionDetailOverviewController controller = loader.getController();
+            controller.setMainApp(this);
+	        
+            controller.setTransaktion(selectedTransaktion);
+	        controller.setTransaktionDetail(selectedTransaktion);
+	        
+	        System.out.println("mainapp: " + selectedTransaktion.getTransaktions_text());
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
