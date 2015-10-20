@@ -170,9 +170,7 @@ public class MainApp extends Application {
 	        
             controller.setTransaktion(selectedTransaktion);
 	        controller.setTransaktionDetail(selectedTransaktion);
-	        
-	        System.out.println("mainapp: " + selectedTransaktion.getTransaktions_text());
-	        
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
