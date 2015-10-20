@@ -67,7 +67,7 @@ public class Transaktion {
 	public Transaktion(int tr_id, LocalDate tr_date, Double tr_betrag, String tr_text, String tr_hash) {
 
 		// set values
-		this.transaktions_date = new SimpleObjectProperty<LocalDate>(LocalDate.of(2015, 2, 21));
+		this.transaktions_date = new SimpleObjectProperty<LocalDate>(tr_date);
 		this.transaktions_betrag = new SimpleDoubleProperty(tr_betrag);
 		this.transaktions_text = new SimpleStringProperty(tr_text);
 		this.transaktions_id = new SimpleIntegerProperty(tr_id);
