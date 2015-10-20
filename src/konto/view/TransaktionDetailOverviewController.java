@@ -61,14 +61,6 @@ public class TransaktionDetailOverviewController {
     private void initialize() {
     }
 
-    /**
-     * Returns true if the user clicked OK, false otherwise.
-     *
-     * @return
-     */
-    public boolean isOkClicked() {
-        return okClicked;
-    }
 
     /**
      * Sets the stage of this dialog.
@@ -79,13 +71,6 @@ public class TransaktionDetailOverviewController {
         this.dialogStage = dialogStage;
     }
 
-    /**
-     * Called when the user clicks cancel.
-     */
-    @FXML
-    private void handleCancel() {
-        dialogStage.close();
-    }
 
     public ObservableList<TransaktionDetail> getTransaktionDetailData() {
         return transaktionDetailData;
@@ -99,12 +84,11 @@ public class TransaktionDetailOverviewController {
 		this.transaktion =  selectedTransaktion;
 
 		// now fill the header
-		trID.setText(String.valueOf(transaktion.getTransaktions_id()));
-		trBetrag.setText(String.valueOf(transaktion.getTransaktions_betrag()));
-		trText.setText(transaktion.getTransaktions_text());
-		trDatum.setText(transaktion.getTransaktions_date().toString());
-		trHash.setText("HIER MUSS ICH NOCH WAS MACHEN");
-
+		trID.setText(String.valueOf(this.transaktion.getTransaktions_id()));
+		trBetrag.setText(String.valueOf(this.transaktion.getTransaktions_betrag()));
+		trText.setText(this.transaktion.getTransaktions_text());
+		trDatum.setText(this.transaktion.getTransaktions_date().toString());
+		trHash.setText(this.transaktion.getTransaktions_hash());
 	}
 
 	/**
