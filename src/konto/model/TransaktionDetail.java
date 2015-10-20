@@ -48,12 +48,12 @@ public class TransaktionDetail {
      * @param trd_text
      * @param trd_type
      */
-    public TransaktionDetail(int tr_id, int trd_nr, double trd_betrag, String trd_text, int trd_type) {
+    public TransaktionDetail(int tr_id, int trd_nr, LocalDate trd_date, double trd_betrag, String trd_text, int trd_type) {
     	this.transaktionsDetail_nr = new SimpleIntegerProperty(trd_nr);
     	this.transaktionsDetail_betrag = new SimpleDoubleProperty(trd_betrag);
     	this.transaktionsDetail_text = new SimpleStringProperty(trd_text);
     	this.transaktionsDetail_type = new SimpleIntegerProperty(trd_type);
-    	this.transaktionsDetail_creationDate = new SimpleObjectProperty<LocalDate>(LocalDate.now());
+    	this.transaktionsDetail_creationDate = new SimpleObjectProperty<LocalDate>(trd_date);
     	this.transaktionsDetail_id = new SimpleIntegerProperty(tr_id);
     }
 
