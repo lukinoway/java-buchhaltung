@@ -20,7 +20,7 @@ public class DBCommunicator {
 	  String db_user="konto";
 	  String db_pwd="konto";
 	  
-	  public void getData(String tablename, String selectpart, String wherepart ) throws Exception {
+	  public ResultSet getData(String tablename, String selectpart, String wherepart ) throws Exception {
 		    try {
 			      // This will load the MySQL driver, each DB has its own driver
 			      Class.forName("com.mysql.jdbc.Driver");
@@ -33,11 +33,11 @@ public class DBCommunicator {
 			      // Result set get the result of the SQL query
 			      resultSet = statement.executeQuery("select " + selectpart + " from konto_app." + tablename + " " + wherepart);
 			      //writeResultSet(resultSet);
-			      
+			      return resultSet;
 			    } catch (Exception e) {
 			      throw e;
 			    } finally {
-			      close();
+			      //close();
 			    }
 	  }
 	  
@@ -53,32 +53,9 @@ public class DBCommunicator {
 		    }
 		  }
 
-		  private void writeResultSet(ResultSet resultSet) throws SQLException {
-		    // ResultSet is initially before the first data set
-		    while (resultSet.next()) {
-		      // It is possible to get the columns via name
-		      // also possible to get the columns via the column number
-		      // which starts at 1
-		      // e.g. resultSet.getSTring(2);
-		      String hash = resultSet.getString("transaktions_hash");
-		      String konto = resultSet.getString("konto_id");
-		      double betrag = resultSet.getDouble("transaktions_betrag");
-		      Date date = resultSet.getDate("transaktions_datum");
-		      String text = resultSet.getString("transaktions_text");
-		      System.out.println("HASH: " + hash);
-		      System.out.println("KONTO: " + konto);
-		      System.out.println("BETRAG: " + betrag);
-		      System.out.println("DATUM: " + date);
-		      System.out.println("TEXT: " + text);
-		    }
-		  }
-
 		  // You need to close the resultSet
 		  private void close() {
 		    try {
-		      if (resultSet != null) {
-		        resultSet.close();
-		      }
 
 		      if (statement != null) {
 		        statement.close();
