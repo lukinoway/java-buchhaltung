@@ -71,8 +71,7 @@ public class TransaktionOverviewController {
         Transaktion selectedTransaktion = TransaktionsTable.getSelectionModel().getSelectedItem();
         if (selectedTransaktion != null) {
         	try {
-        		System.out.println("troc controller: " + selectedTransaktion.getTransaktions_text());
-				mainApp.loadDetailForSelectedTransaktion(selectedTransaktion);
+        		mainApp.loadDetailForSelectedTransaktion(selectedTransaktion);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
