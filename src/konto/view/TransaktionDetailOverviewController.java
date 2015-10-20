@@ -12,6 +12,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import konto.MainApp;
+import konto.DBUtil.TransaktionDetailDBUtil;
 import konto.model.Transaktion;
 import konto.model.TransaktionDetail;
 
@@ -32,17 +33,17 @@ public class TransaktionDetailOverviewController {
 
     // transaktionDetail part
     @FXML
-    private TableView<TransaktionDetail> TransaktionsDetailTable;
+	public TableView<TransaktionDetail> TransaktionsDetailTable;
     @FXML
-    private TableColumn<TransaktionDetail, LocalDate> trdCreatedColumn;
+    public TableColumn<TransaktionDetail, LocalDate> trdCreatedColumn;
     @FXML
-    private TableColumn<TransaktionDetail, Number> trdBetragColumn;
+	public TableColumn<TransaktionDetail, Number> trdBetragColumn;
     @FXML
-    private TableColumn<TransaktionDetail, String> trdTextColumn;
+    public TableColumn<TransaktionDetail, String> trdTextColumn;
     @FXML
-    private TableColumn<TransaktionDetail, Number> trdNRColumn;
+    public TableColumn<TransaktionDetail, Number> trdNRColumn;
     @FXML
-    private TableColumn<TransaktionDetail, Number> trdTypeColumn;
+    public TableColumn<TransaktionDetail, Number> trdTypeColumn;
 
 	private Stage dialogStage;
     private Transaktion transaktion;
@@ -96,25 +97,16 @@ public class TransaktionDetailOverviewController {
 	 * @param selectedTransaktion
 	 */
 	public void setTransaktionDetail(Transaktion selectedTransaktion) {
-		this.transaktion =  selectedTransaktion;
-
-		// lösche alte einträge
-		transaktionDetailData.removeAll(this.transaktion.transaktionDetail);
-		TransaktionsDetailTable.setItems(getTransaktionDetailData());
-
-		for (int i = 0; i < this.transaktion.transaktionDetail.size(); i++) {
-
-			transaktionDetailData.add(this.transaktion.transaktionDetail.get(i));
-
-			trdCreatedColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailCreationDateProperty());
-	    	trdBetragColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailBetragProperty());
-	    	trdTextColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailTextProperty());
-	    	trdNRColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailNrProperty());
-	    	trdTypeColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailTypeProperty());
-
+		try {
+			this.transaktion =  selectedTransaktion;
+	
+			TransaktionDetailDBUtil util = new TransaktionDetailDBUtil();
+			util.setController(this);
+			util.getTransaktionDetailFromDB(selectedTransaktion.getTransaktions_id());
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("es konnten keine Details geladen werden");
 		}
-    	// load data to table
-    	TransaktionsDetailTable.setItems(getTransaktionDetailData());
 	}
 
     /**
