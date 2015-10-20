@@ -13,14 +13,14 @@ public class DBCommunicator {
 	  private Connection connect = null;
 	  private Statement statement = null;
 	  private PreparedStatement preparedStatement = null;
-	  private ResultSet resultSet = null;
+	  public ResultSet resultSet = null;
 	  
 	  // connection information
 	  String server_name = "192.168.1.248";
 	  String db_user="konto";
 	  String db_pwd="konto";
 	  
-	  public void get_Data(String tablename, String selectpart, String wherepart ) throws Exception {
+	  public void getData(String tablename, String selectpart, String wherepart ) throws Exception {
 		    try {
 			      // This will load the MySQL driver, each DB has its own driver
 			      Class.forName("com.mysql.jdbc.Driver");
@@ -32,37 +32,7 @@ public class DBCommunicator {
 			      
 			      // Result set get the result of the SQL query
 			      resultSet = statement.executeQuery("select " + selectpart + " from konto_app." + tablename + " " + wherepart);
-			      writeResultSet(resultSet);
-
-			      /*
-			      // PreparedStatements can use variables and are more efficient
-			      preparedStatement = connect
-			    		  .prepareStatement("insert into  konto_app.db_transaktion(transaktions_datum, transaktions_betrag, transaktions_text, konto_id, transaktions_hash) "
-			    				          + "values (?, ?, ?, ? , ?)");
-			      // "myuser, webpage, datum, summery, COMMENTS from feedback.comments");
-			      // Parameters start with 1
-			      preparedStatement.setDate(1, new java.sql.Date(2009, 12, 11));
-			      preparedStatement.setDouble(2, -88.0);
-			      preparedStatement.setString(3, "Test-Transaktion");
-			      preparedStatement.setInt(4, 1);
-			      preparedStatement.setString(5, "TestHASH");
-			      preparedStatement.executeUpdate();
-
-			      preparedStatement = connect
-			          .prepareStatement("SELECT transaktions_datum, transaktions_betrag, transaktions_text, konto_id, transaktions_hash from konto_app.db_transaktion");
-			      resultSet = preparedStatement.executeQuery();
-			      writeResultSet(resultSet);
-
-			      // Remove again the insert comment
-			      preparedStatement = connect
-			      .prepareStatement("delete from konto_app.db_transaktion where konto_id= ? ; ");
-			      preparedStatement.setInt(1, 1);
-			      preparedStatement.executeUpdate();
-			      
-			      resultSet = statement
-			      .executeQuery("select * from konto_app.db_transaktion");
-			      writeMetaData(resultSet);
-			      */
+			      //writeResultSet(resultSet);
 			      
 			    } catch (Exception e) {
 			      throw e;
