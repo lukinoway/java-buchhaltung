@@ -26,16 +26,16 @@ public class Transaktion {
 
     public ArrayList<TransaktionDetail> transaktionDetail;
 
-    Transaktion() throws NoSuchAlgorithmException {
+    public Transaktion() throws NoSuchAlgorithmException {
         this(null, null, null);
     }
 
-    /** 
+    /**
      * this will be used to read cvs and write to DB / tr_id will be created in DB
      * @param tr_date
      * @param tr_betrag
      * @param tr_text
-     * @throws NoSuchAlgorithmException 
+     * @throws NoSuchAlgorithmException
      */
 	public Transaktion(LocalDate tr_date, Double tr_betrag, String tr_text) throws NoSuchAlgorithmException {
 
@@ -46,7 +46,7 @@ public class Transaktion {
 
 		// dummy_id
 		this.transaktions_id = new SimpleIntegerProperty(1);
-		
+
 		// create hash
 		createTransaktionsHash(tr_text + tr_date.toString() + tr_betrag);
 
@@ -126,8 +126,8 @@ public class Transaktion {
 	public ObjectProperty<LocalDate> TransaktionsDateProperty() {
 		return transaktions_date;
 	}
-	
-	// create MD5 hash 
+
+	// create MD5 hash
 	public void createTransaktionsHash(String in_string) throws NoSuchAlgorithmException {
 		MessageDigest m = MessageDigest.getInstance("MD5");
 		m.reset();
@@ -145,5 +145,5 @@ public class Transaktion {
 	public String getTransaktions_hash() {
 		return transaktions_hash.get();
 	}
-	
+
 }

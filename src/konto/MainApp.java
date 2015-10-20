@@ -37,10 +37,17 @@ public class MainApp extends Application {
 	// Initialize Konto
 	Konto kn = new Konto("1","temp");
 
-
-
     // Constructor
     public MainApp() {
+    	// added test data
+    	try {
+			transaktionData.add(new Transaktion(LocalDate.of(2015, 2, 21), 20.0 , "test"));
+	    	transaktionData.add(new Transaktion(LocalDate.of(2015, 3, 21), -300.0 , "test2"));
+	    	transaktionData.add(new Transaktion(LocalDate.of(2015, 4, 21), 420.0 , "test3"));
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -51,7 +58,6 @@ public class MainApp extends Application {
         return transaktionData;
     }
 
-
 	@Override
 	public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -60,6 +66,7 @@ public class MainApp extends Application {
 
         initRootLayout();
         showTransaktionOverview();
+        showDetailOverview();
 
 	}
 
@@ -90,7 +97,6 @@ public class MainApp extends Application {
     /**
      *  Shows Transaktion Overview inside the root layout
      */
-
     public void showTransaktionOverview() {
     	try {
     		// load transaktion overview
@@ -99,7 +105,8 @@ public class MainApp extends Application {
     		AnchorPane transaktionOverview = (AnchorPane) loader.load();
 
     		// set TransaktionOverview in the center of root
-    		rootLayout.setCenter(transaktionOverview);
+    		//rootLayout.setCenter(transaktionOverview);
+    		rootLayout.setLeft(transaktionOverview);
 
     		// give the controller acces to the main app
     		TransaktionOverviewController controller = loader.getController();
@@ -111,9 +118,9 @@ public class MainApp extends Application {
     }
 
     /**
-     * With this function we will read data from csv and insert to DB 
+     * With this function we will read data from csv and insert to DB
      * @param file
-     * @throws Exception 
+     * @throws Exception
      */
     public void loadDataFromFile (File file) throws Exception {
     	try {
@@ -134,42 +141,38 @@ public class MainApp extends Application {
     }
 
     /**
-     * Open new transaktion detail dialog
-     *
-     * @param selectedTransaktion
-     * @return
+     * shows DetailOverview
      */
-	public boolean showDetailDialog(Transaktion selectedTransaktion) {
+	public void showDetailOverview() {
         try {
-            // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/TransaktionDetailOverview.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
 
-            // Create the dialog Stage.
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Transaktion Detail");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
+            // load to the right site of rootLayout
+            rootLayout.setRight(page);
 
-            // Set the detail into the controller.
             TransaktionDetailOverviewController controller = loader.getController();
-            controller.setDialogStage(dialogStage);
             controller.setMainApp(this);
-            controller.setTransaktion(selectedTransaktion);
-            controller.setTransaktionDetail(selectedTransaktion);
-
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
-
-            return controller.isOkClicked();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return false;
+
         }
     }
+
+	/**
+	 * load details for selected transaction
+	 * @param kn
+	 */
+	public void loadDetailForSelectedTransaktion(Transaktion selectedTransaktion) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(MainApp.class.getResource("view/TransaktionDetailOverview.fxml"));
+        TransaktionDetailOverviewController controller = loader.getController();
+        controller.setMainApp(this);
+        controller.setTransaktion(selectedTransaktion);
+        controller.setTransaktionDetail(selectedTransaktion);
+
+	}
 
 	/**
 	 * open frame for transaktionDetail creation
@@ -195,8 +198,6 @@ public class MainApp extends Application {
             TransaktionDetailUtilController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.loadTransaktion(selectedTransaktion);
-            //controller.createTransaktionDetail(selectedTransaktion);
-            //controller.setTransaktionDetail(selectedTransaktion);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
@@ -207,7 +208,6 @@ public class MainApp extends Application {
             return false;
         }
     }
-
 
     /**
      * Returns the main stage.

@@ -7,9 +7,9 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="konto.view.TransaktionDetailOverviewController">
    <children>
-      <SplitPane dividerPositions="0.24247491638795987" layoutX="246.0" layoutY="63.0" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0" scaleShape="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.5" layoutX="246.0" layoutY="63.0" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0" scaleShape="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane maxHeight="150.0" minHeight="-Infinity" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
                <children>
                   <GridPane layoutX="14.0" layoutY="14.0" prefHeight="120.0" prefWidth="380.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
                     <columnConstraints>
@@ -50,7 +50,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TableView fx:id="TransaktionsDetailTable" prefHeight="398.0" prefWidth="798.0">
+                  <TableView fx:id="TransaktionsDetailTable" prefHeight="398.0" prefWidth="798.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="trdNRColumn" prefWidth="75.0" text="Detail NR" />
                         <TableColumn fx:id="trdCreatedColumn" text="created" />
@@ -59,7 +59,7 @@
                         <TableColumn fx:id="trdTextColumn" maxWidth="573.0" prefWidth="493.0" text="Text" />
                     </columns>
                   </TableView>
-                  <ButtonBar layoutX="1.0" layoutY="398.0" prefHeight="40.0" prefWidth="783.0">
+                  <ButtonBar layoutX="1.0" layoutY="398.0" prefHeight="40.0" prefWidth="783.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
                     <buttons>
                       <Button mnemonicParsing="false" onAction="#handlCreateDetail" text="Neu" />
                         <Button mnemonicParsing="false" text="bearbeiten" />

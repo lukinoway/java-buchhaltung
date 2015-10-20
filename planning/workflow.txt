@@ -1,0 +1,40 @@
+# workflow
+
++---+ import CSV
+	|-- load File
+	|-- parse and store data in model class
+	|---+ store in DB
+		+---+ create standard detail
+			+-- use "not specified" type
+	+-- close all used memory
+
+|---+ load data for selected Konto
+	|-- is any date selected?
+	|-- load transaction to model class
+	+-- prepare view
+
+|---+ create new transaction detail
+	|-- needed information: text, betrag, type, bill??
+	+-- insert to DB
+	
+|---+ delete transaction detail
+	+ delete by detail_id
+	
+|---+ update transaction detail
+	| load current detail
+	| change information
+	+ update by detail_id
+	
+|---+ add new type
+	|---+ typemodel
+		|-- type_id
+		|-- type_code
+		|-- type_text
+		+-- parrent_type_id
+	+-- add information: type_code, type_text, parrent_type
+
+|---+ update type
+	+-- update by type_id
+	
+|---+ delete type
+	+-- delete by type_id

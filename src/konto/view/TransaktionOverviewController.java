@@ -58,10 +58,7 @@ public class TransaktionOverviewController {
     private void handleShowDetail() {
         Transaktion selectedTransaktion = TransaktionsTable.getSelectionModel().getSelectedItem();
         if (selectedTransaktion != null) {
-            boolean okClicked = mainApp.showDetailDialog(selectedTransaktion);
-            if (okClicked) {
-                //showPersonDetails(selectedTransaktion);
-            }
+        	mainApp.loadDetailForSelectedTransaktion(selectedTransaktion);
 
         } else {
             // Nothing selected.

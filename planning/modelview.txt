@@ -1,0 +1,21 @@
+# Current Model
+
++ Konto
+|-- konto_id
+|-- konto_nr
+|-- konto_name
+|
++---+ Transaktion
+	|-- transaktions_id
+	|-- transaktions_datum
+	|-- transaktions_betrag
+	|-- trnasaktions_text
+	|-- transaktions_hash
+	|
+	+---+ Transaktion_Detail
+		|-- transaktions_detail_id
+		|-- transaktions_id
+		|-- transaktions_detail_datum
+		|-- transaktions_detail_betrag
+		|-- transaktions_detail_text
+		|-- transaktions_detail_type
