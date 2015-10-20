@@ -6,6 +6,7 @@ import konto.model.Konto;
 import konto.model.Transaktion;
 import konto.DBUtil.TransaktionDBUtil;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 import javafx.fxml.FXML;
@@ -69,7 +70,13 @@ public class TransaktionOverviewController {
     private void handleShowDetail() {
         Transaktion selectedTransaktion = TransaktionsTable.getSelectionModel().getSelectedItem();
         if (selectedTransaktion != null) {
-        	mainApp.loadDetailForSelectedTransaktion(selectedTransaktion);
+        	try {
+        		System.out.println("troc controller: " + selectedTransaktion.getTransaktions_text());
+				mainApp.loadDetailForSelectedTransaktion(selectedTransaktion);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
         } else {
             // Nothing selected.
