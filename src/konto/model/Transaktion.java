@@ -40,7 +40,7 @@ public class Transaktion {
 	public Transaktion(LocalDate tr_date, Double tr_betrag, String tr_text) throws NoSuchAlgorithmException {
 
 		// set values
-		this.transaktions_date = new SimpleObjectProperty<LocalDate>(LocalDate.of(2015, 2, 21));
+		this.transaktions_date = new SimpleObjectProperty<LocalDate>(tr_date);
 		this.transaktions_betrag = new SimpleDoubleProperty(tr_betrag);
 		this.transaktions_text = new SimpleStringProperty(tr_text);
 
