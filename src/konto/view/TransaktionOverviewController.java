@@ -4,13 +4,15 @@ package konto.view;
 import konto.MainApp;
 import konto.model.Konto;
 import konto.model.Transaktion;
-import konto.view.*;
+import konto.DBUtil.TransaktionDBUtil;
 
 import java.time.LocalDate;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -18,20 +20,29 @@ import javafx.scene.control.TableView;
 public class TransaktionOverviewController {
 
 	// Ref. für GUI
+	@FXML
+	private DatePicker startdate;
+	@FXML
+	private DatePicker enddate;
+	@FXML
+	private ComboBox<String> typebox;
+	
+	// table ref
     @FXML
-    private TableView<Transaktion> TransaktionsTable;
+    public TableView<Transaktion> TransaktionsTable;
     @FXML
-    private TableColumn<Transaktion, LocalDate> trDateColumn;
+    public TableColumn<Transaktion, LocalDate> trDateColumn;
     @FXML
-    private TableColumn<Transaktion, Number> trBetragColumn;
+    public TableColumn<Transaktion, Number> trBetragColumn;
     @FXML
-    private TableColumn<Transaktion, String> trTextColumn;
+    public TableColumn<Transaktion, String> trTextColumn;
     @FXML
-    private TableColumn<Transaktion, Number> trIDColumn;
+    public TableColumn<Transaktion, Number> trIDColumn;
 
     // Reference to the main application.
     private MainApp mainApp;
 
+    
     /**
      * Constructor, allways set it to public!!
      */
@@ -70,6 +81,42 @@ public class TransaktionOverviewController {
 
             alert.showAndWait();
         }
+    }
+    
+    /**
+     * Main Function to get Data from DB
+     */
+    @FXML
+    private void loadTransaktionFromDB() {
+    	try {
+    		TransaktionDBUtil util = new TransaktionDBUtil();
+    		util.setController(this);
+    		// now perform some checking on selected values
+    		if (this.startdate.getValue()!=null && this.enddate.getValue()!=null) {
+    			if (typebox.getValue()!=null) {
+    				util.getTransaktionFromDB(this.startdate.getValue(), this.enddate.getValue(), typebox.getValue()); 				
+    			} 
+    			else {
+    				util.getTransaktionFromDB(this.startdate.getValue(), this.enddate.getValue());
+    			}
+    		} 
+    		else if (typebox.getValue()!=null) {
+    			util.getTransaktionFromDB(typebox.getValue());
+    		}
+    		else {
+                // wrong input
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.initOwner(mainApp.getPrimaryStage());
+                alert.setTitle("Fehlerhafte Eingabe");
+                alert.setHeaderText("Bitte Eingabe prüfen");
+                alert.setContentText("Datum vorhanden? Type ausgewählt?");
+
+                alert.showAndWait();
+    		}
+    		
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
     }
 
     /**
