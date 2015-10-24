@@ -61,7 +61,7 @@
                   </TableView>
                   <ButtonBar layoutX="1.0" layoutY="398.0" prefHeight="40.0" prefWidth="783.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
                     <buttons>
-                      <Button mnemonicParsing="false" onAction="#handlCreateDetail" text="Neu" />
+                      <Button mnemonicParsing="false" onAction="#handleCreateDetail" text="Neu" />
                         <Button mnemonicParsing="false" text="bearbeiten" />
                         <Button mnemonicParsing="false" onAction="#handleDeleteDetail" text="löschen" />
                     </buttons>
