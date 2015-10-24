@@ -1,0 +1,6 @@
+## 2015-10-24
+
+- created Changelog File
+- implemented new InsertDetail Function
+- still need more time to implement update and delete function
+- also need to find a way to upload bills
