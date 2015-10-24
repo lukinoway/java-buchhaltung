@@ -43,10 +43,11 @@ public class DBCommunicator {
 	  
 	  /**
 	   * INSERT new data to DB
+	 * @return 
 	   * @return
 	   * @throws Exception
 	   */
-	  public ResultSet insertData(String tablename, String valuepart, String columnpart ) throws Exception {
+	  public void insertData(String tablename, String valuepart, String columnpart ) throws Exception {
 		    try {
 			      // This will load the MySQL driver, each DB has its own driver
 			      Class.forName("com.mysql.jdbc.Driver");
@@ -57,9 +58,11 @@ public class DBCommunicator {
 			      statement = connect.createStatement();
 			      
 			      // Result set get the result of the SQL query
-			      resultSet = statement.executeQuery("insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )");
+			      // print query
+			      System.out.println("insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )");
+			      statement.executeUpdate("insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )");
 			      //writeResultSet(resultSet);
-			      return resultSet;
+			      //return resultSet;
 			    } catch (Exception e) {
 			      throw e;
 			    } finally {
