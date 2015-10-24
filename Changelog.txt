@@ -1,6 +1,7 @@
 ## 2015-10-24
 
 - created Changelog File
-- implemented new InsertDetail Function
-- still need more time to implement update and delete function
-- also need to find a way to upload bills
+- added InsertDetail Function
+- added DelelteDetail Function
+- update function is still missing
+- still not sure how to implement type handling
