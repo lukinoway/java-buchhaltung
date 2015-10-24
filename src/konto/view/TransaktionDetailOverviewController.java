@@ -113,7 +113,7 @@ public class TransaktionDetailOverviewController {
      * Called when the user clicks the new button. Opens a dialog to edit
      */
     @FXML
-    private void handlCreateDetail() {
+    private void handleCreateDetail() {
     	try {
     		Transaktion selectedTransaktion = this.transaktion;
     	    if (selectedTransaktion != null) {
@@ -124,7 +124,7 @@ public class TransaktionDetailOverviewController {
 	        } else {
 	        }
 	    } catch(NullPointerException e){
-	    	System.out.println("Hier fehlt uns was - handlCreateDetail");
+	    	System.out.println("Hier fehlt uns was - handleCreateDetail");
 	    }
     }
 
