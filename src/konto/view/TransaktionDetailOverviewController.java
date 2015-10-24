@@ -127,14 +127,36 @@ public class TransaktionDetailOverviewController {
 	    	System.out.println("Hier fehlt uns was - handleCreateDetail");
 	    }
     }
-
+    
     @FXML
-    private void handleDeleteDetail() {
+    private void handleUpdateDetail() {
+    	try {
+    		Transaktion selectedTransaktion = this.transaktion;
+    	    if (selectedTransaktion != null) {
+	        	boolean okClicked = mainApp.showCreateDetailDialog(selectedTransaktion);
+	            if (okClicked) {
+	            	setTransaktionDetail(selectedTransaktion);
+	            }
+	        } else {
+	        }
+	    } catch(NullPointerException e){
+	    	System.out.println("Hier fehlt uns was - handleCreateDetail");
+	    }
+    }
+
+    /**
+     * This function will delete the selected Detail
+     * @throws Exception
+     */
+    @FXML
+    private void handleDeleteDetail() throws Exception {
     	try {
     		TransaktionDetail selectedDetail = TransaktionsDetailTable.getSelectionModel().getSelectedItem();
     		Transaktion selectedTransaktion = this.transaktion;
-    	    if (selectedTransaktion != null) {
-    	    	selectedTransaktion.transaktionDetail.remove(selectedDetail);
+    		
+    	    if (selectedDetail != null) {
+    	    	TransaktionDetailDBUtil util = new TransaktionDetailDBUtil();
+    	    	util.deleteTransaktionDetail(selectedDetail.getTransaktionsDetail_id());
     	    	setTransaktionDetail(selectedTransaktion);
 	        }
 	    } catch(NullPointerException e){
