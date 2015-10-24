@@ -91,20 +91,29 @@ public class TransaktionDetailDBUtil extends DBCommunicator {
 	public void insertTransaktionDetail(int tr_id, String trd_text, double trd_betrag) throws Exception {
 		// insert into db_transaktion_detail
 		try {
-			int trd_nr;
-			this.resultSet = getData("db_transaktion_detail", "max(transaktions_detail_nr) as anzahl", "transaktions_id =" + tr_id);
+			int trd_nr = 0;
+			System.out.println("tr_id = " + tr_id);
+			this.resultSet = getData("db_transaktion_detail", 
+									 "max(transaktions_detail_nr) as anzahl", 
+									 "where transaktions_id = " +  tr_id );
 			// set new detail_nr
-			trd_nr = this.resultSet.getInt(0) + 1;
-			close();
+			while (this.resultSet.next()) {
+				trd_nr = this.resultSet.getInt("anzahl");
+			}
+			// is this really needed?
+			//close();
+			
+			// increase trd_nr by 1
+			trd_nr = trd_nr + 1;
 			
 			// insert new data
-			this.resultSet = insertData("db_transaktion_detail", 
-										tr_id + ", " + trd_nr + ", " + trd_betrag + ", " + trd_text + ", " + LocalTime.now(),
-										"transaktions_id, transaktions_detail_nr, transaktions_detail_betrag, transaktions_detail_text, transaktions_detail_created");
+			insertData("db_transaktion_detail", 
+						tr_id + ", " + trd_nr + ", " + trd_betrag + ", \"" + trd_text + "\", curdate()",
+						"transaktions_id, transaktions_detail_nr, transaktions_detail_betrag, transaktions_detail_text, transaktions_detail_created");
+			
 		} catch (NullPointerException e) {
 			System.out.println("Es konnten keine Daten gefunden werden");
 		} finally {
-			System.out.println(this.resultSet);
 			close();
 		}
 	}
