@@ -58,13 +58,13 @@ public class TransaktionDetailDBUtil extends DBCommunicator {
 			      String trd_text = this.resultSet.getString("transaktions_detail_text");
 			      //String tr_hash = this.resultSet.getString("transaktions_hash");
 			      
-			      transaktionDetailData.add(new TransaktionDetail(tr_id, trd_nr, LocalDate.parse(trd_date), trd_betrag, trd_text, 9999));
+			      transaktionDetailData.add(new TransaktionDetail(tr_id, trd_id, trd_nr, LocalDate.parse(trd_date), trd_betrag, trd_text, 9999));
 					
-					trdoc.trdCreatedColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailCreationDateProperty());
-					trdoc.trdBetragColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailBetragProperty());
-					trdoc.trdTextColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailTextProperty());
-					trdoc.trdNRColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailNrProperty());
-					trdoc.trdTypeColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailTypeProperty());
+			      trdoc.trdCreatedColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailCreationDateProperty());
+			      trdoc.trdBetragColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailBetragProperty());
+			      trdoc.trdTextColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailTextProperty());
+			      trdoc.trdNRColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailNrProperty());
+			      trdoc.trdTypeColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailTypeProperty());
 		    }
 		    
 		    //load data to table
@@ -120,21 +120,36 @@ public class TransaktionDetailDBUtil extends DBCommunicator {
 
 	/**
 	 * Update already existing detail
-	 * @param tr_id
-	 * @param trd_type
+	 * @param trd_id
 	 * @param trd_text
 	 * @param trd_betrag
+	 * @throws Exception 
 	 */
-	public void updateTransaktionDetail(int tr_id, int trd_type, String trd_text, double trd_betrag) {
-		// update db_transaktion_detail
+	public void updateTransaktionDetail(int trd_id, String trd_text, double trd_betrag) throws Exception {
+		try {
+			// update db_transaktion_detail
+			updateData("db_transaktion_detail", "transaktions_detail_text = \"" + trd_text + "\" , transaktions_detail_betrag =" + trd_betrag ,"transaktions_detail_id =" + trd_id );
+		} catch (NullPointerException e) {
+			System.out.println("Es konnten keine Daten gefunden werden");
+		} finally {
+			close();
+		}
 	}
 
 	/**
 	 * delete detail
 	 * @param trd_id
+	 * @throws Exception 
 	 */
-	public void deletedTransaktionDetail(int trd_id) {
-		// should we use a disabled status or remove from DB?
+	public void deleteTransaktionDetail(int trd_id) throws Exception {
+		try{
+			// should we use a disabled status or remove from DB?
+			deleteData("db_transaktion_detail", "transaktions_detail_id =" +trd_id);
+		} catch (NullPointerException e) {
+			System.out.println("Es konnten keine Daten gefunden werden");
+		} finally {
+			close();
+		}
 	}
 
 	public void attachBill() {
