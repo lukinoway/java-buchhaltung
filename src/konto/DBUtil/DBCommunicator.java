@@ -41,6 +41,32 @@ public class DBCommunicator {
 			    }
 	  }
 	  
+	  /**
+	   * INSERT new data to DB
+	   * @return
+	   * @throws Exception
+	   */
+	  public ResultSet insertData(String tablename, String valuepart, String columnpart ) throws Exception {
+		    try {
+			      // This will load the MySQL driver, each DB has its own driver
+			      Class.forName("com.mysql.jdbc.Driver");
+			      // Setup the connection with the DB
+			      connect = DriverManager.getConnection("jdbc:mysql://" + server_name + "/konto_app?"+"user=" + db_user + "&password=" + db_pwd);
+
+			      // Statements allow to issue SQL queries to the database
+			      statement = connect.createStatement();
+			      
+			      // Result set get the result of the SQL query
+			      resultSet = statement.executeQuery("insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )");
+			      //writeResultSet(resultSet);
+			      return resultSet;
+			    } catch (Exception e) {
+			      throw e;
+			    } finally {
+			      //close();
+			    }
+	  }
+	  
 	  private void writeMetaData(ResultSet resultSet) throws SQLException {
 		    //   Now get some metadata from the database
 		    // Result set get the result of the SQL query
