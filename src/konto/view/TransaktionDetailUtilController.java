@@ -78,7 +78,7 @@ public class TransaktionDetailUtilController {
 	    	String tmptxt;
 	    	betrag = Double.parseDouble(trdBetrag.getText());
 	    	tmptxt = trdText.getText();
-	    	
+
 	    	// create new Detail
 	    	util.insertTransaktionDetail(tr_id, tmptxt, betrag);
 	    	
