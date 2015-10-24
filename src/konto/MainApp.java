@@ -210,6 +210,41 @@ public class MainApp extends Application {
             return false;
         }
     }
+	
+	/**
+	 * Open box for detail update
+	 * @param selectedTransaktion
+	 * @return
+	 */
+	public boolean showUpdateDetailDialog(Transaktion selectedTransaktion) {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/TransaktionDetailUtil.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("neues Detail");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the detail into the controller.
+            TransaktionDetailUtilController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.loadTransaktion(selectedTransaktion);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     /**
      * Returns the main stage.
