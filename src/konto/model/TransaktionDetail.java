@@ -14,6 +14,7 @@ import javafx.beans.property.StringProperty;
 public class TransaktionDetail {
 
     private final IntegerProperty transaktionsDetail_id;
+    private final IntegerProperty transaktions_id;
     private final IntegerProperty transaktionsDetail_nr;
     private final DoubleProperty transaktionsDetail_betrag;
     private final IntegerProperty transaktionsDetail_type;
@@ -37,28 +38,31 @@ public class TransaktionDetail {
 
     	// set a dummy id
     	this.transaktionsDetail_id = new SimpleIntegerProperty(1);
+    	this.transaktions_id = new SimpleIntegerProperty(1);
 
     }
 
     /**
      * This constructor will be used when we get data from DB
      * @param tr_id
+     * @param trd_id
      * @param trd_nr
      * @param trd_betrag
      * @param trd_text
      * @param trd_type
      */
-    public TransaktionDetail(int tr_id, int trd_nr, LocalDate trd_date, double trd_betrag, String trd_text, int trd_type) {
+    public TransaktionDetail(int tr_id, int trd_id, int trd_nr, LocalDate trd_date, double trd_betrag, String trd_text, int trd_type) {
     	this.transaktionsDetail_nr = new SimpleIntegerProperty(trd_nr);
     	this.transaktionsDetail_betrag = new SimpleDoubleProperty(trd_betrag);
     	this.transaktionsDetail_text = new SimpleStringProperty(trd_text);
     	this.transaktionsDetail_type = new SimpleIntegerProperty(trd_type);
     	this.transaktionsDetail_creationDate = new SimpleObjectProperty<LocalDate>(trd_date);
-    	this.transaktionsDetail_id = new SimpleIntegerProperty(tr_id);
+    	this.transaktionsDetail_id = new SimpleIntegerProperty(trd_id);
+    	this.transaktions_id = new SimpleIntegerProperty(tr_id);
     }
 
 
-	// transaktiosnsDetail_id handling
+	// transaktionsDetail_id handling
 	public int getTransaktionsDetail_id() {
 		return transaktionsDetail_id.get();
 	}
@@ -70,8 +74,21 @@ public class TransaktionDetail {
 	public IntegerProperty TransaktionsDetailIdProperty() {
 		return transaktionsDetail_id;
 	}
+	
+	// transaktions_id handling
+	public int getTransaktions_id() {
+		return transaktions_id.get();
+	}
 
-	// transaktiosnsDetail_id handling
+	public void setTransaktions_id(int tr_id) {
+		this.transaktions_id.set(tr_id);
+	}
+
+	public IntegerProperty TransaktionsIdProperty() {
+		return transaktions_id;
+	}
+
+	// transaktionsDetail_nr handling
 	public int getTransaktionsDetail_nr() {
 		return transaktionsDetail_nr.get();
 	}
@@ -84,7 +101,7 @@ public class TransaktionDetail {
 		return transaktionsDetail_nr;
 	}
 
-	// transaktiosnsDetail_id handling
+	// transaktionsDetail_type handling
 	public int getTransaktionsDetail_type() {
 		return transaktionsDetail_type.get();
 	}
@@ -123,7 +140,7 @@ public class TransaktionDetail {
 		return transaktionsDetail_text;
 	}
 
-	// transaktionsDetail date handling
+	// transaktionsDetail_date handling
 	public LocalDate getTransaktionsDetail_creationDate() {
 		return transaktionsDetail_creationDate.get();
 	}
