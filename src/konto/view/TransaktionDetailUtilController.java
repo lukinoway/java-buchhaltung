@@ -3,6 +3,7 @@ package konto.view;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import konto.DBUtil.TransaktionDetailDBUtil;
 import konto.model.Transaktion;
 import konto.model.TransaktionDetail;
 
@@ -71,19 +72,22 @@ public class TransaktionDetailUtilController {
     public void createTransaktionDetail() {
     	try {
 	    	// prepare some stuff
-	    	int count, type;
+    		TransaktionDetailDBUtil util = new TransaktionDetailDBUtil();
+	    	int tr_id = this.transaktion.getTransaktions_id();
 	    	double betrag;
 	    	String tmptxt;
-	    	count = transaktion.transaktionDetail.size() + 1;
-	    	type = Integer.parseInt(trdType.getText());
 	    	betrag = Double.parseDouble(trdBetrag.getText());
 	    	tmptxt = trdText.getText();
-
-	    	// now create our Detail
-	    	this.transaktion.transaktionDetail.add(new TransaktionDetail(count, betrag, tmptxt, type));
+	    	
+	    	// create new Detail
+	    	util.insertTransaktionDetail(tr_id, tmptxt, betrag);
+	    	
     	} catch(NullPointerException e) {
     		System.out.println("kann nicht erstellt werden da etwas fehlt");
-    	}
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 
