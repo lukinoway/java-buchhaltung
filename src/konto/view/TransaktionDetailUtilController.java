@@ -17,8 +17,9 @@ public class TransaktionDetailUtilController {
 	private TextField trdType;
 
 	private Stage dialogStage;
-    private Transaktion transaktion;
-    private boolean okClicked = false;
+	private Transaktion transaktion;
+	private TransaktionDetail detail;
+	private boolean okClicked = false;
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -39,7 +40,11 @@ public class TransaktionDetailUtilController {
 
     @FXML
     private void handleOk() {
-    	createTransaktionDetail();
+	if (this.detail != null) {
+    		updateTransaktionDetail();
+	} else {
+		createTransaktionDetail();
+	}
     	okClicked = true;
         dialogStage.close();
     }
@@ -65,6 +70,12 @@ public class TransaktionDetailUtilController {
     	this.transaktion = selectedTransaktion;
     }
 
+    public void loadDetail(TransaktionDetail selectedDetail) {
+	this.detail = selectedDetail;	
+	this.trdText.setText(selectedDetail.getTransaktionsDetail_text());
+	this.trdBetrag.setText(String.valueOf(selectedDetail.getTransaktionsDetail_betrag()));
+    }
+
 
     /**
      * Function to create new Details
@@ -88,6 +99,18 @@ public class TransaktionDetailUtilController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    }
+
+    public void updateTransaktionDetail() {
+	try {
+		// do some preperation
+		TransaktionDetailDBUtil util = new TransaktionDetailDBUtil();
+		String tmptxt = trdText.getText();;
+		double betrag = Double.parseDouble(trdBetrag.getText());		
+
+		// now update
+		util.updateTransaktionDetail(detail.getTransaktionsDetailId(), tmptxt, betrag)
+	}
     }
 
 
