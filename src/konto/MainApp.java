@@ -216,7 +216,7 @@ public class MainApp extends Application {
 	 * @param selectedTransaktion
 	 * @return
 	 */
-	public boolean showUpdateDetailDialog(Transaktion selectedTransaktion) {
+	public boolean showUpdateDetailDialog(TransaktionDetail selectedDetail) {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
@@ -234,7 +234,7 @@ public class MainApp extends Application {
             // Set the detail into the controller.
             TransaktionDetailUtilController controller = loader.getController();
             controller.setDialogStage(dialogStage);
-            controller.loadTransaktion(selectedTransaktion);
+            controller.loadDetail(selectedDetail);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
