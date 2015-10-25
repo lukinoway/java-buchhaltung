@@ -131,16 +131,17 @@ public class TransaktionDetailOverviewController {
     @FXML
     private void handleUpdateDetail() {
     	try {
-    		Transaktion selectedTransaktion = this.transaktion;
-    	    if (selectedTransaktion != null) {
-	        	boolean okClicked = mainApp.showCreateDetailDialog(selectedTransaktion);
+		TransaktionDetail selectedDetail = TransaktionsDetailTable.getSelectionModel().getSelectedItem();
+		Transaktion selectedTransaktion = this.transaktion;
+    	    if (selectedDetail != null) {
+	        	boolean okClicked = mainApp.showUpdateDetailDialog(selectedDetail);
 	            if (okClicked) {
 	            	setTransaktionDetail(selectedTransaktion);
 	            }
 	        } else {
 	        }
 	    } catch(NullPointerException e){
-	    	System.out.println("Hier fehlt uns was - handleCreateDetail");
+	    	System.out.println("Hier fehlt uns was - handleUpdateDetail");
 	    }
     }
 
@@ -160,7 +161,7 @@ public class TransaktionDetailOverviewController {
     	    	setTransaktionDetail(selectedTransaktion);
 	        }
 	    } catch(NullPointerException e){
-	    	System.out.println("Hier fehlt uns was - handlCreateDetail");
+	    	System.out.println("Hier fehlt uns was - handlDeleteDetail");
 	    }
     }
 
