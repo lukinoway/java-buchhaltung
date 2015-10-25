@@ -1,3 +1,8 @@
+## 2015-10-25
+- added updatedetail function
+- installed new check to differ between update or create detail call
+- next step would be to add a bill?
+
 ## 2015-10-24
 
 - created Changelog File
