@@ -87,8 +87,8 @@ public class DBCommunicator {
 			      statement = connect.createStatement();
 			      
 			      // print query
-			      System.out.println("update konto_app." + tablename + "set " + setpart + " where " + wherepart);
-			      statement.executeUpdate("update konto_app." + tablename + "set " + setpart + " where " + wherepart);
+			      System.out.println("update konto_app." + tablename + " set " + setpart + " where " + wherepart);
+			      statement.executeUpdate("update konto_app." + tablename + " set " + setpart + " where " + wherepart);
 
 			    } catch (Exception e) {
 			      throw e;
