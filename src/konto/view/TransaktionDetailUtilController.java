@@ -102,15 +102,17 @@ public class TransaktionDetailUtilController {
     }
 
     public void updateTransaktionDetail() {
-	try {
-		// do some preperation
-		TransaktionDetailDBUtil util = new TransaktionDetailDBUtil();
-		String tmptxt = trdText.getText();;
-		double betrag = Double.parseDouble(trdBetrag.getText());		
+    	try {
+    		// do some preperation
+    		TransaktionDetailDBUtil util = new TransaktionDetailDBUtil();
+    		String tmptxt = trdText.getText();;
+    		double betrag = Double.parseDouble(trdBetrag.getText());		
 
-		// now update
-		util.updateTransaktionDetail(detail.getTransaktionsDetailId(), tmptxt, betrag)
-	}
+    		// now update
+    		util.updateTransaktionDetail(detail.getTransaktionsDetail_id(), tmptxt, betrag);
+    	} catch (Exception e) {
+    		System.out.println("updateTransaktionDetail - hier lief was schief");
+    	}
     }
 
 
