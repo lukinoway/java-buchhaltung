@@ -1,3 +1,9 @@
+## 2015-10-27
+- added attachedBill Function
+- performedf first tests
+- test file could be written to DB
+- next step is to get the file out of DB
+
 ## 2015-10-26
 - tested update function (working!)
 - performed minor bug fixes
