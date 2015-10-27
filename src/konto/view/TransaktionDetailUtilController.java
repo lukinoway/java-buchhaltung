@@ -1,7 +1,11 @@
 package konto.view;
 
+import java.io.File;
+
 import javafx.fxml.FXML;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import konto.DBUtil.TransaktionDetailDBUtil;
 import konto.model.Transaktion;
@@ -15,11 +19,14 @@ public class TransaktionDetailUtilController {
 	private TextField trdBetrag;
 	@FXML
 	private TextField trdType;
+	@FXML
+	private RadioButton chooseBill;
 
 	private Stage dialogStage;
 	private Transaktion transaktion;
 	private TransaktionDetail detail;
 	private boolean okClicked = false;
+	private File rechnung;
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -112,6 +119,22 @@ public class TransaktionDetailUtilController {
     		util.updateTransaktionDetail(detail.getTransaktionsDetail_id(), tmptxt, betrag);
     	} catch (Exception e) {
     		System.out.println("updateTransaktionDetail - hier lief was schief");
+    	}
+    }
+    
+    public void chooseBill(){
+    	try {
+    		TransaktionDetailDBUtil util = new TransaktionDetailDBUtil();
+        	FileChooser fileChooser = new FileChooser();
+        	rechnung = fileChooser.showOpenDialog(dialogStage);
+        	
+        	if (rechnung != null) {
+        		util.attachBill(this.detail.getTransaktionsDetail_id(), this.detail.getTransaktions_id(), rechnung);
+        	}
+    		
+    	} catch (Exception e) {
+    		System.out.println("chooseBill - hier lief was schief");
+    		e.printStackTrace();
     	}
     }
 
