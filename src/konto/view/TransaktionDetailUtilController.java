@@ -20,7 +20,7 @@ public class TransaktionDetailUtilController {
 	@FXML
 	private TextField trdType;
 	@FXML
-	private RadioButton chooseBill;
+	private RadioButton attachBill;
 
 	private Stage dialogStage;
 	private Transaktion transaktion;
@@ -49,6 +49,10 @@ public class TransaktionDetailUtilController {
     private void handleOk() {
 	if (this.detail != null) {
     		updateTransaktionDetail();
+    		// check if we need to attach a bill
+    		if (attachBill.isSelected()) {
+    			chooseBill();
+    		}
 	} else {
 		createTransaktionDetail();
 	}
