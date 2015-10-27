@@ -29,7 +29,7 @@
             <TextField fx:id="trdType" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Rechnung:" GridPane.rowIndex="3" />
             <Label text="keine Rechnung ausgewählt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <RadioButton mnemonicParsing="false" text="vorhanden?" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <RadioButton fx:id="attachBill" mnemonicParsing="false" text="vorhanden?" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
       <ButtonBar layoutX="100.0" layoutY="107.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
