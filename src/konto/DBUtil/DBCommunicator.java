@@ -69,6 +69,7 @@ public class DBCommunicator {
 			    }
 	  }
 	  
+	  
 	  /**
 	   * Function to update data in DB
 	   * @param tablename
