@@ -1,5 +1,6 @@
 package konto.DBUtil;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -152,10 +153,24 @@ public class TransaktionDetailDBUtil extends DBCommunicator {
 		}
 	}
 
-	public void attachBill() {
-		// attach bill to detail
-		// this is an optional feature
-		// dont know yet which paramters we need, trd_id + trd_bill(jpeg??)
+	/**
+	 * This Function will add a bill to the selected detail
+	 * @param trd_id
+	 * @param tr_id
+	 * @param rechnung
+	 */
+	public void attachBill(int trd_id, int tr_id, File rechnung) {
+		try {
+			// insert bill to db_transaktion_rechnung
+			insertData("db_transaktion_rechnung", trd_id + ", " + tr_id + ", " + rechnung + ", curdate()", "transaktions_detail_id, transaktions_id, transaktions_anhang, created");
+			// set transaktions_detail_anhang_vorhanden to TRUE
+			updateData("db_transaktion_detail", "transaktions_detail_anhang_vorhanden =" + 1 , "transaktions_detail_id =" + trd_id );
+			
+		} catch (Exception e) {
+			System.out.println("attachBill - Fehler trat auf");
+			e.printStackTrace();
+		}
+
 	}
 	
 	// You need to close the resultSet
