@@ -1,7 +1,13 @@
 package konto.DBUtil;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
@@ -161,14 +167,32 @@ public class TransaktionDetailDBUtil extends DBCommunicator {
 	 */
 	public void attachBill(int trd_id, int tr_id, File rechnung) {
 		try {
-			// insert bill to db_transaktion_rechnung
-			insertData("db_transaktion_rechnung", trd_id + ", " + tr_id + ", " + rechnung + ", curdate()", "transaktions_detail_id, transaktions_id, transaktions_anhang, created");
+		    // prepared Statement execution, otherwise we are not able to load BLOB
+			
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection("jdbc:mysql://" + server_name + "/konto_app?"+"user=" + db_user + "&password=" + db_pwd);
+
+		    String pSql = "insert into konto_app.db_transaktion_rechnung values(?,?,?,?)" ;
+		    PreparedStatement pStmt = connect.prepareStatement(pSql);
+		    
+		    pStmt.setInt(1, trd_id);
+		    pStmt.setInt(2, tr_id);
+		    
+		    InputStream rechnungStream = new BufferedInputStream( new FileInputStream(rechnung));
+		    System.out.println("Filesize: " + rechnung.length());
+		    pStmt.setBinaryStream(3, rechnungStream, rechnungStream.available());
+		    
+		    pStmt.setDate(4, Date.valueOf(LocalDate.now()));
+		    pStmt.execute();
+		    		    			
 			// set transaktions_detail_anhang_vorhanden to TRUE
 			updateData("db_transaktion_detail", "transaktions_detail_anhang_vorhanden =" + 1 , "transaktions_detail_id =" + trd_id );
 			
 		} catch (Exception e) {
 			System.out.println("attachBill - Fehler trat auf");
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 
 	}
