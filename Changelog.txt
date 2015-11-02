@@ -1,3 +1,9 @@
+## 2015-11-02
+- changed db_transaktion_rechnung (added filetype column to make it easier to read from db)
+- added getFileExtension Function to DBUtil
+- function is tested and works as planned
+- detailoverview needs to be adjusted ( right now i dont see if there is a bill available)
+
 ## 2015-10-27
 - added attachedBill Function
 - performed first tests
@@ -14,7 +20,6 @@
 - next step would be to add a bill?
 
 ## 2015-10-24
-
 - created Changelog File
 - added InsertDetail Function
 - added DelelteDetail Function
