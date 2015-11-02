@@ -172,7 +172,7 @@ public class TransaktionDetailDBUtil extends DBCommunicator {
 			Class.forName("com.mysql.jdbc.Driver");
 			connect = DriverManager.getConnection("jdbc:mysql://" + server_name + "/konto_app?"+"user=" + db_user + "&password=" + db_pwd);
 
-		    String pSql = "insert into konto_app.db_transaktion_rechnung values(?,?,?,?)" ;
+		    String pSql = "insert into konto_app.db_transaktion_rechnung values(?,?,?,?,?)" ;
 		    PreparedStatement pStmt = connect.prepareStatement(pSql);
 		    
 		    pStmt.setInt(1, trd_id);
@@ -182,7 +182,10 @@ public class TransaktionDetailDBUtil extends DBCommunicator {
 		    System.out.println("Filesize: " + rechnung.length());
 		    pStmt.setBinaryStream(3, rechnungStream, rechnungStream.available());
 		    
-		    pStmt.setDate(4, Date.valueOf(LocalDate.now()));
+		    // store filetype in a sperate field
+		    pStmt.setString(4, getFileExtension(rechnung));
+		    
+		    pStmt.setDate(5, Date.valueOf(LocalDate.now()));
 		    pStmt.execute();
 		    		    			
 			// set transaktions_detail_anhang_vorhanden to TRUE
@@ -196,6 +199,19 @@ public class TransaktionDetailDBUtil extends DBCommunicator {
 		}
 
 	}
+	
+	/** 
+	 * This function is used to get the extension
+	 * @param file
+	 * @return
+	 */
+	public String getFileExtension(File file) {
+        String fileName = file.getName();
+        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+        return fileName.substring(fileName.lastIndexOf("."));
+        else return "";
+    }
+	
 	
 	// You need to close the resultSet
 	private void close() {
