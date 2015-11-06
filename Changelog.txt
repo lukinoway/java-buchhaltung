@@ -1,3 +1,10 @@
+## 2015-11-06
+- changed db_transaktion_anhang since it should be possible to at bills without knowing any transaktion!
+-- added transaktion_anhang_id as primary key
+-- removed constraint from transaktions_id and transaktions_detail_id
+- changed db_transaktion_detail
+-- added transaktions_anhang_id
+
 ## 2015-11-02
 - changed db_transaktion_rechnung (added filetype column to make it easier to read from db)
 - added getFileExtension Function to DBUtil
