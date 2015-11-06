@@ -166,6 +166,18 @@ public class TransaktionDetailOverviewController {
 	    	System.out.println("Hier fehlt uns was - handlDeleteDetail");
 	    }
     }
+    
+    @FXML
+    private void downloadBill() {
+		TransaktionDetail selectedDetail = TransaktionsDetailTable.getSelectionModel().getSelectedItem();
+		Transaktion selectedTransaktion = this.transaktion;
+		
+	    if (selectedDetail != null) {
+	    	TransaktionDetailDBUtil util = new TransaktionDetailDBUtil();
+	    	util.downloadBill(selectedDetail.getTransaktionsDetail_id());
+	    }
+    	
+    }
 
 
     /**
