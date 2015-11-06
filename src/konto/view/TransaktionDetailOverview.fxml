@@ -65,6 +65,7 @@
                       <Button mnemonicParsing="false" onAction="#handleCreateDetail" text="Neu" />
                         <Button mnemonicParsing="false" onAction="#handleUpdateDetail" text="bearbeiten" />
                         <Button mnemonicParsing="false" onAction="#handleDeleteDetail" text="löschen" />
+                        <Button mnemonicParsing="false" onAction="#downloadBill" text="Download Rechnung" />
                     </buttons>
                   </ButtonBar>
                </children>
