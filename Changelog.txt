@@ -4,6 +4,8 @@
 -- removed constraint from transaktions_id and transaktions_detail_id
 - changed db_transaktion_detail
 -- added transaktions_anhang_id
+- added Download Button to Transaktions_DetailOverview
+- function is currently not working properly
 
 ## 2015-11-02
 - changed db_transaktion_rechnung (added filetype column to make it easier to read from db)
