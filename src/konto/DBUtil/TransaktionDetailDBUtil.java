@@ -3,7 +3,9 @@ package konto.DBUtil;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -208,6 +210,47 @@ public class TransaktionDetailDBUtil extends DBCommunicator {
 			close();
 		}
 
+	}
+	
+	/**
+	 * This function will download the data from DB
+	 * @param trd_id
+	 */
+	public void downloadBill(int trd_id) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection("jdbc:mysql://" + server_name + "/konto_app?"+"user=" + db_user + "&password=" + db_pwd);
+			
+			String pSql = "select transaktions_anhang_id, transaktions_anhang_filetype, transaktions_anhang from konto_app.db_transaktion_anhang where transaktions_detail_id =" + trd_id;
+			
+			ResultSet rs = statement.executeQuery(pSql);
+			rs.next();
+			
+			int tra_id = rs.getInt(1);
+			String fileext = rs.getString(2);
+			BufferedInputStream bis = new BufferedInputStream( rs.getBinaryStream(3));
+			
+			//Filename:
+			String filename = "Rechnung_" + tra_id + "_" + trd_id + fileext;
+			
+			// write to test File
+			FileOutputStream output = new FileOutputStream("C:\\temp\\" + filename);
+			ObjectOutputStream oos = new ObjectOutputStream(output);
+			
+			oos.writeObject(bis);
+			
+			if(oos != null) {
+                oos.close();
+            }
+			
+			if (output != null) {
+				output.close();
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/** 
