@@ -52,7 +52,7 @@ public class TransaktionDetailDBUtil extends DBCommunicator {
 			trdoc.TransaktionsDetailTable.setItems(getTransaktionDetailData());
 			
 			this.resultSet = getData("db_transaktion_detail", 
-								"transaktions_detail_id, transaktions_detail_nr, transaktions_detail_created, transaktions_detail_betrag, transaktions_detail_text", 
+								"transaktions_detail_id, transaktions_detail_nr, transaktions_detail_created, transaktions_detail_betrag, transaktions_detail_text, transaktions_detail_anhang_vorhanden", 
 								"where transaktions_id = " + tr_id);
 			
 			// perpare table
@@ -63,15 +63,17 @@ public class TransaktionDetailDBUtil extends DBCommunicator {
 			      String trd_date = this.resultSet.getString("transaktions_detail_created");
 			      double trd_betrag = this.resultSet.getDouble("transaktions_detail_betrag");
 			      String trd_text = this.resultSet.getString("transaktions_detail_text");
+			      boolean trd_billavailable = this.resultSet.getBoolean("transaktions_detail_anhang_vorhanden");
 			      //String tr_hash = this.resultSet.getString("transaktions_hash");
 			      
-			      transaktionDetailData.add(new TransaktionDetail(tr_id, trd_id, trd_nr, LocalDate.parse(trd_date), trd_betrag, trd_text, 9999));
+			      transaktionDetailData.add(new TransaktionDetail(tr_id, trd_id, trd_nr, LocalDate.parse(trd_date), trd_betrag, trd_text, 9999, trd_billavailable));
 					
 			      trdoc.trdCreatedColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailCreationDateProperty());
 			      trdoc.trdBetragColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailBetragProperty());
 			      trdoc.trdTextColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailTextProperty());
 			      trdoc.trdNRColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailNrProperty());
 			      trdoc.trdTypeColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailTypeProperty());
+			      trdoc.trdBillAvailable.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDetailBillAvailable());
 		    }
 		    
 		    //load data to table
@@ -172,8 +174,11 @@ public class TransaktionDetailDBUtil extends DBCommunicator {
 			Class.forName("com.mysql.jdbc.Driver");
 			connect = DriverManager.getConnection("jdbc:mysql://" + server_name + "/konto_app?"+"user=" + db_user + "&password=" + db_pwd);
 
-		    String pSql = "insert into konto_app.db_transaktion_rechnung values(?,?,?,?,?)" ;
-		    PreparedStatement pStmt = connect.prepareStatement(pSql);
+		    String pSql = "insert into konto_app.db_transaktion_rechnung"
+		    			+ "(transaktions_detail_id, transaktions_id, transaktions_anhang, transaktions_anhang_filetype, created )"
+		    			+ "values(?,?,?,?,?)" ;
+		    
+		    PreparedStatement pStmt = connect.prepareStatement((pSql), Statement.RETURN_GENERATED_KEYS);
 		    
 		    pStmt.setInt(1, trd_id);
 		    pStmt.setInt(2, tr_id);
@@ -186,10 +191,15 @@ public class TransaktionDetailDBUtil extends DBCommunicator {
 		    pStmt.setString(4, getFileExtension(rechnung));
 		    
 		    pStmt.setDate(5, Date.valueOf(LocalDate.now()));
-		    pStmt.execute();
+		    pStmt.executeUpdate();
+		    
+		    // get transaktions_anhang_id from resultset
+		    ResultSet rs = pStmt.getGeneratedKeys();
+		    rs.next();
+		    int tr_anhang_id = rs.getInt(1);
 		    		    			
-			// set transaktions_detail_anhang_vorhanden to TRUE
-			updateData("db_transaktion_detail", "transaktions_detail_anhang_vorhanden =" + 1 , "transaktions_detail_id =" + trd_id );
+			// set transaktions_detail_anhang_vorhanden to TRUE and add transaktions_anhang_id
+			updateData("db_transaktion_detail", "transaktions_anhang_id =" + tr_anhang_id + " , transaktions_detail_anhang_vorhanden =" + 1 , "transaktions_detail_id =" + trd_id );
 			
 		} catch (Exception e) {
 			System.out.println("attachBill - Fehler trat auf");

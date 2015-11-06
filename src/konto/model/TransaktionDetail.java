@@ -2,9 +2,11 @@ package konto.model;
 
 import java.time.LocalDate;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -20,6 +22,7 @@ public class TransaktionDetail {
     private final IntegerProperty transaktionsDetail_type;
     private final StringProperty transaktionsDetail_text;
     private final ObjectProperty<LocalDate> transaktionsDetail_creationDate;
+    private final BooleanProperty transaktionsDetail_billAvailable;
 
 
     /**
@@ -39,6 +42,7 @@ public class TransaktionDetail {
     	// set a dummy id
     	this.transaktionsDetail_id = new SimpleIntegerProperty(1);
     	this.transaktions_id = new SimpleIntegerProperty(1);
+    	this.transaktionsDetail_billAvailable = new SimpleBooleanProperty(false);
 
     }
 
@@ -51,7 +55,7 @@ public class TransaktionDetail {
      * @param trd_text
      * @param trd_type
      */
-    public TransaktionDetail(int tr_id, int trd_id, int trd_nr, LocalDate trd_date, double trd_betrag, String trd_text, int trd_type) {
+    public TransaktionDetail(int tr_id, int trd_id, int trd_nr, LocalDate trd_date, double trd_betrag, String trd_text, int trd_type, boolean trd_billavailable) {
     	this.transaktionsDetail_nr = new SimpleIntegerProperty(trd_nr);
     	this.transaktionsDetail_betrag = new SimpleDoubleProperty(trd_betrag);
     	this.transaktionsDetail_text = new SimpleStringProperty(trd_text);
@@ -59,6 +63,7 @@ public class TransaktionDetail {
     	this.transaktionsDetail_creationDate = new SimpleObjectProperty<LocalDate>(trd_date);
     	this.transaktionsDetail_id = new SimpleIntegerProperty(trd_id);
     	this.transaktions_id = new SimpleIntegerProperty(tr_id);
+    	this.transaktionsDetail_billAvailable = new SimpleBooleanProperty(trd_billavailable);
     }
 
 
@@ -151,5 +156,13 @@ public class TransaktionDetail {
 
 	public ObjectProperty<LocalDate> TransaktionsDetailCreationDateProperty() {
 		return transaktionsDetail_creationDate;
+	}
+	
+	public boolean getTransaktionsDetail_BillStatus() {
+		return transaktionsDetail_billAvailable.get();
+	}
+	
+	public BooleanProperty TransaktionsDetailBillAvailable() {
+		return transaktionsDetail_billAvailable;
 	}
 }

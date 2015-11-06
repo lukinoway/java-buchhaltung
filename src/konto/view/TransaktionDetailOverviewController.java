@@ -44,6 +44,8 @@ public class TransaktionDetailOverviewController {
     public TableColumn<TransaktionDetail, Number> trdNRColumn;
     @FXML
     public TableColumn<TransaktionDetail, Number> trdTypeColumn;
+    @FXML
+    public TableColumn<TransaktionDetail, Boolean> trdBillAvailable;
 
 	private Stage dialogStage;
     private Transaktion transaktion;
