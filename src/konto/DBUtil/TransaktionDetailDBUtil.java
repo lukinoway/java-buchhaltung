@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -215,42 +216,41 @@ public class TransaktionDetailDBUtil extends DBCommunicator {
 	/**
 	 * This function will download the data from DB
 	 * @param trd_id
+	 * @return 
 	 */
-	public void downloadBill(int trd_id) {
+	public String downloadBill(int trd_id) {
+		String filepath = null;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connect = DriverManager.getConnection("jdbc:mysql://" + server_name + "/konto_app?"+"user=" + db_user + "&password=" + db_pwd);
+			this.resultSet = getData("db_transaktion_rechnung", 
+									 "transaktions_anhang_id, transaktions_anhang_filetype, transaktions_anhang", 
+									 "where transaktions_detail_id =" + trd_id);
+
+			this.resultSet.next();
 			
-			String pSql = "select transaktions_anhang_id, transaktions_anhang_filetype, transaktions_anhang from konto_app.db_transaktion_anhang where transaktions_detail_id =" + trd_id;
+			int tra_id = this.resultSet.getInt(1);
+			String fileext = this.resultSet.getString(2);
+			Blob blob = this.resultSet.getBlob(3);
 			
-			ResultSet rs = statement.executeQuery(pSql);
-			rs.next();
+			String filename = "Rechnung_" + tra_id + "_" + trd_id;
+						
+			// write some log output
+			System.out.println("Read " + blob.length() + " bytes");
 			
-			int tra_id = rs.getInt(1);
-			String fileext = rs.getString(2);
-			BufferedInputStream bis = new BufferedInputStream( rs.getBinaryStream(3));
+			byte[] buff = blob.getBytes(1, (int) blob.length());
+			File output = File.createTempFile(filename, fileext, new File("."));
+			FileOutputStream out = new FileOutputStream(output);
+			out.write(buff);
+			out.close();
 			
-			//Filename:
-			String filename = "Rechnung_" + tra_id + "_" + trd_id + fileext;
+			System.out.println("created File:" + output.getAbsolutePath());
+			filepath = output.getAbsolutePath();
 			
-			// write to test File
-			FileOutputStream output = new FileOutputStream("C:\\temp\\" + filename);
-			ObjectOutputStream oos = new ObjectOutputStream(output);
-			
-			oos.writeObject(bis);
-			
-			if(oos != null) {
-                oos.close();
-            }
-			
-			if (output != null) {
-				output.close();
-			}
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return filepath;
 	}
 	
 	/** 
