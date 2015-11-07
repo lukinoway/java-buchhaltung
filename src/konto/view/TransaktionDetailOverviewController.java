@@ -1,5 +1,7 @@
 package konto.view;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.time.LocalDate;
 
 import javafx.collections.FXCollections;
@@ -169,13 +171,22 @@ public class TransaktionDetailOverviewController {
     
     @FXML
     private void downloadBill() {
+    	try {
 		TransaktionDetail selectedDetail = TransaktionsDetailTable.getSelectionModel().getSelectedItem();
 		Transaktion selectedTransaktion = this.transaktion;
 		
 	    if (selectedDetail != null) {
 	    	TransaktionDetailDBUtil util = new TransaktionDetailDBUtil();
-	    	util.downloadBill(selectedDetail.getTransaktionsDetail_id());
+	    	String filepath = util.downloadBill(selectedDetail.getTransaktionsDetail_id());
+	    	
+	    	File file = new File (filepath);
+	    	// open file with standard program
+	    	Desktop.getDesktop().open(file);
 	    }
+    	} catch(Exception e) {
+    		System.out.println("Hier fehlt uns was - downloadBill");
+    		e.printStackTrace();
+    	}
     	
     }
 
