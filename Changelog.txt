@@ -1,7 +1,11 @@
 ## 2015-11-07
 - fixed donwload function
 - File will be stored to disk and opened with standard program
-- performed some tests
+- performed tests
+- added Bill Pool to TransaktionsOverview screen
+- added link bill_to_transaktion function to TransaktionsOverview screen
+- added Rechnungs Model
+- added RechnungsDBUtil
 
 ## 2015-11-06
 - changed db_transaktion_anhang since it should be possible to at bills without knowing any transaktion!
