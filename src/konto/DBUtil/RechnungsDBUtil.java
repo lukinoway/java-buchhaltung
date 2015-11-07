@@ -1,6 +1,15 @@
 package konto.DBUtil;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
@@ -56,6 +65,102 @@ public class RechnungsDBUtil extends DBCommunicator{
 		} catch (Exception e) {
 			System.out.println("Hier lief was schief - loadRechnungsPool");
 			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
+	public void attachBilltoPool(File rechnung) {
+		try {
+		    // prepared Statement execution, otherwise we are not able to load BLOB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection("jdbc:mysql://" + server_name + "/konto_app?"+"user=" + db_user + "&password=" + db_pwd);
+
+		    String pSql = "insert into konto_app.db_transaktion_rechnung"
+		    			+ "(transaktions_anhang, transaktions_anhang_filetype, created )"
+		    			+ "values(?,?,?)" ;
+		    
+		    PreparedStatement pStmt = connect.prepareStatement((pSql), Statement.RETURN_GENERATED_KEYS);
+		    
+		    InputStream rechnungStream = new BufferedInputStream( new FileInputStream(rechnung));
+		    System.out.println("Filesize: " + rechnung.length());
+		    pStmt.setBinaryStream(1, rechnungStream, rechnungStream.available());
+		    
+		    // store filetype in a sperate field
+		    pStmt.setString(2, getFileExtension(rechnung));
+		    
+		    pStmt.setDate(3, Date.valueOf(LocalDate.now()));
+		    pStmt.executeUpdate();
+		    
+		    // get transaktions_anhang_id from resultset
+		    ResultSet rs = pStmt.getGeneratedKeys();
+		    rs.next();
+		    System.out.println("Added bill to DB, RechnungsNR: " + rs.getInt(1));
+
+		} catch (Exception e) {
+			System.out.println("attachBill - Fehler trat auf");
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+	
+	/**
+	 * This function will download the data from DB
+	 * @param trd_id
+	 * @return 
+	 */
+	public String downloadBillFromPool(int billId) {
+		String filepath = null;
+		try {
+			this.resultSet = getData("db_transaktion_rechnung", 
+									 "transaktions_anhang_id, transaktions_anhang_filetype, transaktions_anhang", 
+									 "where transaktions_anhang_id =" + billId);
+
+			this.resultSet.next();
+			
+			int tra_id = this.resultSet.getInt(1);
+			String fileext = this.resultSet.getString(2);
+			Blob blob = this.resultSet.getBlob(3);
+			
+			String filename = "Rechnung_" + tra_id + "_";
+						
+			// write some log output
+			System.out.println("Read " + blob.length() + " bytes");
+			
+			byte[] buff = blob.getBytes(1, (int) blob.length());
+			File output = File.createTempFile(filename, fileext, new File("."));
+			FileOutputStream out = new FileOutputStream(output);
+			out.write(buff);
+			out.close();
+			
+			System.out.println("created File:" + output.getAbsolutePath());
+			filepath = output.getAbsolutePath();
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return filepath;
+	}
+	
+	/**
+	 * Delete Entry from Pool
+	 * @param billId
+	 */
+	public void deleteBillFromPool (int billId) {
+		try {
+			deleteData("db_transaktion_rechnung", "transaktions_anhang_id =" + billId);
+		} catch (NullPointerException e) {
+			System.out.println("Es konnten keine Daten gefunden werden");
+		} catch (Exception e) {
+			System.out.println("Hier lief was shief - deleteBillFromPool");
+			e.printStackTrace();
+		} finally {
+			close();
 		}
 	}
 	
@@ -78,6 +183,18 @@ public class RechnungsDBUtil extends DBCommunicator{
 			e.printStackTrace();
 		}	
     } 
+	
+	/** 
+	 * This function is used to get the extension
+	 * @param file
+	 * @return
+	 */
+	public String getFileExtension(File file) {
+        String fileName = file.getName();
+        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+        return fileName.substring(fileName.lastIndexOf("."));
+        else return "";
+    }
 	
     public ObservableList<Rechnung> getRechnungsData() {
         return rechnungsData;
