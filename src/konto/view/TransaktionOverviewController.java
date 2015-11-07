@@ -3,7 +3,9 @@ package konto.view;
 
 import konto.MainApp;
 import konto.model.Konto;
+import konto.model.Rechnung;
 import konto.model.Transaktion;
+import konto.DBUtil.RechnungsDBUtil;
 import konto.DBUtil.TransaktionDBUtil;
 
 import java.io.IOException;
@@ -28,7 +30,7 @@ public class TransaktionOverviewController {
 	@FXML
 	private ComboBox<String> typebox;
 	
-	// table ref
+	// ref for transaktion table
     @FXML
     public TableView<Transaktion> TransaktionsTable;
     @FXML
@@ -40,6 +42,14 @@ public class TransaktionOverviewController {
     @FXML
     public TableColumn<Transaktion, Number> trIDColumn;
 
+    // ref for bill pool table
+    @FXML
+    public TableView<Rechnung> RechnungsPoolTable;
+    @FXML
+    public TableColumn<Rechnung, Number> rechnungsId;
+    @FXML
+    public TableColumn<Rechnung, LocalDate> rechnungsDatum;
+    
     // Reference to the main application.
     private MainApp mainApp;
 
@@ -60,6 +70,9 @@ public class TransaktionOverviewController {
     	trBetragColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsBetragProperty());
     	trTextColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsTextProperty());
     	trIDColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsIdProperty());
+    	
+    	// load RechnungsPool
+    	loadRechnungsPool();
     }
 
     /**
@@ -121,6 +134,21 @@ public class TransaktionOverviewController {
     		}
     		
     	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    /**
+     * Main Function to get Bill Pool
+     */
+    @FXML
+    private void loadRechnungsPool() {
+    	try {
+    		RechnungsDBUtil util = new RechnungsDBUtil();
+    		util.loadRechnungsPool();
+    		
+    	} catch (Exception e) {
+    		System.out.println("Hier lief was schief - loadRechnungsPool");
     		e.printStackTrace();
     	}
     }
