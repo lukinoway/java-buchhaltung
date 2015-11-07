@@ -1,6 +1,7 @@
 package konto.view;
 
 import konto.MainApp;
+import konto.DBUtil.RechnungsDBUtil;
 import konto.model.Konto;
 import konto.model.Transaktion;
 //import konto.view.*;
@@ -50,7 +51,7 @@ public class RootLayoutController {
     	FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv");
     	fileChooser.getExtensionFilters().add(extFilter);
 
-    	//Show save file dialog
+    	//Show file dialog
     	File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
 
         if (file != null) {
@@ -62,6 +63,21 @@ public class RootLayoutController {
 				System.out.println("ausgewähltes File: " + file.toString());
 			}
         }
+    }
+    
+    @FXML
+    public void addBillToPool() {
+    	RechnungsDBUtil util = new RechnungsDBUtil();
+    	TransaktionOverviewController troc = new TransaktionOverviewController();
+    	FileChooser fileChooser = new FileChooser();
+    	
+    	//Show file dialog
+    	File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
+    	
+    	if (file != null) {
+    		util.attachBilltoPool(file);
+    		troc.loadRechnungsPool();
+    	}
     }
 
     /**
