@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="konto.view.TransaktionOverviewController">
+<AnchorPane prefHeight="1000.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="konto.view.TransaktionOverviewController">
    <children>
       <SplitPane dividerPositions="0.2436399217221135" layoutX="182.0" layoutY="121.0" prefHeight="600.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -38,6 +38,24 @@
                       <Button mnemonicParsing="false" onAction="#loadTransaktionFromDB" text="Lade Transaktionen" />
                     </buttons>
                   </ButtonBar>
+                  <Separator layoutX="-11.0" layoutY="422.0" prefHeight="3.0" prefWidth="219.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="420.0" />
+                  <TableView fx:id="RechnungsPoolTable" layoutX="9.0" layoutY="529.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="470.0">
+                    <columns>
+                      <TableColumn fx:id="rechnungsId" prefWidth="56.0" text="Bill NR" />
+                      <TableColumn fx:id="rechnungsDatum" prefWidth="143.0" text="Erstell Datum" />
+                    </columns>
+                  </TableView>
+                  <Label layoutX="14.0" layoutY="432.0" text="offene Rechnungen">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <ButtonBar layoutX="-11.0" layoutY="944.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0">
+                    <buttons>
+                      <Button mnemonicParsing="false" text="zeige" />
+                        <Button mnemonicParsing="false" text="lösche" />
+                    </buttons>
+                  </ButtonBar>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -50,11 +68,12 @@
                         <TableColumn fx:id="trIDColumn" prefWidth="89.0" text="TR_ID" />
                     </columns>
                   </TableView>
-                  <ButtonBar layoutX="343.0" layoutY="544.0" prefHeight="40.0" prefWidth="413.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+                  <ButtonBar layoutX="343.0" layoutY="544.0" prefHeight="40.0" prefWidth="607.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
                     <buttons>
-                        <Button mnemonicParsing="false" onAction="#handleShowDetail" text="lade Details" />
-                        <Button mnemonicParsing="false" text="Jahres Statistik" />
-                        <Button mnemonicParsing="false" text="close" />
+                        <Button maxWidth="200.0" mnemonicParsing="false" text="verlinke Rechnung mit Transaktion" />
+                        <Button maxWidth="120.0" mnemonicParsing="false" text="Jahres Statistik" />
+                        <Button maxWidth="100.0" mnemonicParsing="false" onAction="#handleShowDetail" text="lade Details" />
+                        <Button maxWidth="50.0" minWidth="57.0" mnemonicParsing="false" prefHeight="25.0" text="close" />
                     </buttons>
                   </ButtonBar>
                </children>
