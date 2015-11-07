@@ -52,8 +52,8 @@
                   </Label>
                   <ButtonBar layoutX="-11.0" layoutY="944.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0">
                     <buttons>
-                      <Button mnemonicParsing="false" text="zeige" />
-                        <Button mnemonicParsing="false" text="lösche" />
+                      <Button mnemonicParsing="false" onAction="#downloadFromPool" text="zeige" />
+                        <Button mnemonicParsing="false" onAction="#deleteFromPool" text="lösche" />
                     </buttons>
                   </ButtonBar>
                </children>
