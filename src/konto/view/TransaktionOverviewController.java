@@ -8,8 +8,11 @@ import konto.model.Transaktion;
 import konto.DBUtil.RechnungsDBUtil;
 import konto.DBUtil.TransaktionDBUtil;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -65,12 +68,6 @@ public class TransaktionOverviewController {
      */
     @FXML
     private void initialize() {
-    	// initialisiere Transaktionstabelle
-    	trDateColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDateProperty());
-    	trBetragColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsBetragProperty());
-    	trTextColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsTextProperty());
-    	trIDColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsIdProperty());
-    	
     	// load RechnungsPool
     	loadRechnungsPool();
     }
@@ -141,14 +138,55 @@ public class TransaktionOverviewController {
     /**
      * Main Function to get Bill Pool
      */
-    @FXML
-    private void loadRechnungsPool() {
+    public void loadRechnungsPool() {
     	try {
     		RechnungsDBUtil util = new RechnungsDBUtil();
+    		util.setController(this);
     		util.loadRechnungsPool();
     		
     	} catch (Exception e) {
     		System.out.println("Hier lief was schief - loadRechnungsPool");
+    		e.printStackTrace();
+    	}
+    }
+    
+    @FXML
+    private void downloadFromPool() {
+    	try {
+    		System.out.println("start with download : " + LocalTime.now());
+    		RechnungsDBUtil util = new RechnungsDBUtil();
+    		Rechnung selectedRechnung = RechnungsPoolTable.getSelectionModel().getSelectedItem();
+    	
+    		if(selectedRechnung != null) {
+    		
+    			String filepath = util.downloadBillFromPool(selectedRechnung.getRechnungsId());
+    			File file = new File (filepath);
+    			
+    			System.out.println("finished download : " + LocalTime.now());
+    			// open file with standard program
+    			Desktop.getDesktop().open(file);
+    		}
+    	} catch (Exception e) {
+    		System.out.println("Hier lief was schief - downloadFromPool");
+    		e.printStackTrace();
+    	}
+    }
+    
+    @FXML
+    private void deleteFromPool() {
+    	try {
+    		RechnungsDBUtil util = new RechnungsDBUtil();
+    		Rechnung selectedRechnung = RechnungsPoolTable.getSelectionModel().getSelectedItem();
+    	
+    		if(selectedRechnung != null) {
+    			util.deleteBillFromPool(selectedRechnung.getRechnungsId());
+    			
+    			// reload POOL
+    			loadRechnungsPool();
+    		}
+    		
+    	} catch(Exception e) {
+    		System.out.println("Hier lief was schief - deleteFromPool");
     		e.printStackTrace();
     	}
     }
