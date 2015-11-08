@@ -190,6 +190,44 @@ public class TransaktionOverviewController {
     		e.printStackTrace();
     	}
     }
+    
+    @FXML void linkBillToTransaktion() {
+    	try {
+    		RechnungsDBUtil util = new RechnungsDBUtil();
+    		Rechnung selectedRechnung = RechnungsPoolTable.getSelectionModel().getSelectedItem();
+    		Transaktion selectedTransaktion = TransaktionsTable.getSelectionModel().getSelectedItem();
+    		
+    		if (selectedRechnung != null) {
+    			if (selectedTransaktion != null) {
+    				util.linkBillToTransaktion(selectedTransaktion.getTransaktions_id(), selectedRechnung.getRechnungsId());
+    			} else {
+        			// show warning
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.initOwner(mainApp.getPrimaryStage());
+                    alert.setTitle("Daten fehlerhaft");
+                    alert.setHeaderText("Keine Transaktion gewählt");
+                    alert.setContentText("Bitte wählen Sie eine Transaktion aus!");
+                    
+                    alert.showAndWait();
+    			}
+    		} else {
+    			// show warning
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.initOwner(mainApp.getPrimaryStage());
+                alert.setTitle("Daten fehlerhaft");
+                alert.setHeaderText("Keine Rechnung gewählt");
+                alert.setContentText("Bitte wählen Sie eine Rechnung aus dem Pool aus!");
+                
+                alert.showAndWait();
+    		}
+    		// reload pool
+    		loadRechnungsPool();
+    		
+    	} catch (Exception e) {
+    		System.out.println("Hier lief was schief - linkBillToTransaktion");
+    		e.printStackTrace();
+    	}
+    }
 
     /**
      * Is called by the main application to give a reference back to itself.
