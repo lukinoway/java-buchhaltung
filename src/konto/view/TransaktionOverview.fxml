@@ -70,7 +70,7 @@
                   </TableView>
                   <ButtonBar layoutX="343.0" layoutY="544.0" prefHeight="40.0" prefWidth="607.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
                     <buttons>
-                        <Button maxWidth="200.0" mnemonicParsing="false" text="verlinke Rechnung mit Transaktion" />
+                        <Button maxWidth="200.0" mnemonicParsing="false" onAction="#linkBillToTransaktion" text="verlinke Rechnung mit Transaktion" />
                         <Button maxWidth="120.0" mnemonicParsing="false" text="Jahres Statistik" />
                         <Button maxWidth="100.0" mnemonicParsing="false" onAction="#handleShowDetail" text="lade Details" />
                         <Button maxWidth="50.0" minWidth="57.0" mnemonicParsing="false" prefHeight="25.0" text="close" />
