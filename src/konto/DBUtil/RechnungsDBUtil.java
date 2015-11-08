@@ -164,6 +164,45 @@ public class RechnungsDBUtil extends DBCommunicator{
 		}
 	}
 	
+	public void linkBillToTransaktion(int tr_id, int billId) throws Exception {
+		// insert into db_transaktion_detail
+		try {
+			int trd_nr = 0;
+			System.out.println("tr_id = " + tr_id);
+			this.resultSet = getData("db_transaktion_detail", 
+									 "max(transaktions_detail_nr) as anzahl", 
+									 "where transaktions_id = " +  tr_id );
+			// set new detail_nr
+			while (this.resultSet.next()) {
+				trd_nr = this.resultSet.getInt("anzahl");
+			}
+
+			// increase trd_nr by 1
+			trd_nr = trd_nr + 1;
+			
+			// Detail Text
+			String detail = "Verlinkte Rechnung";
+			// insert new data
+			ResultSet rs = insertDataPrepared("db_transaktion_detail", 
+											  tr_id + ", " + trd_nr + ", " + 0 + ", \"" + detail + "\", curdate()",
+											  "transaktions_id, transaktions_detail_nr, transaktions_detail_betrag, transaktions_detail_text, transaktions_detail_created");
+			rs.next();
+			int trd_id = rs.getInt(1);
+			
+			// set trd_id / tr_id in db_transaktion_rechnung
+			updateData("db_transaktion_rechnung", "transaktions_detail_id = " + trd_id + " , transaktions_id = " + tr_id, "transaktions_anhang_id =" + billId);
+			// set transaktions_detail_anhang_vorhanden to TRUE and add transaktions_anhang_id
+			updateData("db_transaktion_detail", "transaktions_anhang_id =" + billId + " , transaktions_detail_anhang_vorhanden =" + 1 , "transaktions_detail_id =" + trd_id );
+			
+			rs.close();
+					
+		} catch (NullPointerException e) {
+			System.out.println("Es konnten keine Daten gefunden werden");
+		} finally {
+			close();
+		}
+	}
+	
 	// You need to close the resultSet
 	private void close() {
 		try {
