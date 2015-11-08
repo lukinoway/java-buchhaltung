@@ -1,5 +1,8 @@
 package konto.DBUtil;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -62,11 +65,36 @@ public class DBCommunicator {
 			      System.out.println("insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )");
 			      statement.executeUpdate("insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )");
 
-			    } catch (Exception e) {
-			      throw e;
-			    } finally {
-			      //close();
-			    }
+		    } catch (Exception e) {
+		    	throw e;
+		    } finally {
+		    	//close();
+		    }
+	  }
+	  
+	  public ResultSet insertDataPrepared(String tablename, String valuepart, String columnpart ) throws Exception {
+		    try {
+			      // This will load the MySQL driver, each DB has its own driver
+			      Class.forName("com.mysql.jdbc.Driver");
+			      // Setup the connection with the DB
+			      connect = DriverManager.getConnection("jdbc:mysql://" + server_name + "/konto_app?"+"user=" + db_user + "&password=" + db_pwd);
+
+			      // Statements allow to issue SQL queries to the database
+			      statement = connect.createStatement();
+			      
+			      String pSql = "insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )";
+			      PreparedStatement pStmt = connect.prepareStatement((pSql), Statement.RETURN_GENERATED_KEYS);
+			      pStmt.executeUpdate();
+				    
+				  // get generated keys from query
+				  this.resultSet = pStmt.getGeneratedKeys();
+
+			      return resultSet;
+		    } catch (Exception e) {
+		    	throw e;
+		    } finally {
+		    	//close();
+		    }
 	  }
 	  
 	  
