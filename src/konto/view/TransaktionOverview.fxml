@@ -10,7 +10,7 @@
    <children>
       <SplitPane dividerPositions="0.2436399217221135" layoutX="182.0" layoutY="121.0" prefHeight="600.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane maxWidth="200.0" minHeight="0.0" minWidth="-Infinity" prefHeight="160.0" prefWidth="200.0">
+          <AnchorPane maxWidth="250.0" minHeight="0.0" minWidth="-Infinity" prefHeight="160.0" prefWidth="200.0">
                <children>
                   <DatePicker fx:id="startdate" layoutX="14.0" layoutY="193.0" promptText="von" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="230.0" />
                   <Label layoutX="14.0" layoutY="14.0" text="Konto auswählen" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
@@ -41,8 +41,9 @@
                   <Separator layoutX="-11.0" layoutY="422.0" prefHeight="3.0" prefWidth="219.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="420.0" />
                   <TableView fx:id="RechnungsPoolTable" layoutX="9.0" layoutY="529.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="470.0">
                     <columns>
-                      <TableColumn fx:id="rechnungsId" prefWidth="56.0" text="Bill NR" />
-                      <TableColumn fx:id="rechnungsDatum" prefWidth="143.0" text="Erstell Datum" />
+                      <TableColumn fx:id="rechnungsDatum" prefWidth="68.0" text="Datum" />
+                      <TableColumn fx:id="rechnungsText" prefWidth="177.0" text="Beschreibung" />
+                        <TableColumn fx:id="rechnungsId" prefWidth="75.0" text="ID" />
                     </columns>
                   </TableView>
                   <Label layoutX="14.0" layoutY="432.0" text="offene Rechnungen">
