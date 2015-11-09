@@ -45,18 +45,21 @@ public class RechnungsDBUtil extends DBCommunicator{
 			troc.RechnungsPoolTable.setItems(getRechnungsData());
 		
 			this.resultSet = getData("db_transaktion_rechnung",
-									 "transaktions_anhang_id, created",
+									 "transaktions_anhang_id, created, transaktions_anhang_text",
 									 "where transaktions_detail_id IS null and transaktions_id IS null");
 			
 			// fill table
 			while(this.resultSet.next()) {
 				int billId = this.resultSet.getInt(1);
 				String billDate = this.resultSet.getString(2);
+				String billText = this.resultSet.getString(3);
 				
-				rechnungsData.add(new Rechnung(billId, LocalDate.parse(billDate)));
+				System.out.print("ID:" + billId + " / Date:" + billDate + " / Text:" + billText);
+				rechnungsData.add(new Rechnung(billId, LocalDate.parse(billDate), billText));
 				
 				troc.rechnungsId.setCellValueFactory(cellDate -> cellDate.getValue().RechnungsIdProperty());
 				troc.rechnungsDatum.setCellValueFactory(cellDate -> cellDate.getValue().RechnungsDatumProperty());
+				troc.rechnungsText.setCellValueFactory(cellDate -> cellDate.getValue().RechnungsTextProperty());
 			}
 			troc.RechnungsPoolTable.setItems(getRechnungsData());
 			
@@ -70,15 +73,15 @@ public class RechnungsDBUtil extends DBCommunicator{
 		}
 	}
 	
-	public void attachBilltoPool(File rechnung) {
+	public void attachBilltoPool(File rechnung, String billText) {
 		try {
 		    // prepared Statement execution, otherwise we are not able to load BLOB
 			Class.forName("com.mysql.jdbc.Driver");
 			connect = DriverManager.getConnection("jdbc:mysql://" + server_name + "/konto_app?"+"user=" + db_user + "&password=" + db_pwd);
 
 		    String pSql = "insert into konto_app.db_transaktion_rechnung"
-		    			+ "(transaktions_anhang, transaktions_anhang_filetype, created )"
-		    			+ "values(?,?,?)" ;
+		    			+ "(transaktions_anhang, transaktions_anhang_filetype, created, transaktions_anhang_text )"
+		    			+ "values(?,?,?,?)" ;
 		    
 		    PreparedStatement pStmt = connect.prepareStatement((pSql), Statement.RETURN_GENERATED_KEYS);
 		    
@@ -90,6 +93,7 @@ public class RechnungsDBUtil extends DBCommunicator{
 		    pStmt.setString(2, getFileExtension(rechnung));
 		    
 		    pStmt.setDate(3, Date.valueOf(LocalDate.now()));
+		    pStmt.setString(4, billText);
 		    pStmt.executeUpdate();
 		    
 		    // get transaktions_anhang_id from resultset
