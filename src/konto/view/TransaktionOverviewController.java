@@ -52,6 +52,8 @@ public class TransaktionOverviewController {
     public TableColumn<Rechnung, Number> rechnungsId;
     @FXML
     public TableColumn<Rechnung, LocalDate> rechnungsDatum;
+    @FXML
+    public TableColumn<Rechnung, String> rechnungsText;
     
     // Reference to the main application.
     private MainApp mainApp;
