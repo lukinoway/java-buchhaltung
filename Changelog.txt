@@ -1,3 +1,9 @@
+## 2015-11-09
+- added transaktions_anhang_text field to db_transaktion_rechnung 
+- added transaktions_anhang_betrag to db_transaktion_rechnung (currently not in use)
+- added text column to bill table
+- added input Dialog to addBillToPool function
+
 ## 2015-11-08
 - implemented link bill_to_transaktion function
 - function is fully working and will create a new Detail for the selected transaktion
