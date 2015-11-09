@@ -7,10 +7,12 @@ import konto.model.Transaktion;
 //import konto.view.*;
 
 import java.io.File;
+import java.util.Optional;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
 
 /**
@@ -67,6 +69,7 @@ public class RootLayoutController {
     
     @FXML
     public void addBillToPool() {
+    	String billText = "unbekannt";
     	RechnungsDBUtil util = new RechnungsDBUtil();
     	TransaktionOverviewController troc = new TransaktionOverviewController();
     	FileChooser fileChooser = new FileChooser();
@@ -74,8 +77,18 @@ public class RootLayoutController {
     	//Show file dialog
     	File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
     	
+    	// add text to bill
+    	TextInputDialog dialog = new TextInputDialog("RechnungsText");
+    	dialog.setTitle("RechnungsText");
+    	dialog.setHeaderText("Bitte eine Beschreibung zur ausgewählen Rechnung eingeben");
+    	dialog.setContentText("Text:");
+    	Optional<String> result = dialog.showAndWait();
+    	if (result.isPresent()) {
+    		billText = result.get();
+    	}
+    	
     	if (file != null) {
-    		util.attachBilltoPool(file);
+    		util.attachBilltoPool(file, billText);
     		troc.loadRechnungsPool();
     	}
     }
