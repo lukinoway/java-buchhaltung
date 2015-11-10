@@ -19,3 +19,8 @@
 		|-- transaktions_detail_betrag
 		|-- transaktions_detail_text
 		|-- transaktions_detail_type
+		|
+		+---+ Rechnung
+			|-- rechnungs_id
+			|-- rechnungs_datum
+			|-- rechnungs_text
