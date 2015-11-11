@@ -237,7 +237,7 @@ public class TransaktionDetailDBUtil extends DBCommunicator {
 			System.out.println("Read " + blob.length() + " bytes");
 			
 			byte[] buff = blob.getBytes(1, (int) blob.length());
-			File output = File.createTempFile(filename, fileext, new File("."));
+			File output = File.createTempFile(filename, fileext, new File("C:\\Windows\\Temp"));
 			FileOutputStream out = new FileOutputStream(output);
 			out.write(buff);
 			out.close();
