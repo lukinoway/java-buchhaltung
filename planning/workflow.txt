@@ -38,3 +38,16 @@
 	
 |---+ delete type
 	+-- delete by type_id
+	
+|---+ add Rechnung to Pool
+	|-- select file from local disk
+	|-- enter description
+	+-- insert data to DB
+
+|---+ link rechnung to transaktion
+	|-- select rechnung
+	|-- select transaktion
+	|-- check if both selections are available
+	|-- create new detail for selected transaktion
+	+-- update rechnung and transaktions_detail
+	
