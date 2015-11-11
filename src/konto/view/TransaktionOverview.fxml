@@ -43,7 +43,7 @@
                     <columns>
                       <TableColumn fx:id="rechnungsDatum" prefWidth="68.0" text="Datum" />
                       <TableColumn fx:id="rechnungsText" prefWidth="177.0" text="Beschreibung" />
-                        <TableColumn fx:id="rechnungsId" prefWidth="75.0" text="ID" />
+                        <TableColumn fx:id="rechnungsId" prefWidth="75.0" text="ID" visible="false" />
                     </columns>
                   </TableView>
                   <Label layoutX="14.0" layoutY="432.0" text="offene Rechnungen">
@@ -53,20 +53,21 @@
                   </Label>
                   <ButtonBar layoutX="-11.0" layoutY="944.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0">
                     <buttons>
-                      <Button mnemonicParsing="false" onAction="#downloadFromPool" text="zeige" />
-                        <Button mnemonicParsing="false" onAction="#deleteFromPool" text="lösche" />
+                        <Button mnemonicParsing="false" onAction="#addBillToPool" text="add" />
+                      <Button mnemonicParsing="false" onAction="#downloadFromPool" text="show" />
+                        <Button mnemonicParsing="false" onAction="#deleteFromPool" text="delete" />
                     </buttons>
                   </ButtonBar>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TableView fx:id="TransaktionsTable" layoutX="14.0" layoutY="14.0" prefHeight="530.0" prefWidth="816.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="TransaktionsTable" editable="true" layoutX="14.0" layoutY="14.0" prefHeight="530.0" prefWidth="816.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="trDateColumn" prefWidth="88.0" text="Datum" />
                       <TableColumn fx:id="trBetragColumn" prefWidth="93.0" text="Betrag" />
-                        <TableColumn fx:id="trTextColumn" prefWidth="499.0" text="Buchungstext" />
-                        <TableColumn fx:id="trIDColumn" prefWidth="89.0" text="TR_ID" />
+                        <TableColumn fx:id="trTextColumn" prefWidth="570.0" text="Buchungstext" />
+                        <TableColumn fx:id="trIDColumn" prefWidth="89.0" text="TR_ID" visible="false" />
                     </columns>
                   </TableView>
                   <ButtonBar layoutX="343.0" layoutY="544.0" prefHeight="40.0" prefWidth="607.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
