@@ -12,7 +12,6 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#loadCSVFile" text="lade CSV" />
-                  <MenuItem mnemonicParsing="false" onAction="#addBillToPool" text="add to Pool" />
               <MenuItem mnemonicParsing="false" onAction="#handleClose" text="Close" />
             </items>
           </Menu>

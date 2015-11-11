@@ -67,31 +67,6 @@ public class RootLayoutController {
         }
     }
     
-    @FXML
-    public void addBillToPool() {
-    	String billText = "unbekannt";
-    	RechnungsDBUtil util = new RechnungsDBUtil();
-    	TransaktionOverviewController troc = new TransaktionOverviewController();
-    	FileChooser fileChooser = new FileChooser();
-    	
-    	//Show file dialog
-    	File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
-    	
-    	// add text to bill
-    	TextInputDialog dialog = new TextInputDialog("RechnungsText");
-    	dialog.setTitle("RechnungsText");
-    	dialog.setHeaderText("Bitte eine Beschreibung zur ausgewählen Rechnung eingeben");
-    	dialog.setContentText("Text:");
-    	Optional<String> result = dialog.showAndWait();
-    	if (result.isPresent()) {
-    		billText = result.get();
-    	}
-    	
-    	if (file != null) {
-    		util.attachBilltoPool(file, billText);
-    		troc.loadRechnungsPool();
-    	}
-    }
 
     /**
      * Opens an about dialog.
