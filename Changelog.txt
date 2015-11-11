@@ -1,3 +1,9 @@
+## 2015-11-11
+- removed addBillToPool Function from rootLayout and added to Transaktions_Overview
+- detail list is shown after user links bill to transaktion
+- set visibility of some columns to no in fxml files
+- changed donwload dir to C:\Windows\Temp
+
 ## 2015-11-09
 - added transaktions_anhang_text field to db_transaktion_rechnung 
 - added transaktions_anhang_betrag to db_transaktion_rechnung (currently not in use)
