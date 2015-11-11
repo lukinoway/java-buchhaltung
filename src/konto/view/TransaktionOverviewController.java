@@ -13,15 +13,18 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.FileChooser;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 
 public class TransaktionOverviewController {
 
@@ -75,7 +78,7 @@ public class TransaktionOverviewController {
     }
 
     /**
-     * Called when the user clicks the edit button. Opens a dialog to edit
+     * Called when the user clicks the show detail button.
      * details for the selected transaktion.
      */
     @FXML
@@ -136,6 +139,35 @@ public class TransaktionOverviewController {
     		e.printStackTrace();
     	}
     }
+    
+    /**
+     * This Function will add a new bill to the Pool
+     */
+    @FXML
+    public void addBillToPool() {
+    	String billText = "unbekannt";
+    	RechnungsDBUtil util = new RechnungsDBUtil();
+    	FileChooser fileChooser = new FileChooser();
+    	
+    	//Show file dialog
+    	File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
+    	
+    	// add text to bill
+    	TextInputDialog dialog = new TextInputDialog("RechnungsText");
+    	dialog.setTitle("RechnungsText");
+    	dialog.setHeaderText("Bitte eine Beschreibung zur ausgewählen Rechnung eingeben");
+    	dialog.setContentText("Text:");
+    	Optional<String> result = dialog.showAndWait();
+    	if (result.isPresent()) {
+    		billText = result.get();
+    	}
+    	
+    	if (file != null) {
+    		util.attachBilltoPool(file, billText);
+    		loadRechnungsPool();
+    	}
+    }
+
     
     /**
      * Main Function to get Bill Pool
@@ -224,6 +256,7 @@ public class TransaktionOverviewController {
     		}
     		// reload pool
     		loadRechnungsPool();
+    		handleShowDetail();
     		
     	} catch (Exception e) {
     		System.out.println("Hier lief was schief - linkBillToTransaktion");
