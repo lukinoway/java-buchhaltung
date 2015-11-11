@@ -3,6 +3,7 @@
 - detail list is shown after user links bill to transaktion
 - set visibility of some columns to no in fxml files
 - changed donwload dir to C:\Windows\Temp
+- created first version: release/TransaktionsLinker_0.1.jar
 
 ## 2015-11-09
 - added transaktions_anhang_text field to db_transaktion_rechnung 
