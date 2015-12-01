@@ -1,3 +1,9 @@
+## 20125-12-01
+- I need to rethink the current implementation
+- main problem is that my FX GUI not really usefull if I wanna open the application everywhere
+- furthermore I will start to seperate the DB functions from the GUI to allow a better portability
+- its time to draw some new UML'S
+
 ## 2015-11-11
 - removed addBillToPool Function from rootLayout and added to Transaktions_Overview
 - detail list is shown after user links bill to transaktion
