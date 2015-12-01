@@ -23,25 +23,34 @@ public class DBCommunicator {
 	  String db_user="konto";
 	  String db_pwd="konto";
 	  
+	  
+	  public void connectDB() {
+		  try {
+		      // This will load the MySQL driver, each DB has its own driver
+		      Class.forName("com.mysql.jdbc.Driver");
+		      // Setup the connection with the DB
+		      connect = DriverManager.getConnection("jdbc:mysql://" + server_name + "/konto_app?"+"user=" + db_user + "&password=" + db_pwd);
+	
+		      // Statements allow to issue SQL queries to the database
+		      statement = connect.createStatement();
+		  } catch(Exception e) {
+			  e.printStackTrace();
+		  }
+	  }
+	  
 	  public ResultSet getData(String tablename, String selectpart, String wherepart ) throws Exception {
 		    try {
-			      // This will load the MySQL driver, each DB has its own driver
-			      Class.forName("com.mysql.jdbc.Driver");
-			      // Setup the connection with the DB
-			      connect = DriverManager.getConnection("jdbc:mysql://" + server_name + "/konto_app?"+"user=" + db_user + "&password=" + db_pwd);
-
-			      // Statements allow to issue SQL queries to the database
-			      statement = connect.createStatement();
+		    	connectDB();
 			      
-			      // Result set get the result of the SQL query
-			      resultSet = statement.executeQuery("select " + selectpart + " from konto_app." + tablename + " " + wherepart);
-			      //writeResultSet(resultSet);
-			      return resultSet;
-			    } catch (Exception e) {
-			      throw e;
-			    } finally {
-			      //close();
-			    }
+			    // Result set get the result of the SQL query
+			    resultSet = statement.executeQuery("select " + selectpart + " from konto_app." + tablename + " " + wherepart);
+			    //writeResultSet(resultSet);
+			    return resultSet;
+		    } catch (Exception e) {
+		    	throw e;
+			} finally {
+			//close();
+			}
 	  }
 	  
 	  /**
@@ -53,18 +62,10 @@ public class DBCommunicator {
 	   */
 	  public void insertData(String tablename, String valuepart, String columnpart ) throws Exception {
 		    try {
-			      // This will load the MySQL driver, each DB has its own driver
-			      Class.forName("com.mysql.jdbc.Driver");
-			      // Setup the connection with the DB
-			      connect = DriverManager.getConnection("jdbc:mysql://" + server_name + "/konto_app?"+"user=" + db_user + "&password=" + db_pwd);
-
-			      // Statements allow to issue SQL queries to the database
-			      statement = connect.createStatement();
-			      
-			      // print query
-			      System.out.println("insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )");
-			      statement.executeUpdate("insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )");
-
+		    	connectDB();
+			    // print query
+			    System.out.println("insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )");
+			    statement.executeUpdate("insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )");
 		    } catch (Exception e) {
 		    	throw e;
 		    } finally {
@@ -74,22 +75,14 @@ public class DBCommunicator {
 	  
 	  public ResultSet insertDataPrepared(String tablename, String valuepart, String columnpart ) throws Exception {
 		    try {
-			      // This will load the MySQL driver, each DB has its own driver
-			      Class.forName("com.mysql.jdbc.Driver");
-			      // Setup the connection with the DB
-			      connect = DriverManager.getConnection("jdbc:mysql://" + server_name + "/konto_app?"+"user=" + db_user + "&password=" + db_pwd);
-
-			      // Statements allow to issue SQL queries to the database
-			      statement = connect.createStatement();
-			      
-			      String pSql = "insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )";
-			      PreparedStatement pStmt = connect.prepareStatement((pSql), Statement.RETURN_GENERATED_KEYS);
-			      pStmt.executeUpdate();
+		    	connectDB();
+			    String pSql = "insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )";
+			    PreparedStatement pStmt = connect.prepareStatement((pSql), Statement.RETURN_GENERATED_KEYS);
+			    pStmt.executeUpdate();
 				    
-				  // get generated keys from query
-				  this.resultSet = pStmt.getGeneratedKeys();
-
-			      return resultSet;
+				// get generated keys from query
+				this.resultSet = pStmt.getGeneratedKeys();
+			    return resultSet;
 		    } catch (Exception e) {
 		    	throw e;
 		    } finally {
@@ -107,23 +100,15 @@ public class DBCommunicator {
 	   */
 	  public void updateData(String tablename, String setpart, String wherepart ) throws Exception {
 		    try {
-			      // This will load the MySQL driver, each DB has its own driver
-			      Class.forName("com.mysql.jdbc.Driver");
-			      // Setup the connection with the DB
-			      connect = DriverManager.getConnection("jdbc:mysql://" + server_name + "/konto_app?"+"user=" + db_user + "&password=" + db_pwd);
-
-			      // Statements allow to issue SQL queries to the database
-			      statement = connect.createStatement();
-			      
-			      // print query
-			      System.out.println("update konto_app." + tablename + " set " + setpart + " where " + wherepart);
-			      statement.executeUpdate("update konto_app." + tablename + " set " + setpart + " where " + wherepart);
-
-			    } catch (Exception e) {
-			      throw e;
-			    } finally {
-			      //close();
-			    }
+		    	connectDB();
+			    // print query
+			    System.out.println("update konto_app." + tablename + " set " + setpart + " where " + wherepart);
+			    statement.executeUpdate("update konto_app." + tablename + " set " + setpart + " where " + wherepart);
+		    } catch (Exception e) {
+		    	throw e;
+		    } finally {
+			    //close();
+			}
 	  }
 	  
 	  /**
@@ -134,23 +119,16 @@ public class DBCommunicator {
 	   */
 	  public void deleteData(String tablename, String wherepart ) throws Exception {
 		    try {
-			      // This will load the MySQL driver, each DB has its own driver
-			      Class.forName("com.mysql.jdbc.Driver");
-			      // Setup the connection with the DB
-			      connect = DriverManager.getConnection("jdbc:mysql://" + server_name + "/konto_app?"+"user=" + db_user + "&password=" + db_pwd);
+		    	connectDB();
+			    // print query
+			    System.out.println("delete from konto_app." + tablename + " where " + wherepart);
+			    statement.executeUpdate("delete from konto_app." + tablename + " where " + wherepart);
 
-			      // Statements allow to issue SQL queries to the database
-			      statement = connect.createStatement();
-			      
-			      // print query
-			      System.out.println("delete from konto_app." + tablename + " where " + wherepart);
-			      statement.executeUpdate("delete from konto_app." + tablename + " where " + wherepart);
-
-			    } catch (Exception e) {
-			      throw e;
-			    } finally {
-			      //close();
-			    }
+		    } catch (Exception e) {
+		    	throw e;
+			} finally {
+				//close();
+			}
 	  }
 	  
 	  private void writeMetaData(ResultSet resultSet) throws SQLException {
