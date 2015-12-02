@@ -1,6 +1,5 @@
 package konto.DBUtil;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import konto.model.Rechnung;
