@@ -2,6 +2,9 @@
 - refactored DBCommunicator
 - removed unnecessary stuff
 - remodelled Konto, Transaktion, TransaktionDetail and Rechnung
+- added Interfaces for DB Communication
+- rewrote DB UTILS
+- switched to vaadin branch
 
 ## 2015-12-01
 - I need to rethink the current implementation
