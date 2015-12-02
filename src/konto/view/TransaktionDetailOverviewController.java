@@ -161,7 +161,7 @@ public class TransaktionDetailOverviewController {
     		
     	    if (selectedDetail != null) {
     	    	TransaktionDetailDBUtil util = new TransaktionDetailDBUtil();
-    	    	util.deleteTransaktionDetail(selectedDetail.getTransaktionsDetail_id());
+    	    	util.deleteTransaktionDetail(selectedDetail.getDetailId());
     	    	setTransaktionDetail(selectedTransaktion);
 	        }
 	    } catch(NullPointerException e){
@@ -177,7 +177,7 @@ public class TransaktionDetailOverviewController {
 		
 	    if (selectedDetail != null) {
 	    	TransaktionDetailDBUtil util = new TransaktionDetailDBUtil();
-	    	String filepath = util.downloadBill(selectedDetail.getTransaktionsDetail_id());
+	    	String filepath = util.downloadBill(selectedDetail.getDetailId());
 	    	
 	    	File file = new File (filepath);
 	    	// open file with standard program
