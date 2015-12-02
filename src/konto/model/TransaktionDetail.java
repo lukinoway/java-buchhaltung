@@ -55,41 +55,41 @@ public class TransaktionDetail {
 
 
 	// transaktionsDetail_id handling
-	public int getTransaktionsDetail_id() {
+	public int getDetailId() {
 		return detailId;
 	}
 
 	// transaktions_id handling
-	public int getTransaktions_id() {
+	public int getTransaktionsId() {
 		return transaktionsId;
 	}
 
 	// transaktionsDetail_nr handling
-	public int getTransaktionsDetail_nr() {
+	public int getDetailNr() {
 		return detailNr;
 	}
 
 	// transaktionsDetail_type handling
-	public int getTransaktionsDetail_type() {
+	public int getDetailType() {
 		return detailType;
 	}
 
     // transaktionsDetail_betrag handling
-	public Double getTransaktionsDetail_betrag() {
+	public Double getDetailBetrag() {
 		return detailBetrag;
 	}
 
 	// transaktionsDetail_text handling
-	public String getTransaktionsDetail_text() {
+	public String getDetailText() {
 		return detailText;
 	}
 
 	// transaktionsDetail_date handling
-	public LocalDate getTransaktionsDetail_creationDate() {
+	public LocalDate getDetailCreationDate() {
 		return detailCreationDate;
 	}
 
-	public boolean getTransaktionsDetail_BillStatus() {
+	public boolean isBillAvailable() {
 		return detailBillAvailable;
 	}
 
