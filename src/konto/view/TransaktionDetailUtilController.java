@@ -83,8 +83,8 @@ public class TransaktionDetailUtilController {
 
     public void loadDetail(TransaktionDetail selectedDetail) {
 	this.detail = selectedDetail;	
-	this.trdText.setText(selectedDetail.getTransaktionsDetail_text());
-	this.trdBetrag.setText(String.valueOf(selectedDetail.getTransaktionsDetail_betrag()));
+	this.trdText.setText(selectedDetail.getDetailText());
+	this.trdBetrag.setText(String.valueOf(selectedDetail.getDetailBetrag()));
     }
 
 
@@ -120,7 +120,7 @@ public class TransaktionDetailUtilController {
     		double betrag = Double.parseDouble(trdBetrag.getText());		
 
     		// now update
-    		util.updateTransaktionDetail(detail.getTransaktionsDetail_id(), tmptxt, betrag);
+    		util.updateTransaktionDetail(detail.getDetailId(), tmptxt, betrag);
     	} catch (Exception e) {
     		System.out.println("updateTransaktionDetail - hier lief was schief");
     	}
@@ -133,7 +133,7 @@ public class TransaktionDetailUtilController {
         	rechnung = fileChooser.showOpenDialog(dialogStage);
         	
         	if (rechnung != null) {
-        		util.attachBill(this.detail.getTransaktionsDetail_id(), this.detail.getTransaktions_id(), rechnung);
+        		util.attachBill(this.detail.getDetailId(), this.detail.getTransaktions_id(), rechnung);
         	}
     		
     	} catch (Exception e) {
