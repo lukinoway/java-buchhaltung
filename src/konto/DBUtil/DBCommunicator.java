@@ -38,111 +38,88 @@ public class DBCommunicator {
 		  }
 	  }
 	  
-	  public ResultSet getData(String tablename, String selectpart, String wherepart ) throws Exception {
+	  public ResultSet getData(String tableName, String selectPart, String wherePart ) throws Exception {
 		    try {
-		    	connectDB();
-			      
+		    	connectDB();		      
 			    // Result set get the result of the SQL query
-			    resultSet = statement.executeQuery("select " + selectpart + " from konto_app." + tablename + " " + wherepart);
-			    //writeResultSet(resultSet);
+			    resultSet = statement.executeQuery("select " + selectPart + " from konto_app." + tableName + " " + wherePart);
 			    return resultSet;
 		    } catch (Exception e) {
 		    	throw e;
 			} finally {
-			//close();
 			}
 	  }
 	  
 	  /**
 	   * Function to insert new Data to DB
-	   * @param tablename
-	   * @param valuepart
-	   * @param columnpart
+	   * @param tableName
+	   * @param valuePart
+	   * @param columnPart
 	   * @throws Exception
 	   */
-	  public void insertData(String tablename, String valuepart, String columnpart ) throws Exception {
+	  public void insertData(String tableName, String valuePart, String columnPart ) throws Exception {
 		    try {
 		    	connectDB();
-			    // print query
-			    System.out.println("insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )");
-			    statement.executeUpdate("insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )");
+			    System.out.println("insert into konto_app." + tableName + "( " + columnPart + " ) values( " + valuePart + " )");
+			    statement.executeUpdate("insert into konto_app." + tableName + "( " + columnPart + " ) values( " + valuePart + " )");
 		    } catch (Exception e) {
 		    	throw e;
 		    } finally {
-		    	//close();
 		    }
 	  }
 	  
-	  public ResultSet insertDataPrepared(String tablename, String valuepart, String columnpart ) throws Exception {
+	  public ResultSet insertDataPrepared(String tableName, String valuePart, String columnPart ) throws Exception {
 		    try {
 		    	connectDB();
-			    String pSql = "insert into konto_app." + tablename + "( " + columnpart + " ) values( " + valuepart + " )";
-			    PreparedStatement pStmt = connect.prepareStatement((pSql), Statement.RETURN_GENERATED_KEYS);
-			    pStmt.executeUpdate();
+			    String pSql = "insert into konto_app." + tableName + "( " + columnPart + " ) values( " + valuePart + " )";
+			    preparedStatement = connect.prepareStatement((pSql), Statement.RETURN_GENERATED_KEYS);
+			    preparedStatement.executeUpdate();
 				    
 				// get generated keys from query
-				this.resultSet = pStmt.getGeneratedKeys();
+				this.resultSet = preparedStatement.getGeneratedKeys();
 			    return resultSet;
 		    } catch (Exception e) {
 		    	throw e;
 		    } finally {
-		    	//close();
 		    }
 	  }
 	  
 	  
 	  /**
 	   * Function to update data in DB
-	   * @param tablename
-	   * @param setpart
-	   * @param wherepart
+	   * @param tableName
+	   * @param setPart
+	   * @param wherePart
 	   * @throws Exception
 	   */
-	  public void updateData(String tablename, String setpart, String wherepart ) throws Exception {
+	  public void updateData(String tableName, String setPart, String wherePart ) throws Exception {
 		    try {
 		    	connectDB();
-			    // print query
-			    System.out.println("update konto_app." + tablename + " set " + setpart + " where " + wherepart);
-			    statement.executeUpdate("update konto_app." + tablename + " set " + setpart + " where " + wherepart);
+			    System.out.println("update konto_app." + tableName + " set " + setPart + " where " + wherePart);
+			    statement.executeUpdate("update konto_app." + tableName + " set " + setPart + " where " + wherePart);
 		    } catch (Exception e) {
 		    	throw e;
 		    } finally {
-			    //close();
 			}
 	  }
 	  
 	  /**
 	   * Function to delete data from DB
-	   * @param tablename
-	   * @param wherepart
+	   * @param tableName
+	   * @param wherePart
 	   * @throws Exception
 	   */
-	  public void deleteData(String tablename, String wherepart ) throws Exception {
+	  public void deleteData(String tableName, String wherePart ) throws Exception {
 		    try {
 		    	connectDB();
-			    // print query
-			    System.out.println("delete from konto_app." + tablename + " where " + wherepart);
-			    statement.executeUpdate("delete from konto_app." + tablename + " where " + wherepart);
-
+			    System.out.println("delete from konto_app." + tableName + " where " + wherePart);
+			    statement.executeUpdate("delete from konto_app." + tableName + " where " + wherePart);
 		    } catch (Exception e) {
 		    	throw e;
 			} finally {
-				//close();
 			}
 	  }
 	  
-	  private void writeMetaData(ResultSet resultSet) throws SQLException {
-		    //   Now get some metadata from the database
-		    // Result set get the result of the SQL query
-		    
-		    System.out.println("The columns in the table are: ");
-		    
-		    System.out.println("Table: " + resultSet.getMetaData().getTableName(1));
-		    for  (int i = 1; i<= resultSet.getMetaData().getColumnCount(); i++){
-		      System.out.println("Column " +i  + " "+ resultSet.getMetaData().getColumnName(i));
-		    }
-		  }
-
 		  // You need to close the resultSet
 		  private void close() {
 		    try {
