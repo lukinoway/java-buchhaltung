@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class Konto {
 
-	private final String kontonr;
-	private final String kontoname;
+	private String kontonr;
+	private String kontoname;
 	public ArrayList<Transaktion> transaktion;
 
 	Konto() {
@@ -35,6 +35,11 @@ public class Konto {
 		LocalDate trdate = LocalDate.parse(Datum1, formatter);
 		
 		this.transaktion.add(new Transaktion(trdate, Double.parseDouble(betrag), text));
+	}
+
+	public void setKontoNr(String knr) {
+		this.kontonr = knr;
+		
 	}
 
 }
