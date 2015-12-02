@@ -1,28 +1,15 @@
 package konto.DBUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import konto.model.Transaktion;
-import konto.view.TransaktionOverviewController;
 
-public class TransaktionDBUtil extends DBCommunicator {
+public class TransaktionDBUtil extends DBCommunicator implements ITransaktion{
+	
+	ResultSet resSet = null;
 
-
-	private Connection connect = null;
-	private Statement statement = null;
-	private ResultSet resultSet = null;
-	
-	private Transaktion transaktion;
-	
-	private TransaktionOverviewController troc;
-	private ObservableList<Transaktion> transaktionData = FXCollections.observableArrayList();
-	
 	/**
 	 * Insert new transaktion in DB
 	 * @param transaktion
@@ -31,164 +18,98 @@ public class TransaktionDBUtil extends DBCommunicator {
 		super();
 	}
 	
+	/**
+	 * method to insert new transaktion
+	 */
 	public void insertTransaktion(Transaktion transaktion) {
-		// this will be used for csv parse and insert
+		try{
+			insertData("db_transaktion", 
+						transaktion.getTransaktionsDate() + ", " + 
+						transaktion.getTransaktionsBetrag() + ", " + 
+						transaktion.getTransaktionsText() + ", " +
+						transaktion.getTransaktionsId() + ", " +
+						transaktion.getTransaktionsHash(), 
+					   "transaktions_datum, transaktions_betrag, transaktions_text, konto_id, transaktions_hash");
+		} catch (Exception e) {
+			System.out.println("Hier lief was schief - insertTransaktion");
+			e.printStackTrace();
+		} finally {
+			super.close();
+		}
+	}
+
+	
+	public void updateTransaktion(Transaktion transaktion) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**
-	 * with this Function we get Transaktion that are between start and end Date
-	 * @param startDate
-	 * @param endDate
-	 * @throws Exception 
+	 * method to delete transaktion from DB
 	 */
-	public void getTransaktionFromDB(LocalDate startDate, LocalDate endDate) throws Exception {
-		try {
-			System.out.println("Start Date: " + startDate.toString());
-			System.out.println("End Date:   " + endDate.toString());
-			
-			// first of all clear old data
-			transaktionData.removeAll(this.transaktion);
-			troc.TransaktionsTable.setItems(getTransaktionData());
-			
-			this.resultSet = getData("db_transaktion", 
-								"transaktions_id, transaktions_datum, transaktions_betrag, transaktions_text, transaktions_hash", 
-								"where transaktions_datum between \"" + startDate.toString() + "\" and \"" + endDate.toString() + "\"");
-			
-			// perpare table
-		    while (this.resultSet.next()) {
-
-			      int tr_id = this.resultSet.getInt("transaktions_id");
-			      String tr_date = this.resultSet.getString("transaktions_datum");
-			      double betrag = this.resultSet.getDouble("transaktions_betrag");
-			      String tr_text = this.resultSet.getString("transaktions_text");
-			      String tr_hash = this.resultSet.getString("transaktions_hash");
-			      
-			      transaktionData.add(new Transaktion(tr_id, LocalDate.parse(tr_date), betrag, tr_text, tr_hash));
-					
-			      troc.trIDColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsIdProperty());
-			      troc.trDateColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDateProperty());
-			      troc.trBetragColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsBetragProperty());
-			      troc.trTextColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsTextProperty());
-		    }
-		    
-		    //load data to table
-		    troc.TransaktionsTable.setItems(getTransaktionData());
-		} catch (NullPointerException e) {
-			System.out.println("Es konnten keine Daten gefunden werden");
+	
+	public void deleteTransaktion(Transaktion transaktion) {
+		try{
+			deleteData("db_transaktion", "where transaktions_id =" + transaktion.getTransaktionsId());
+		} catch (Exception e) {
+			System.out.println("hier lief was schief - deleteTransaktion");
+			e.printStackTrace();
 		} finally {
-		    close();
+			super.close();
 		}
 	}
-	
-	public void getTransaktionFromDB(LocalDate startDate, LocalDate endDate, String type) throws Exception {
-		try {
-			System.out.println("Start Date: " + startDate.toString());
-			System.out.println("End Date:   " + endDate.toString());
-			System.out.println("Type: " + type);
-			
-			// first of all clear old data
-			transaktionData.removeAll(this.transaktion);
-			troc.TransaktionsTable.setItems(getTransaktionData());
-			
-			this.resultSet = getData("db_transaktion", 
-								"transaktions_id, transaktions_datum, transaktions_betrag, transaktions_text, transaktions_hash", 
-								"where transaktions_datum between \"" + startDate.toString() + "\" and \"" + endDate.toString() + "\" and transaktions_typ_id =" + type);
-			
-			// perpare table
-		    while (this.resultSet.next()) {
 
-			      int tr_id = this.resultSet.getInt("transaktions_id");
-			      String tr_date = this.resultSet.getString("transaktions_datum");
-			      double betrag = this.resultSet.getDouble("transaktions_betrag");
-			      String tr_text = this.resultSet.getString("transaktions_text");
-			      String tr_hash = this.resultSet.getString("transaktions_hash");
+	/**
+	 * Method to get Data by Date
+	 */
+	public ArrayList<Transaktion> selectDataByDate(LocalDate begin, LocalDate end, int kontoId) {
+		//Build new array
+		ArrayList<Transaktion> transaktionsCollector = new ArrayList<Transaktion>();
+		
+		System.out.println("Start Date: " + begin.toString());
+		System.out.println("End Date:   " + end.toString());
+		try {
+			this.resSet = getData("db_transaktion", 
+								"transaktions_id, transaktions_datum, transaktions_betrag, transaktions_text, transaktions_hash", 
+								"where transaktions_konto_id = " + kontoId + 
+								" and transaktions_datum between \"" + begin.toString() + "\" and \"" + end.toString() + "\"");
+			
+			// read resultSet
+		    while (this.resSet.next()) {
+
+			      int tr_id = this.resSet.getInt("transaktions_id");
+			      String tr_date = this.resSet.getString("transaktions_datum");
+			      double betrag = this.resSet.getDouble("transaktions_betrag");
+			      String tr_text = this.resSet.getString("transaktions_text");
+			      String tr_hash = this.resSet.getString("transaktions_hash");
 			      
-			      transaktionData.add(new Transaktion(tr_id, LocalDate.parse(tr_date), betrag, tr_text, tr_hash));
-					
-			      troc.trIDColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsIdProperty());
-			      troc.trDateColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDateProperty());
-			      troc.trBetragColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsBetragProperty());
-			      troc.trTextColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsTextProperty());
+			      transaktionsCollector.add(new Transaktion(tr_id, LocalDate.parse(tr_date), betrag, tr_text, tr_hash));
 		    }
 		    
-		    //load data to table
-		    troc.TransaktionsTable.setItems(getTransaktionData());
-		} catch (NullPointerException e) {
-			System.out.println("Es konnten keine Daten gefunden werden");
-		} finally {
-		    close();
-		}
-	}
-	
-	public void getTransaktionFromDB(String type) throws Exception {
-		try {
-			System.out.println("Type: " + type);
-			
-			// first of all clear old data
-			transaktionData.removeAll(this.transaktion);
-			troc.TransaktionsTable.setItems(getTransaktionData());
-			
-			this.resultSet = getData("db_transaktion", 
-								"transaktions_id, transaktions_datum, transaktions_betrag, transaktions_text, transaktions_hash", 
-								"where transaktions_typ_id =" + type);
-			
-			// perpare table
-		    while (this.resultSet.next()) {
-
-			      int tr_id = this.resultSet.getInt("transaktions_id");
-			      String tr_date = this.resultSet.getString("transaktions_datum");
-			      double betrag = this.resultSet.getDouble("transaktions_betrag");
-			      String tr_text = this.resultSet.getString("transaktions_text");
-			      String tr_hash = this.resultSet.getString("transaktions_hash");
-			      
-			      transaktionData.add(new Transaktion(tr_id, LocalDate.parse(tr_date), betrag, tr_text, tr_hash));
-					
-			      troc.trIDColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsIdProperty());
-			      troc.trDateColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsDateProperty());
-			      troc.trBetragColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsBetragProperty());
-			      troc.trTextColumn.setCellValueFactory(cellDate -> cellDate.getValue().TransaktionsTextProperty());
+		    if (this.resSet != null) {
+				this.resSet.close();
 		    }
-		    
-		    //load data to table
-		    troc.TransaktionsTable.setItems(getTransaktionData());
 		} catch (NullPointerException e) {
 			System.out.println("Es konnten keine Daten gefunden werden");
-		} finally {
-		    close();
-		}
-	}
-	
-	// You need to close the resultSet
-	private void close() {
-		try {
-			if (resultSet != null) {
-				resultSet.close();
-			}
-			if (this.resultSet != null) {
-				this.resultSet.close();
-			}
-		    if (statement != null) {
-			    statement.close();
-			}
-		    if (connect != null) {
-			    connect.close();
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}	
-    } 
-	
-    public ObservableList<Transaktion> getTransaktionData() {
-        return transaktionData;
-    }
-	
-    /**
-     * Is called by the main application to give a reference back to itself.
-     *
-     * @param mainApp
-     */
-    public void setController(TransaktionOverviewController troc) {
-        this.troc = troc;
-    }
+		} finally {
+		    super.close();
+		}
+		return transaktionsCollector;
+	}
 
+	/**
+	 * Method to get Data by Type
+	 */
+	public ArrayList<Transaktion> selectDataByType(int kontoId, int transaktionsType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<Transaktion> selectDataByTimeType(LocalDate begin, LocalDate end, int kontoId,
+			int transaktionsType) {
+		// TODO Auto-generated method stub
+		return null;
+	} 
 }
