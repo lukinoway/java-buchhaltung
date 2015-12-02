@@ -1,20 +1,14 @@
 package konto.DBUtil;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
-import java.time.*;
 
 public class DBCommunicator {
-	  private Connection connect = null;
-	  private Statement statement = null;
+	  protected Connection connect = null;
+	  protected Statement statement = null;
 	  private PreparedStatement preparedStatement = null;
 	  public ResultSet resultSet = null;
 	  
@@ -120,19 +114,20 @@ public class DBCommunicator {
 			}
 	  }
 	  
-		  // You need to close the resultSet
-		  private void close() {
-		    try {
-
-		      if (statement != null) {
-		        statement.close();
-		      }
-
-		      if (connect != null) {
-		        connect.close();
-		      }
-		    } catch (Exception e) {
-
-		    }
-		  } 
+		// close the resultSet and connection
+		protected void close() {
+			try {
+				if (resultSet != null) {
+					resultSet.close();
+				}
+			    if (statement != null) {
+			    	statement.close();
+				}
+			    if (connect != null) {
+			    	connect.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+	    }
 }
