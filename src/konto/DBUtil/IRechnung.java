@@ -1,6 +1,7 @@
 package konto.DBUtil;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import konto.model.Rechnung;
 
@@ -12,6 +13,8 @@ public interface IRechnung {
 	
 	public void deleteRechnung(int billId);
 	
-	public File downloadRechnung(int billdId);
+	public String downloadRechnung(int billId);
+	
+	public ArrayList<Rechnung> selectDataFromPool();
 	
 }
