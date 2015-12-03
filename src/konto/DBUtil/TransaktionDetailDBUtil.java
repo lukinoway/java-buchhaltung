@@ -19,8 +19,6 @@ import java.util.ArrayList;
 
 import konto.model.Transaktion;
 import konto.model.TransaktionDetail;
-import konto.view.TransaktionDetailOverviewController;
-import konto.view.TransaktionOverviewController;
 
 public class TransaktionDetailDBUtil extends DBCommunicator implements ITransaktionDetail{
 

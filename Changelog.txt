@@ -1,3 +1,11 @@
+## 2015-12-03
+- changed eclipse project to maven
+- added vaadin dependency
+- need to perform minor project updates
+- removed vaadin-buchhaltung directory
+- removed FX java classes
+
+
 ## 2015-12-02
 - refactored DBCommunicator
 - removed unnecessary stuff
