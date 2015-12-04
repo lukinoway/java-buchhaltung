@@ -1,3 +1,7 @@
+## 2015-12-04
+- fixed project setup
+- Project is now running vaadin
+
 ## 2015-12-03
 - changed eclipse project to maven
 - added vaadin dependency
