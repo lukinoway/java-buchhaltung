@@ -14,6 +14,11 @@
 	
 	<dependencies>
 	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.38</version>
+	</dependency>
+	<dependency>
     	<groupId>com.vaadin</groupId>
     	<artifactId>vaadin-server</artifactId>
     	<version>7.5.10</version>
