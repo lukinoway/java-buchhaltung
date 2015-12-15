@@ -68,10 +68,11 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion{
 		
 		System.out.println("Start Date: " + begin.toString());
 		System.out.println("End Date:   " + end.toString());
+		System.out.println("Konto ID:	" + kontoId	);
 		try {
 			this.resSet = getData("db_transaktion", 
 								"transaktions_id, transaktions_datum, transaktions_betrag, transaktions_text, transaktions_hash", 
-								"where transaktions_konto_id = " + kontoId + 
+								"where konto_id = " + kontoId + 
 								" and transaktions_datum between \"" + begin.toString() + "\" and \"" + end.toString() + "\"");
 			
 			// read resultSet

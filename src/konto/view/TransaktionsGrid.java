@@ -17,6 +17,10 @@ public class TransaktionsGrid extends Grid {
 	/**
 	 * this time i will try to use a grid
 	 */
+	public TransaktionsGrid() {
+		
+	}
+	
 	public TransaktionsGrid(Container.Indexed indexed) {
 		// create a wrapper container
         GeneratedPropertyContainer wrapperContainer = new GeneratedPropertyContainer(indexed);
