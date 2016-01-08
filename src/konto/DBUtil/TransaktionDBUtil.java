@@ -111,4 +111,10 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	// TODO Auto-generated method stub
 	return null;
     }
+    
+    // Close everything
+    public void close() {
+	super.close();
+	super.closeConnection();
+    }
 }

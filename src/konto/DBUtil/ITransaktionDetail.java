@@ -14,5 +14,7 @@ public interface ITransaktionDetail {
     public void deleteDetail(int detailId);
 
     public ArrayList<TransaktionDetail> selectDetail(Transaktion transaktion);
+    
+    public void close();
 
 }

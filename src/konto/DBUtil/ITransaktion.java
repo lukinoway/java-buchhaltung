@@ -24,4 +24,5 @@ public interface ITransaktion {
     public ArrayList<Transaktion> selectDataByTimeType(LocalDate begin, LocalDate end, int kontoId,
 	    int transaktionsType);
 
+    public void close();
 }

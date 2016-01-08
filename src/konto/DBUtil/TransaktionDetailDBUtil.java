@@ -1,20 +1,10 @@
 package konto.DBUtil;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
 import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 import konto.model.Transaktion;
@@ -233,5 +223,11 @@ public class TransaktionDetailDBUtil extends DBCommunicator implements ITransakt
 	    return fileName.substring(fileName.lastIndexOf("."));
 	else
 	    return "";
+    }
+    
+    // Close everything
+    public void close() {
+	super.close();
+	super.closeConnection();
     }
 }

@@ -15,5 +15,7 @@ public interface IRechnung {
     public String downloadRechnung(int billId);
 
     public ArrayList<Rechnung> selectDataFromPool();
+    
+    public void close();
 
 }

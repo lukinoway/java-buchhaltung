@@ -4,8 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
+/** 
+ * Main Class to handle to communication between BackEnd and DB
+ * @author lpichle
+ *
+ */
 public class DBCommunicator {
     protected Connection connect = null;
     protected Statement statement = null;
@@ -17,25 +23,38 @@ public class DBCommunicator {
     String db_user = "konto";
     String db_pwd = "konto";
 
+    DBCommunicator() {
+	// initialize connection
+	connectDB();
+    }
+    
     public void connectDB() {
 	try {
-	    // This will load the MySQL driver, each DB has its own driver
-	    Class.forName("com.mysql.jdbc.Driver");
-	    // Setup the connection with the DB
-	    connect = DriverManager.getConnection(
+	    // check if connection is already open (increase overall performance)
+	    if (connect == null) {
+		// This will load the MySQL driver, each DB has its own driver
+		Class.forName("com.mysql.jdbc.Driver");
+		// Setup the connection with the DB
+		connect = DriverManager.getConnection(
 		    "jdbc:mysql://" + server_name + "/konto_app?" + "user=" + db_user + "&password=" + db_pwd);
-
-	    // Statements allow to issue SQL queries to the database
-	    statement = connect.createStatement();
+	    }
 	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+    
+    public void createStatement() {
+	try {
+	    statement = connect.createStatement();
+	} catch (SQLException e) {
 	    e.printStackTrace();
 	}
     }
 
     public ResultSet getData(String tableName, String selectPart, String wherePart) throws Exception {
 	try {
-	    connectDB();
-	    // Result set get the result of the SQL query
+	    createStatement();
+	    // get the result of the SQL query
 	    resultSet = statement
 		    .executeQuery("select " + selectPart + " from konto_app." + tableName + " " + wherePart);
 	    return resultSet;
@@ -55,7 +74,7 @@ public class DBCommunicator {
      */
     public void insertData(String tableName, String valuePart, String columnPart) throws Exception {
 	try {
-	    connectDB();
+	    createStatement();
 	    System.out.println(
 		    "insert into konto_app." + tableName + "( " + columnPart + " ) values( " + valuePart + " )");
 	    statement.executeUpdate(
@@ -68,7 +87,6 @@ public class DBCommunicator {
 
     public ResultSet insertDataPrepared(String tableName, String valuePart, String columnPart) throws Exception {
 	try {
-	    connectDB();
 	    String pSql = "insert into konto_app." + tableName + "( " + columnPart + " ) values( " + valuePart + " )";
 	    preparedStatement = connect.prepareStatement((pSql), Statement.RETURN_GENERATED_KEYS);
 	    preparedStatement.executeUpdate();
@@ -92,7 +110,7 @@ public class DBCommunicator {
      */
     public void updateData(String tableName, String setPart, String wherePart) throws Exception {
 	try {
-	    connectDB();
+	    createStatement();
 	    System.out.println("update konto_app." + tableName + " set " + setPart + " where " + wherePart);
 	    statement.executeUpdate("update konto_app." + tableName + " set " + setPart + " where " + wherePart);
 	} catch (Exception e) {
@@ -110,13 +128,17 @@ public class DBCommunicator {
      */
     public void deleteData(String tableName, String wherePart) throws Exception {
 	try {
-	    connectDB();
+	    createStatement();
 	    System.out.println("delete from konto_app." + tableName + " where " + wherePart);
 	    statement.executeUpdate("delete from konto_app." + tableName + " where " + wherePart);
 	} catch (Exception e) {
 	    throw e;
 	} finally {
 	}
+    }
+    
+    public Connection getConnection() {
+	return connect;
     }
 
     // close the resultSet and connection
@@ -128,6 +150,13 @@ public class DBCommunicator {
 	    if (statement != null) {
 		statement.close();
 	    }
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+    
+    public void closeConnection() {
+	try {
 	    if (connect != null) {
 		connect.close();
 	    }

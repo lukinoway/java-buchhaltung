@@ -209,4 +209,10 @@ public class RechnungsDBUtil extends DBCommunicator implements IRechnung {
 	else
 	    return "";
     }
+    
+    // Close everything
+    public void close() {
+	super.close();
+	super.closeConnection();
+    }
 }
