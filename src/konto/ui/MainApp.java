@@ -9,6 +9,7 @@ import konto.ui.view.Transaktion.TransaktionsMainView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 
+
 public class MainApp extends UI {
 
     private static final long serialVersionUID = 1L;
@@ -25,20 +26,8 @@ public class MainApp extends UI {
 	view.setWidth(150, Unit.PIXELS);
 	view.addComponent(menu);
 
-	// some test data
-	/*
-	 * try { Collection<Transaktion> collector = Arrays.asList( new
-	 * Transaktion(LocalDate.now(), 20.0, "text1"), new
-	 * Transaktion(LocalDate.now(), 30.0, "text2"), new
-	 * Transaktion(LocalDate.now(), 40.0, "text3"), new
-	 * Transaktion(LocalDate.now(), 50.0, "text4") ); indexed = new
-	 * BeanItemContainer<>(Transaktion.class, collector); } catch
-	 * (NoSuchAlgorithmException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); }
-	 */
-
 	// Main View
-	//view2.addComponent(transaktionsView);
+	view2.addComponent(transaktionsView);
 
 	Button test = new Button("open Window");
 	test.addClickListener(new Button.ClickListener() {

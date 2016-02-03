@@ -1,14 +1,16 @@
 package konto.ui.view.Transaktion;
 
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
-import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
 import konto.data.DBUtil.ITransaktion;
 import konto.data.DBUtil.TransaktionDBUtil;
+import konto.data.model.Transaktion;
 
 /**
  * This class should be the main view for my transkations grid
@@ -22,10 +24,17 @@ public class TransaktionsMainView extends VerticalLayout {
     ITransaktion transaktion = new TransaktionDBUtil();
     TransaktionsGrid transaktionsgrid = new TransaktionsGrid();
     TransaktionsSearchBar searchBar = new TransaktionsSearchBar();
+    TransaktionsContainer indexed;
 
     public TransaktionsMainView() {
 	this.addComponent(searchBar);
 	this.addComponent(transaktionsgrid);
+	
+	// create test data
+	createTestData();
+	
+	// set data
+	
 
 	transaktionsgrid.setWidth(100, Unit.PERCENTAGE);
 	searchBar.setWidth(100, Unit.PERCENTAGE);
@@ -48,6 +57,22 @@ public class TransaktionsMainView extends VerticalLayout {
 		transaktionsgrid.setWidth(100, Unit.PERCENTAGE);
 	    }
 	});
+	
+	transaktionsgrid = new TransaktionsGrid(indexed);
+    }
+    
+    private void createTestData() {
+	try {
+	    ArrayList<Transaktion> collector = new ArrayList<Transaktion>();
+		    
+		    collector.add(new Transaktion(LocalDate.now(), 20.0, "text1"));
+		    collector.add(new Transaktion(LocalDate.now(), 30.0, "text2"));
+		    collector.add(new Transaktion(LocalDate.now(), 40.0, "text3"));
+		    collector.add(new Transaktion(LocalDate.now(), 50.0, "text4"));
+	    indexed = new TransaktionsContainer(collector);
+	} catch (NoSuchAlgorithmException e) { 
+	    e.printStackTrace();
+	}
     }
 
 }
