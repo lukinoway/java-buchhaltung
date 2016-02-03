@@ -1,4 +1,4 @@
-package konto.view.Transaktion;
+package konto.ui.view.Transaktion;
 
 import java.time.LocalDate;
 
@@ -10,7 +10,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.renderers.ButtonRenderer;
 
-import konto.model.Transaktion;
+import konto.data.model.Transaktion;
 
 public class TransaktionsGrid extends Grid {
 

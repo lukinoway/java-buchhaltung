@@ -1,9 +1,11 @@
-package konto;
+package konto.ui;
 
 import com.vaadin.server.VaadinRequest;
-import konto.MenuBar;
-import konto.view.Transaktion.NewTransaktionWindow;
-import konto.view.Transaktion.TransaktionsMainView;
+
+import konto.ui.MenuBar;
+import konto.ui.view.Transaktion.NewTransaktionWindow;
+import konto.ui.view.Transaktion.TransaktionsMainView;
+
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 

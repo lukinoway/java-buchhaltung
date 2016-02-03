@@ -1,10 +1,10 @@
-package konto.Util;
+package konto.data.Util;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import konto.model.Konto;
+import konto.data.model.Konto;
 
 import java.io.*;
 

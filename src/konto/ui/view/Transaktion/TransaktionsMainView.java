@@ -1,4 +1,4 @@
-package konto.view.Transaktion;
+package konto.ui.view.Transaktion;
 
 import java.time.LocalDate;
 
@@ -7,8 +7,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
-import konto.DBUtil.ITransaktion;
-import konto.DBUtil.TransaktionDBUtil;
+import konto.data.DBUtil.ITransaktion;
+import konto.data.DBUtil.TransaktionDBUtil;
 
 /**
  * This class should be the main view for my transkations grid

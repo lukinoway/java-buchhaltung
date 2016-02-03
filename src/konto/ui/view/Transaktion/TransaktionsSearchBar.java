@@ -1,4 +1,4 @@
-package konto.view.Transaktion;
+package konto.ui.view.Transaktion;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

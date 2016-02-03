@@ -1,4 +1,4 @@
-package konto;
+package konto.ui;
 
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;

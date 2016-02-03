@@ -1,4 +1,4 @@
-package konto.view.Transaktion;
+package konto.ui.view.Transaktion;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 
-import konto.model.Transaktion;
+import konto.data.model.Transaktion;
 
 public class TransaktionsContainer extends IndexedContainer {
 

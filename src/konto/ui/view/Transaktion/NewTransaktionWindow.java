@@ -1,4 +1,4 @@
-package konto.view.Transaktion;
+package konto.ui.view.Transaktion;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
