@@ -1,3 +1,12 @@
+## 2016-01-08
+- starting this year with a cleanup in my DBCommunicator
+-- connection will be opened only once
+-- created new closeConnection function
+
+## 2015-12-14
+- linked GUI with DB
+- performed first tests -> data could be loaded from DB
+
 ## 2015-12-04
 - fixed project setup
 - Project is now running vaadin

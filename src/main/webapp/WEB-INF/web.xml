@@ -11,7 +11,7 @@
         <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
     <init-param>
         <param-name>UI</param-name>
-        <param-value>konto.MainApp</param-value>
+        <param-value>konto.ui.MainApp</param-value>
     </init-param>
     </servlet>
     <servlet-mapping>
