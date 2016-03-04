@@ -1,11 +1,19 @@
 package konto.ui.view.Transaktion;
 
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
+
+import konto.data.model.Transaktion;
+
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -21,7 +29,7 @@ public class NewTransaktionWindow extends Window{
     // Layout stuff
     GridLayout gridView = new GridLayout(2, 6);
     
-    public NewTransaktionWindow() {
+    public NewTransaktionWindow(TransaktionsContainer container) {
 	buildGrid();
 		
 	this.setContent(gridView);
@@ -34,7 +42,25 @@ public class NewTransaktionWindow extends Window{
 
 	    @Override
 	    public void buttonClick(ClickEvent event) {
-		validateInput();
+		
+		if(validateInput()) {
+		    if (container != null) {
+			try {
+			    Transaktion transaktion = new Transaktion(getTransaktionsDate(), 
+			    					Double.parseDouble(transaktionsBetrag.getValue()), 
+			    					transaktionsText.getValue());
+			    
+			    container.addTransaktion(transaktion);
+			} catch (NumberFormatException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			} catch (NoSuchAlgorithmException e) {
+			    // TODO Auto-generated catch block
+			    e.printStackTrace();
+			}
+			
+		    }
+		}
 	    }
 	});
 
@@ -57,7 +83,8 @@ public class NewTransaktionWindow extends Window{
     /**
      * Function to check if the input is sane
      */
-    private void validateInput() {
+    private boolean validateInput() {
+	boolean valid = false;
 	try {
 	    if (transaktionsText == null | transaktionsText.getValue() == "") {
 		transaktionsText.focus();
@@ -76,8 +103,23 @@ public class NewTransaktionWindow extends Window{
 		transaktionsType.focus();
 		throw new NullPointerException("TransaktionsType fehlt");
 	    }
+	    else {
+		valid = true;
+	    }
 	} catch (NullPointerException e) {
 	    System.out.println("NewTransaktionWindow - " + e);
 	}
+	return valid;
     }
+    
+    public LocalDate getTransaktionsDate() {
+	LocalDate returnDate;
+	if (transaktionsDatum.getValue() == null) {
+	    returnDate = LocalDate.now();
+	} else {
+	    returnDate = LocalDateTime.ofInstant(transaktionsDatum.getValue().toInstant(), ZoneId.systemDefault()).toLocalDate();
+	}
+	return returnDate;
+    }
+
 }

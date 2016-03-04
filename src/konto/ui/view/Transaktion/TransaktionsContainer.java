@@ -35,4 +35,18 @@ public class TransaktionsContainer extends IndexedContainer {
 	    }
 	}
     }
+    
+    
+    @SuppressWarnings("unchecked")
+    public void addTransaktion(Transaktion transaktion) {
+	Object id = addItem();
+	Item item = getItem(id);
+	if (item != null) {
+	    item.getItemProperty("ID").setValue(transaktion.getTransaktionsId());
+	    item.getItemProperty("Text").setValue(transaktion.getTransaktionsText());
+	    item.getItemProperty("Betrag").setValue(transaktion.getTransaktionsBetrag());
+	    item.getItemProperty("Datum").setValue(transaktion.getTransaktionsDate());
+	    item.getItemProperty("Hash").setValue(transaktion.getTransaktionsHash());
+	}
+    }
 }

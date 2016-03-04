@@ -27,6 +27,10 @@ public class TransaktionsSearchBar extends HorizontalLayout {
     public Button searchBtn = new Button("Search");
 
     public TransaktionsSearchBar() {
+	
+	// add style
+	this.addStyleName("searchbar");
+	
 	// set date format to 2015-04-29
 	fromDate.setDateFormat(format);
 	toDate.setDateFormat(format);
@@ -39,6 +43,7 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	this.addComponent(toDate);
 	this.addComponent(searchBtn);
 	this.setComponentAlignment(searchBtn, Alignment.BOTTOM_RIGHT);
+	
     }
 
     public LocalDate getFromDate() {

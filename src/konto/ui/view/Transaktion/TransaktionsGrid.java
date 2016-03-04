@@ -1,27 +1,24 @@
 package konto.ui.view.Transaktion;
 
-import java.time.LocalDate;
-
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.GeneratedPropertyContainer;
 import com.vaadin.data.util.PropertyValueGenerator;
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.renderers.ButtonRenderer;
-
-import konto.data.model.Transaktion;
+import com.vaadin.ui.renderers.ClickableRenderer;
 
 public class TransaktionsGrid extends Grid {
 
-    /**
-     * this time i will try to use a grid
-     */
-    public TransaktionsGrid() {
-
-    }
+    private static final long serialVersionUID = 1L;
 
     public TransaktionsGrid(Container.Indexed indexed) {
+	
+	// add style
+	this.addStyleName("transaktionsGrid");
+	this.setWidth(1000, Unit.PIXELS);
+	
+	
 	// create a wrapper container
 	GeneratedPropertyContainer wrapperContainer = new GeneratedPropertyContainer(indexed);
 	wrapperContainer.removeContainerProperty("id");
@@ -38,11 +35,16 @@ public class TransaktionsGrid extends Grid {
 	    }
 	});
 	// add renderer for delete column
-	getColumn("delete").setRenderer(new ButtonRenderer(event -> {
+	ButtonRenderer deleteBtn = new ButtonRenderer(event -> {
 	    Object itemId = event.getItemId();
 	    indexed.removeItem(itemId);
-	}));
+	});
+	
+		
+	getColumn("delete").setRenderer(deleteBtn);
 	getColumns().stream().forEach(c -> c.setSortable(false));
+	
+	
     }
 
 }

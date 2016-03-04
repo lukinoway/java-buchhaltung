@@ -4,7 +4,10 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import org.vaadin.teemu.VaadinIcons;
+
 import com.vaadin.ui.Button;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
@@ -21,22 +24,22 @@ import konto.data.model.Transaktion;
 public class TransaktionsMainView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
-    ITransaktion transaktion = new TransaktionDBUtil();
-    TransaktionsGrid transaktionsgrid = new TransaktionsGrid();
+//    ITransaktion transaktion = new TransaktionDBUtil();
+    TransaktionsGrid transaktionsgrid;
     TransaktionsSearchBar searchBar = new TransaktionsSearchBar();
-    TransaktionsContainer indexed;
+    
+    private TransaktionsContainer container;
 
     public TransaktionsMainView() {
-	this.addComponent(searchBar);
-	this.addComponent(transaktionsgrid);
 	
 	// create test data
 	createTestData();
 	
 	// set data
+	this.setWidth(100, Unit.PERCENTAGE);
 	
-
-	transaktionsgrid.setWidth(100, Unit.PERCENTAGE);
+	transaktionsgrid = new TransaktionsGrid(container);
+	
 	searchBar.setWidth(100, Unit.PERCENTAGE);
 	searchBar.searchBtn.addClickListener(new Button.ClickListener() {
 
@@ -50,15 +53,42 @@ public class TransaktionsMainView extends VerticalLayout {
 		System.out.println("ButtonClick - von: " + fromDate);
 		System.out.println("ButtonClick - bis: " + toDate);
 
-		TransaktionsContainer test = new TransaktionsContainer(
-			transaktion.selectDataByDate(fromDate, toDate, 1));
+//		TransaktionsContainer test = new TransaktionsContainer(
+//			transaktion.selectDataByDate(fromDate, toDate, 1));
 		System.out.println("ButtonClick - back from dbUtil");
-		transaktionsgrid = new TransaktionsGrid(test);
 		transaktionsgrid.setWidth(100, Unit.PERCENTAGE);
 	    }
 	});
 	
-	transaktionsgrid = new TransaktionsGrid(indexed);
+	this.addComponent(searchBar);
+	this.addComponent(transaktionsgrid);
+	
+	
+	// add new Button
+	Button addTransaktionBtn = new Button();
+	addTransaktionBtn.addClickListener(new Button.ClickListener() {
+
+	    private static final long serialVersionUID = 1L;
+
+	    @Override
+	    public void buttonClick(ClickEvent event) {
+		NewTransaktionWindow w = new NewTransaktionWindow(container);
+		UI.getCurrent().addWindow(w);
+		w.focus();
+	    }
+	});
+	
+	this.addComponent(addTransaktionBtn);
+	addTransaktionBtn.setIcon(VaadinIcons.PLUS_CIRCLE);
+	addTransaktionBtn.setStyleName("addButton");
+
+	try {
+	    container.addTransaktion(new Transaktion(LocalDate.now(), 60.0, "text5"));
+	} catch (NoSuchAlgorithmException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	
     }
     
     private void createTestData() {
@@ -69,7 +99,7 @@ public class TransaktionsMainView extends VerticalLayout {
 		    collector.add(new Transaktion(LocalDate.now(), 30.0, "text2"));
 		    collector.add(new Transaktion(LocalDate.now(), 40.0, "text3"));
 		    collector.add(new Transaktion(LocalDate.now(), 50.0, "text4"));
-	    indexed = new TransaktionsContainer(collector);
+	    container = new TransaktionsContainer(collector);
 	} catch (NoSuchAlgorithmException e) { 
 	    e.printStackTrace();
 	}
