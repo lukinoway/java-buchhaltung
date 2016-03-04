@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.vaadin.teemu.VaadinIcons;
 
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -40,25 +41,6 @@ public class TransaktionsMainView extends VerticalLayout {
 	
 	transaktionsgrid = new TransaktionsGrid(container);
 	
-	searchBar.setWidth(100, Unit.PERCENTAGE);
-	searchBar.searchBtn.addClickListener(new Button.ClickListener() {
-
-	    private static final long serialVersionUID = 1L;
-
-	    @Override
-	    public void buttonClick(ClickEvent event) {
-		LocalDate fromDate = searchBar.getFromDate();
-		LocalDate toDate = searchBar.getToDate();
-
-		System.out.println("ButtonClick - von: " + fromDate);
-		System.out.println("ButtonClick - bis: " + toDate);
-
-//		TransaktionsContainer test = new TransaktionsContainer(
-//			transaktion.selectDataByDate(fromDate, toDate, 1));
-		System.out.println("ButtonClick - back from dbUtil");
-		transaktionsgrid.setWidth(100, Unit.PERCENTAGE);
-	    }
-	});
 	
 	this.addComponent(searchBar);
 	this.addComponent(transaktionsgrid);
@@ -79,18 +61,15 @@ public class TransaktionsMainView extends VerticalLayout {
 	});
 	
 	this.addComponent(addTransaktionBtn);
+	this.setComponentAlignment(addTransaktionBtn, Alignment.BOTTOM_CENTER);
 	addTransaktionBtn.setIcon(VaadinIcons.PLUS_CIRCLE);
 	addTransaktionBtn.setStyleName("addButton");
 
-	try {
-	    container.addTransaktion(new Transaktion(LocalDate.now(), 60.0, "text5"));
-	} catch (NoSuchAlgorithmException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
-	
     }
     
+    /**
+     * Create some test data
+     */
     private void createTestData() {
 	try {
 	    ArrayList<Transaktion> collector = new ArrayList<Transaktion>();

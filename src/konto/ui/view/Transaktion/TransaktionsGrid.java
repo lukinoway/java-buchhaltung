@@ -4,6 +4,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.GeneratedPropertyContainer;
 import com.vaadin.data.util.PropertyValueGenerator;
+import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.ButtonRenderer;
 import com.vaadin.ui.renderers.ClickableRenderer;
@@ -17,6 +18,10 @@ public class TransaktionsGrid extends Grid {
 	// add style
 	this.addStyleName("transaktionsGrid");
 	this.setWidth(1000, Unit.PIXELS);
+	
+	this.setHeightMode(HeightMode.ROW);
+	
+	//this.setHeightByRows(20);
 	
 	
 	// create a wrapper container

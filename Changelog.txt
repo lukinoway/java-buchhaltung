@@ -1,3 +1,11 @@
+## 2016-03-04
+- several changes in GUI
+- added VaadinIcon addon
+- added KeyListner for new Transaktion window
+- improved sidebar
+- still need more time to style everything
+
+
 ## 2016-01-08
 - starting this year with a cleanup in my DBCommunicator
 -- connection will be opened only once

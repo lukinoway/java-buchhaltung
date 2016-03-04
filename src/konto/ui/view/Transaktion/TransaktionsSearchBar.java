@@ -8,12 +8,15 @@ import java.util.Date;
 
 import javax.swing.text.DateFormatter;
 
+import org.vaadin.teemu.VaadinIcons;
+
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.Button.ClickEvent;
 
 public class TransaktionsSearchBar extends HorizontalLayout {
 
@@ -24,12 +27,13 @@ public class TransaktionsSearchBar extends HorizontalLayout {
     TextField kontoNr = new TextField("Konto ID");
     DateField fromDate = new DateField("Von");
     DateField toDate = new DateField("Bis");
-    public Button searchBtn = new Button("Search");
+    public Button searchBtn = new Button("Suche");
 
     public TransaktionsSearchBar() {
 	
 	// add style
 	this.addStyleName("searchbar");
+	this.setWidth(1000, Unit.PIXELS);
 	
 	// set date format to 2015-04-29
 	fromDate.setDateFormat(format);
@@ -38,11 +42,33 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	nameLbl.setStyleName("h2");
 
 	this.addComponent(nameLbl);
+	this.setComponentAlignment(nameLbl, Alignment.TOP_LEFT);
 	this.addComponent(kontoNr);
 	this.addComponent(fromDate);
 	this.addComponent(toDate);
 	this.addComponent(searchBtn);
-	this.setComponentAlignment(searchBtn, Alignment.BOTTOM_RIGHT);
+	this.setComponentAlignment(searchBtn, Alignment.MIDDLE_RIGHT);
+	searchBtn.setIcon(VaadinIcons.SEARCH);
+	
+	
+	// searchbutton
+	searchBtn.addClickListener(new Button.ClickListener() {
+
+	    private static final long serialVersionUID = 1L;
+
+	    @Override
+	    public void buttonClick(ClickEvent event) {
+		LocalDate fromDate = getFromDate();
+		LocalDate toDate = getToDate();
+
+		System.out.println("ButtonClick - von: " + fromDate);
+		System.out.println("ButtonClick - bis: " + toDate);
+
+//		TransaktionsContainer test = new TransaktionsContainer(
+//			transaktion.selectDataByDate(fromDate, toDate, 1));
+		System.out.println("ButtonClick - back from dbUtil");
+	    }
+	});
 	
     }
 
