@@ -1,120 +1,79 @@
 package konto.data.DBUtil;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.sql.Date;
 
+import konto.data.model.Category;
+import konto.data.model.Konto;
 import konto.data.model.Transaktion;
+import konto.ui.view.Transaktion.TransaktionsContainer;
 
 public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 
-    ResultSet resSet = null;
-
-    /**
-     * Insert new transaktion in DB
-     * 
-     * @param transaktion
-     */
-    public TransaktionDBUtil() {
-	super();
-    }
-
-    /**
-     * method to insert new transaktion
-     */
-    public void insertTransaktion(Transaktion transaktion) {
-	try {
-	    insertData("db_transaktion",
-		    transaktion.getTransaktionsDate() + ", " + transaktion.getTransaktionsBetrag() + ", "
-			    + transaktion.getTransaktionsText() + ", " + transaktion.getTransaktionsId() + ", "
-			    + transaktion.getTransaktionsHash(),
-		    "transaktions_datum, transaktions_betrag, transaktions_text, konto_id, transaktions_hash");
-	} catch (Exception e) {
-	    System.out.println("Hier lief was schief - insertTransaktion");
-	    e.printStackTrace();
-	} finally {
-	    super.close();
+	private static final long serialVersionUID = 1L;
+	private ResultSet resSet = null;
+	private PreparedStatement pStmt = null;
+	
+	public TransaktionDBUtil() {
+		super();
 	}
-    }
 
-    public void updateTransaktion(Transaktion transaktion) {
-	// TODO Auto-generated method stub
-
-    }
-
-    /**
-     * method to delete transaktion from DB
-     */
-
-    public void deleteTransaktion(Transaktion transaktion) {
-	try {
-	    deleteData("db_transaktion", "where transaktions_id =" + transaktion.getTransaktionsId());
-	} catch (Exception e) {
-	    System.out.println("hier lief was schief - deleteTransaktion");
-	    e.printStackTrace();
-	} finally {
-	    super.close();
+	@Override
+	public void createTransaktion(Transaktion transaktion) {
+		try {
+			String pSql = "insert into db_transaktion(transaktions_date, transaktions_betrag, transaktions_type, konto_id, transaktion_hash) values(?, ?, ?, ?, ?)";
+			pStmt = connect.prepareStatement((pSql), Statement.RETURN_GENERATED_KEYS);
+			pStmt.setdate(1,(Date)transaktion.getTransaktionsDate());
+			pStmt.setDouble(2, transaktion.getTransaktionsBetrag());
+			pStmt.setInt(3, transaktion.getTypeId());
+			pStmt.setInt(4, transaktion.getKontoId());
+			pStmt.setString(5, transaktion.getTransaktionsHash());
+			pStmt.executeUpdate();
+			
+			resSet = pStmt.getGeneratedKeys();
+			resSet.next();
+			
+			transaktion.setTransaktionsId(resSet.getInt(1));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
 	}
-    }
 
-    /**
-     * Method to get Data by Date
-     */
-    public ArrayList<Transaktion> selectDataByDate(LocalDate begin, LocalDate end, int kontoId) {
-	// Build new array
-	ArrayList<Transaktion> transaktionsCollector = new ArrayList<Transaktion>();
-
-	System.out.println("Start Date: " + begin.toString());
-	System.out.println("End Date:   " + end.toString());
-	System.out.println("Konto ID:	" + kontoId);
-	try {
-	    this.resSet = getData("db_transaktion",
-		    "transaktions_id, transaktions_datum, transaktions_betrag, transaktions_text, transaktions_hash",
-		    "where konto_id = " + kontoId + " and transaktions_datum between \"" + begin.toString()
-			    + "\" and \"" + end.toString() + "\"");
-
-	    // read resultSet
-	    while (this.resSet.next()) {
-
-		int tr_id = this.resSet.getInt("transaktions_id");
-		String tr_date = this.resSet.getString("transaktions_datum");
-		double betrag = this.resSet.getDouble("transaktions_betrag");
-		String tr_text = this.resSet.getString("transaktions_text");
-		String tr_hash = this.resSet.getString("transaktions_hash");
-
-		transaktionsCollector.add(new Transaktion(tr_id, LocalDate.parse(tr_date), betrag, tr_text, tr_hash));
-	    }
-
-	    if (this.resSet != null) {
-		this.resSet.close();
-	    }
-	} catch (NullPointerException e) {
-	    System.out.println("Es konnten keine Daten gefunden werden");
-	} catch (Exception e) {
-	    e.printStackTrace();
-	} finally {
-	    super.close();
+	@Override
+	public void updateTransaktion(Transaktion transaktion) {
+		// TODO Auto-generated method stub
+		
 	}
-	return transaktionsCollector;
-    }
 
-    /**
-     * Method to get Data by Type
-     */
-    public ArrayList<Transaktion> selectDataByType(int kontoId, int transaktionsType) {
-	// TODO Auto-generated method stub
-	return null;
-    }
+	@Override
+	public void deleteTransaktion(Transaktion transaktion) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    public ArrayList<Transaktion> selectDataByTimeType(LocalDate begin, LocalDate end, int kontoId,
-	    int transaktionsType) {
-	// TODO Auto-generated method stub
-	return null;
-    }
-    
-    // Close everything
-    public void close() {
-	super.close();
-	super.closeConnection();
-    }
+	@Override
+	public TransaktionsContainer selectDataByDate(LocalDate begin, LocalDate end, Konto konto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TransaktionsContainer selectDataByType(Konto konto, Category category) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TransaktionsContainer selectDataByTimeType(LocalDate begin, LocalDate end, Konto konto, Category category) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

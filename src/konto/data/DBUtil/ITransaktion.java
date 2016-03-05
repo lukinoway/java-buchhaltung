@@ -1,9 +1,11 @@
 package konto.data.DBUtil;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
+import konto.data.model.Category;
+import konto.data.model.Konto;
 import konto.data.model.Transaktion;
+import konto.ui.view.Transaktion.TransaktionsContainer;
 
 /**
  * Author: lukinoway Function Interface which should be used for Transaktion
@@ -11,18 +13,17 @@ import konto.data.model.Transaktion;
  */
 public interface ITransaktion {
 
-    public void insertTransaktion(Transaktion transaktion);
+    public void createTransaktion(Transaktion transaktion);
 
     public void updateTransaktion(Transaktion transaktion);
 
     public void deleteTransaktion(Transaktion transaktion);
 
-    public ArrayList<Transaktion> selectDataByDate(LocalDate begin, LocalDate end, int kontoId);
+    public TransaktionsContainer selectDataByDate(LocalDate begin, LocalDate end, Konto konto);
 
-    public ArrayList<Transaktion> selectDataByType(int kontoId, int transaktionsType);
+    public TransaktionsContainer selectDataByType(Konto konto, Category category);
 
-    public ArrayList<Transaktion> selectDataByTimeType(LocalDate begin, LocalDate end, int kontoId,
-	    int transaktionsType);
+    public TransaktionsContainer selectDataByTimeType(LocalDate begin, LocalDate end, Konto konto,
+	    Category category);
 
-    public void close();
 }

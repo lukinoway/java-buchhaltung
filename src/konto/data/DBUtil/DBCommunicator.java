@@ -1,5 +1,6 @@
 package konto.data.DBUtil;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,20 +13,22 @@ import java.sql.Statement;
  * @author lpichle
  *
  */
-public class DBCommunicator {
-    protected Connection connect = null;
-    protected Statement statement = null;
+public class DBCommunicator implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	static Connection connect = null;
+    private Statement statement = null;
     private PreparedStatement preparedStatement = null;
-    public ResultSet resultSet = null;
+    private ResultSet resultSet = null;
 
     // connection information
     String server_name = "192.168.1.248";
-    String db_user = "konto";
-    String db_pwd = "konto";
+    String db_user = "dev";
+    String db_pwd = "dev";
 
     DBCommunicator() {
-	// initialize connection
-	connectDB();
+		// initialize connection
+		connectDB();
     }
     
     public void connectDB() {
@@ -33,10 +36,10 @@ public class DBCommunicator {
 	    // check if connection is already open (increase overall performance)
 	    if (connect == null) {
 		// This will load the MySQL driver, each DB has its own driver
-		Class.forName("com.mysql.jdbc.Driver");
+		Class.forName("org.postgresql.Driver");
 		// Setup the connection with the DB
 		connect = DriverManager.getConnection(
-		    "jdbc:mysql://" + server_name + "/konto_app?" + "user=" + db_user + "&password=" + db_pwd);
+		    "jdbc:postgresql://" + server_name + "/db_home?" + "user=" + db_user + "&password=" + db_pwd);
 	    }
 	} catch (Exception e) {
 	    e.printStackTrace();
@@ -60,7 +63,6 @@ public class DBCommunicator {
 	    return resultSet;
 	} catch (Exception e) {
 	    throw e;
-	} finally {
 	}
     }
 
@@ -81,8 +83,7 @@ public class DBCommunicator {
 		    "insert into konto_app." + tableName + "( " + columnPart + " ) values( " + valuePart + " )");
 	} catch (Exception e) {
 	    throw e;
-	} finally {
-	}
+	} 
     }
 
     public ResultSet insertDataPrepared(String tableName, String valuePart, String columnPart) throws Exception {
@@ -96,8 +97,7 @@ public class DBCommunicator {
 	    return resultSet;
 	} catch (Exception e) {
 	    throw e;
-	} finally {
-	}
+	} 
     }
 
     /**
@@ -115,7 +115,6 @@ public class DBCommunicator {
 	    statement.executeUpdate("update konto_app." + tableName + " set " + setPart + " where " + wherePart);
 	} catch (Exception e) {
 	    throw e;
-	} finally {
 	}
     }
 
@@ -133,7 +132,6 @@ public class DBCommunicator {
 	    statement.executeUpdate("delete from konto_app." + tableName + " where " + wherePart);
 	} catch (Exception e) {
 	    throw e;
-	} finally {
 	}
     }
     

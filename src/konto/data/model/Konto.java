@@ -1,46 +1,53 @@
 package konto.data.model;
 
-import java.security.NoSuchAlgorithmException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-
 public class Konto {
 
+	private int kontoId;
     private String kontonr;
     private String kontoname;
-    public ArrayList<Transaktion> transaktion;
+    private int userId;
 
-    Konto() {
-	this(null, null);
+    public Konto(String knr, String kname, int user) {
+    	this.kontoId = 0;
+		this.kontonr = knr;
+		this.kontoname = kname;
+		this.userId = user;
     }
-
-    public Konto(String knr, String kname) {
-	this.kontonr = knr;
-	this.kontoname = kname;
-	this.transaktion = new ArrayList<Transaktion>();
+    
+    public Konto(int kontoId, String knr, String kname, int user) {
+    	this.kontoId = kontoId;
+		this.kontonr = knr;
+		this.kontoname = kname;
+		this.userId = user;
     }
+    
 
-    public String getKontoNr() {
-	return this.kontonr;
+    public int getKontoId() {
+		return kontoId;
+	}
+
+	public void setKontoId(int kontoId) {
+		this.kontoId = kontoId;
+	}
+
+	public String getKontoNr() {
+    	return this.kontonr;
     }
 
     public String getKontoName() {
-	return this.kontoname;
-    }
-
-    public void createTransaktion(String text, String Datum1, String Datum2, String betrag, String Waehrung)
-	    throws NoSuchAlgorithmException {
-	// convert date to LocalDate
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-	LocalDate trdate = LocalDate.parse(Datum1, formatter);
-
-	this.transaktion.add(new Transaktion(trdate, Double.parseDouble(betrag), text));
+    	return this.kontoname;
     }
 
     public void setKontoNr(String knr) {
-	this.kontonr = knr;
-
+    	this.kontonr = knr;
     }
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
 }

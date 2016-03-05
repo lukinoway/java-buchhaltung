@@ -28,11 +28,11 @@ public class RechnungsDBUtil extends DBCommunicator implements IRechnung {
 	try {
 	    int trd_nr = 0;
 	    System.out.println("tr_id = " + tr_id);
-	    this.resultSet = getData("db_transaktion_detail", "max(transaktions_detail_nr) as anzahl",
+	    this.resSet = getData("db_transaktion_detail", "max(transaktions_detail_nr) as anzahl",
 		    "where transaktions_id = " + tr_id);
 	    // set new detail_nr
-	    while (this.resultSet.next()) {
-		trd_nr = this.resultSet.getInt("anzahl");
+	    while (this.resSet.next()) {
+		trd_nr = this.resSet.getInt("anzahl");
 	    }
 
 	    // increase trd_nr by 1
@@ -169,7 +169,7 @@ public class RechnungsDBUtil extends DBCommunicator implements IRechnung {
 	ArrayList<Rechnung> rechnungsCollector = new ArrayList<Rechnung>();
 	try {
 	    this.resSet = getData("db_transaktion_rechnung",
-		    "transaktions_anhang_id, created, transaktions_anhang_text",
+		    "transaktions_anhang_id, created, transaktions_anhang_text",	
 		    "where transaktions_detail_id IS null and transaktions_id IS null");
 
 	    // fill table

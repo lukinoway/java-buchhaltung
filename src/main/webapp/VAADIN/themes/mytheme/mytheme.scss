@@ -54,6 +54,21 @@
 		color: blue;
 	}
 	
+	.v-panel-caption {
+		font-weight: bold;
+		font-size: 24px;
+		//background-color: #3366cc;
+	}
+	
+	.v-panel-content {
+		padding: 20px;
+		background-color: #666666;
+		color: white;
+		font-weight: bold;
+		//font-size: 26px;
+	
+	}
+	
 	.addButton {
 		height: 60px;
 		width: 60px;
@@ -119,6 +134,12 @@
 	.sidebar {
 		background-color: #7B7B7B;
 		padding: 10px;
+	}
+	
+	.userLabel {
+		font-size: 30px
+		color: black;
+		font-weight: bold;
 	}
 	
 	.transaktionsGrid {

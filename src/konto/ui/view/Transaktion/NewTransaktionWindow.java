@@ -89,7 +89,7 @@ public class NewTransaktionWindow extends Window{
 		});
 		
 		// close window on ESC
-		this.addShortcutListener(new ShortcutListener("enter Transaktion", ShortcutAction.KeyCode.ESCAPE, null) {
+		this.addShortcutListener(new ShortcutListener("ESC Transaktion", ShortcutAction.KeyCode.ESCAPE, null) {
 			
 			private static final long serialVersionUID = 1L;
 

@@ -87,15 +87,15 @@ public class TransaktionDetailDBUtil extends DBCommunicator implements ITransakt
     public String downloadBill(int trd_id) {
 	String filepath = null;
 	try {
-	    this.resultSet = getData("db_transaktion_rechnung",
+	    this.resSet = getData("db_transaktion_rechnung",
 		    "transaktions_anhang_id, transaktions_anhang_filetype, transaktions_anhang",
 		    "where transaktions_detail_id =" + trd_id);
 
-	    this.resultSet.next();
+	    this.resSet.next();
 
-	    int tra_id = this.resultSet.getInt(1);
-	    String fileext = this.resultSet.getString(2);
-	    Blob blob = this.resultSet.getBlob(3);
+	    int tra_id = this.resSet.getInt(1);
+	    String fileext = this.resSet.getString(2);
+	    Blob blob = this.resSet.getBlob(3);
 
 	    String filename = "Rechnung_" + tra_id + "_" + trd_id;
 

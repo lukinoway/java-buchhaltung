@@ -54,9 +54,9 @@ public class TransaktionsMainView extends VerticalLayout {
 
 	    @Override
 	    public void buttonClick(ClickEvent event) {
-		NewTransaktionWindow w = new NewTransaktionWindow(container);
-		UI.getCurrent().addWindow(w);
-		w.focus();
+			NewTransaktionWindow w = new NewTransaktionWindow(container);
+			UI.getCurrent().addWindow(w);
+			w.focus();
 	    }
 	});
 	
@@ -74,10 +74,10 @@ public class TransaktionsMainView extends VerticalLayout {
 	try {
 	    ArrayList<Transaktion> collector = new ArrayList<Transaktion>();
 		    
-		    collector.add(new Transaktion(LocalDate.now(), 20.0, "text1"));
-		    collector.add(new Transaktion(LocalDate.now(), 30.0, "text2"));
-		    collector.add(new Transaktion(LocalDate.now(), 40.0, "text3"));
-		    collector.add(new Transaktion(LocalDate.now(), 50.0, "text4"));
+		    collector.add(new Transaktion(LocalDate.now(), 20.0, "text1", 0, 0));
+		    collector.add(new Transaktion(LocalDate.now(), 30.0, "text2", 0, 0));
+		    collector.add(new Transaktion(LocalDate.now(), 40.0, "text3", 0, 0));
+		    collector.add(new Transaktion(LocalDate.now(), 50.0, "text4", 0, 0));
 	    container = new TransaktionsContainer(collector);
 	} catch (NoSuchAlgorithmException e) { 
 	    e.printStackTrace();

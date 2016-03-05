@@ -16,7 +16,8 @@ public class SideBar extends HorizontalLayout {
 	VerticalLayout functionView = new VerticalLayout();
 	
     private static final long serialVersionUID = 1L;
-    Label header = new Label("KontoAPP");
+    Label header = new Label("HomeApp");
+    Label currentUser = new Label("");
     ViewMenu menu = new ViewMenu();
     Button expanderBtn = new Button();
     
@@ -31,10 +32,19 @@ public class SideBar extends HorizontalLayout {
     	
 		header.setStyleName("h1");
 		main.addComponent(header);
+		
+		// show User name:
+		main.addComponent(currentUser);
+		main.setComponentAlignment(currentUser, Alignment.TOP_LEFT);
+		currentUser.setStyleName("userLabel");
+		
 		main.addComponent(menu);
 		main.setWidth(200, Unit.PIXELS);
+		main.setComponentAlignment(menu, Alignment.TOP_LEFT);
 		
 		setHeight(100, Unit.PERCENTAGE);
+		
+
 		
 		
 		expanderBtn.setIcon(VaadinIcons.BACKWARDS);
@@ -50,9 +60,9 @@ public class SideBar extends HorizontalLayout {
 		});
 		
 		functionView.addComponent(expanderBtn);
-		//functionView.setWidth(30, Unit.PIXELS);
+		functionView.setWidth(50, Unit.PIXELS);
 		functionView.setHeight(100, Unit.PERCENTAGE);
-		functionView.setComponentAlignment(expanderBtn, Alignment.MIDDLE_CENTER);
+		functionView.setComponentAlignment(expanderBtn, Alignment.MIDDLE_RIGHT);
 		
 		addStyleName("sidebar");
 		
@@ -73,6 +83,11 @@ public class SideBar extends HorizontalLayout {
     		expanderBtn.setIcon(VaadinIcons.BACKWARDS);
     		expanded = true;
     	}
+    }
+    
+    
+    public void changeUserLabel(String userName) {
+    	currentUser.setValue("USER: " + userName);
     }
 
 }

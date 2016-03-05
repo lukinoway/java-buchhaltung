@@ -7,7 +7,6 @@ import com.vaadin.data.util.PropertyValueGenerator;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.ButtonRenderer;
-import com.vaadin.ui.renderers.ClickableRenderer;
 
 public class TransaktionsGrid extends Grid {
 
@@ -26,10 +25,14 @@ public class TransaktionsGrid extends Grid {
 	
 	// create a wrapper container
 	GeneratedPropertyContainer wrapperContainer = new GeneratedPropertyContainer(indexed);
-	wrapperContainer.removeContainerProperty("id");
+	wrapperContainer.removeContainerProperty("ID");
+	wrapperContainer.removeContainerProperty("Hash");
 	setContainerDataSource(wrapperContainer);
 	wrapperContainer.addGeneratedProperty("delete", new PropertyValueGenerator<String>() {
-	    @Override
+
+		private static final long serialVersionUID = 1L;
+
+		@Override
 	    public String getValue(Item item, Object itemId, Object propertyID) {
 		return "Delete";
 	    }

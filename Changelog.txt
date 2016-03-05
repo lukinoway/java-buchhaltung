@@ -1,3 +1,10 @@
+## 2016-03-05
+- major progress in project
+- implemented DB connection to postgreSQL DB
+- added konto / user / kategorie views
+- added login mask
+- transaktion need some fixes
+
 ## 2016-03-04
 - several changes in GUI
 - added VaadinIcon addon

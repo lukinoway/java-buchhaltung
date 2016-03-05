@@ -37,7 +37,7 @@ public class ParseCSV {
 	    // do some preparation on betrag string
 	    data[4] = data[4].replace(".", "");
 	    data[4] = data[4].replace(",", ".");
-	    kn.createTransaktion(data[1], data[2], data[3], data[4], data[5]);
+	    //kn.createTransaktion(data[1], data[2], data[3], data[4], data[5]);
 	}
     }
 }
