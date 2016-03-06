@@ -25,9 +25,9 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	@Override
 	public void createTransaktion(Transaktion transaktion) {
 		try {
-			String pSql = "insert into db_transaktion(transaktions_date, transaktions_betrag, transaktions_type, konto_id, transaktion_hash) values(?, ?, ?, ?, ?)";
+			String pSql = "insert into db_transaktion(transaktions_date, transaktions_betrag, transaktions_type, konto_id, transaktion_hash) values(now()::date, ?, ?, ?, ?)";
 			pStmt = connect.prepareStatement((pSql), Statement.RETURN_GENERATED_KEYS);
-			pStmt.setdate(1,(Date)transaktion.getTransaktionsDate());
+			//pStmt.setdate(1,(Date)transaktion.getTransaktionsDate());
 			pStmt.setDouble(2, transaktion.getTransaktionsBetrag());
 			pStmt.setInt(3, transaktion.getTypeId());
 			pStmt.setInt(4, transaktion.getKontoId());

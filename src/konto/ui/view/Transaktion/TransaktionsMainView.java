@@ -14,6 +14,7 @@ import com.vaadin.ui.Button.ClickEvent;
 
 import konto.data.DBUtil.ITransaktion;
 import konto.data.DBUtil.TransaktionDBUtil;
+import konto.data.model.LoginUser;
 import konto.data.model.Transaktion;
 
 /**
@@ -30,9 +31,13 @@ public class TransaktionsMainView extends VerticalLayout {
     TransaktionsSearchBar searchBar = new TransaktionsSearchBar();
     
     private TransaktionsContainer container;
+    
+    LoginUser user;
 
-    public TransaktionsMainView() {
+    public TransaktionsMainView(LoginUser user) {
 	
+    	this.user = user;
+    	
 	// create test data
 	createTestData();
 	
@@ -54,7 +59,7 @@ public class TransaktionsMainView extends VerticalLayout {
 
 	    @Override
 	    public void buttonClick(ClickEvent event) {
-			NewTransaktionWindow w = new NewTransaktionWindow(container);
+			NewTransaktionWindow w = new NewTransaktionWindow(container, user);
 			UI.getCurrent().addWindow(w);
 			w.focus();
 	    }

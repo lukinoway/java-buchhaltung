@@ -23,7 +23,7 @@ public class MainApp extends UI {
     LoginUser user = null;
     VerticalLayout shownView = new VerticalLayout();
     SideBar sideBar = new SideBar();
-    TransaktionsMainView transaktionsView = new TransaktionsMainView();
+    TransaktionsMainView transaktionsView;
     CategoryMainView categoryView = new CategoryMainView();
     private KontoMainView kontoView;
     private String currentView;
@@ -65,6 +65,14 @@ public class MainApp extends UI {
     public void buildMainView() {
         // show content only to valid users
         if (loginForm.isValidLogin()) {	
+        	
+    	    this.user = loginForm.getCurrentUser();
+    	    sideBar.changeUserLabel(user.getUserName());
+    	    
+    	    // need to wait for current User
+    	    kontoView = new KontoMainView(user);
+    	    transaktionsView = new TransaktionsMainView(user);
+        	
         	main.removeAllComponents();
         	main.setSizeUndefined();
         	
@@ -77,13 +85,7 @@ public class MainApp extends UI {
     		
     		setContent(main);
     	    main.setHeight(100, Unit.PERCENTAGE);
-    	    
-    	    this.user = loginForm.getCurrentUser();
-    	    sideBar.changeUserLabel(user.getUserName());
-    	    
-    	    // need to wait for current User
-    	    kontoView = new KontoMainView(user);
-    	    
+    	      
         }
     }
 

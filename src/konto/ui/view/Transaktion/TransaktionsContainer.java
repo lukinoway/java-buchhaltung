@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 
+import konto.data.DBUtil.ITransaktion;
+import konto.data.DBUtil.TransaktionDBUtil;
 import konto.data.model.Transaktion;
 
 public class TransaktionsContainer extends IndexedContainer {
 
 	private static final long serialVersionUID = 1L;
+	ITransaktion transaktionUtil = new TransaktionDBUtil();
 
 	/**
 	 * Transaktion Container to store the data
@@ -40,6 +43,11 @@ public class TransaktionsContainer extends IndexedContainer {
 
 	@SuppressWarnings("unchecked")
 	public void addTransaktion(Transaktion transaktion) {
+		
+		// create transaktion in DB
+		transaktionUtil.createTransaktion(transaktion);
+		
+		// add to list 
 		Object id = addItem();
 		Item item = getItem(id);
 		if (item != null) {

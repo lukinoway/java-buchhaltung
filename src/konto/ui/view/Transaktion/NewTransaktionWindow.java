@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
+import com.vaadin.data.Item;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.sass.internal.util.StringUtil;
@@ -15,11 +16,19 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Select;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 
+import konto.data.DBUtil.CategoryDBUtil;
+import konto.data.DBUtil.ICategory;
+import konto.data.DBUtil.IKonto;
+import konto.data.DBUtil.KontoDBUtil;
+import konto.data.model.LoginUser;
 import konto.data.model.Transaktion;
+import konto.ui.view.Category.CategoryContainer;
+import konto.ui.view.Konto.KontoContainer;
 
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -31,25 +40,36 @@ public class NewTransaktionWindow extends Window{
 	TextField transaktionsText = new TextField("Text");
     TextField transaktionsBetrag = new TextField("Betrag");
     DateField transaktionsDatum = new DateField("Datum");
+    ComboBox transaktionsKonto = new ComboBox("Konto");
     ComboBox transaktionsType = new ComboBox("Type");
     Button saveBtn = new Button("speichern");
     Button cancelBtn = new Button("abbrechen");
     
     TransaktionsContainer container;
     
-    // Layout stuff
-    GridLayout gridView = new GridLayout(2, 6);
+    IKonto kontoUtil = new KontoDBUtil();
+    ICategory categoryUtil = new CategoryDBUtil();
     
-    public NewTransaktionWindow(TransaktionsContainer container) {
+    LoginUser user;
+    
+    // Layout stuff
+    GridLayout gridView = new GridLayout(2, 7);
+    
+    public NewTransaktionWindow(TransaktionsContainer container, LoginUser user) {
 		
 		this.container = container;
 		this.setContent(gridView);
 		this.center();
 		this.setCaption("Neue Transaktion");
+		this.user = user;
 		
 		
 		// build grid
 		buildGrid();
+		
+		// load data to combobox:
+		fillKontoComboBox(user);
+		fillTypeComboBox();
 		
 		// add new entry
 		saveBtn.addClickListener(new ClickListener() {
@@ -111,10 +131,11 @@ public class NewTransaktionWindow extends Window{
 		
 		gridView.addComponent(transaktionsBetrag, 0, 1, 0, 1);
 		gridView.addComponent(transaktionsDatum, 0, 2, 0, 2);
-		gridView.addComponent(transaktionsType, 0, 3, 0, 3);
+		gridView.addComponent(transaktionsKonto, 0, 3, 1, 3);
+		gridView.addComponent(transaktionsType, 0, 4, 1, 4);
 		
-		gridView.addComponent(saveBtn, 0, 5, 0, 5);
-		gridView.addComponent(cancelBtn, 1, 5, 1, 5);
+		gridView.addComponent(saveBtn, 0, 6, 0, 6);
+		gridView.addComponent(cancelBtn, 1, 6, 1, 6);
 		gridView.setMargin(true);
     }
     
@@ -142,7 +163,11 @@ public class NewTransaktionWindow extends Window{
 		transaktionsDatum.focus();
 		throw new NullPointerException("TransaktionsDatum fehlt");
 	    }
-	    if (transaktionsType == null) {
+	    if (transaktionsKonto == null || transaktionsKonto.getValue() == null) {
+	    	transaktionsKonto.focus();
+	    	throw new NullPointerException("TransaktionsKonto fehlt");
+	    }
+	    if (transaktionsType == null || transaktionsType.getValue() == null) {
 		transaktionsType.focus();
 		throw new NullPointerException("TransaktionsType fehlt");
 	    }
@@ -173,22 +198,45 @@ public class NewTransaktionWindow extends Window{
     /**
      * Add data to datacontainer
      */
-    @SuppressWarnings("unused")
-	private void addData() {
+    private void addData() {
     	if(validateInput()) {
 	    	if (container != null) {
 		    	try {
 		    		Transaktion transaktion = new Transaktion(getTransaktionsDate(), 
 						Double.parseDouble(transaktionsBetrag.getValue()), 
-						transaktionsText.getValue());
+						transaktionsText.getValue(), 0, 0);
 		
-		    		container.addTransaktion(transaktion);
+		    		System.out.println("Konto: " + transaktionsKonto.getValue());
+		    		System.out.println("Type: " + transaktionsType.getValue());
+		    		//container.addTransaktion(transaktion.);
 		    		
 		    	} catch (Exception e) {
 		    		e.printStackTrace();
 		    	}
 	    	}
     	}
+    }
+    
+    
+    @SuppressWarnings({ "deprecation" })
+	public void fillKontoComboBox(LoginUser user) {
+    	KontoContainer kcontainer = kontoUtil.getKontoForUser(user);
+    	
+    	transaktionsKonto.setContainerDataSource(kcontainer);
+    	transaktionsKonto.setItemCaptionMode(Select.ITEM_CAPTION_MODE_PROPERTY);
+    	transaktionsKonto.setItemCaptionPropertyId("Beschreibung");
+    	transaktionsKonto.setNullSelectionAllowed(false);
+
+    }
+    
+    @SuppressWarnings("deprecation")
+	public void fillTypeComboBox() {
+    	CategoryContainer ccontainer = categoryUtil.getAllCategories();
+    	
+    	transaktionsType.setContainerDataSource(ccontainer);
+    	transaktionsType.setItemCaptionMode(Select.ITEM_CAPTION_MODE_PROPERTY);
+    	transaktionsType.setItemCaptionPropertyId("Text");
+    	transaktionsType.setNullSelectionAllowed(false);
     }
 
 }
