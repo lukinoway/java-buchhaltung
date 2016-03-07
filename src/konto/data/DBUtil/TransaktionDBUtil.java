@@ -30,7 +30,7 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
     public void createTransaktion(Transaktion transaktion) {
 	try {
 	    String pSql = "insert into db_transaktion "
-		    + "(transaktions_date, transaktions_betrag, transaktions_text, transaktions_type, konto_id, transaktions_hash) "
+		    + "(transaktion_date, transaktion_betrag, transaktion_text, transaktion_type, konto_id, transaktion_hash) "
 		    + "values(?, ?, ?, ?, ?, ?)";
 	    pStmt = connect.prepareStatement((pSql), Statement.RETURN_GENERATED_KEYS);
 	    pStmt.setDate(1, convertLocalDateToSqlDate(transaktion.getTransaktionsDate()));
@@ -62,7 +62,7 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
     @Override
     public void deleteTransaktion(Transaktion transaktion) {
 	try {
-	    String pSql = "delete from db_transaktion where transaktions_id = ?";
+	    String pSql = "delete from db_transaktion where transaktion_id = ?";
 	    pStmt = connect.prepareStatement(pSql);
 	    pStmt.setInt(1, transaktion.getTransaktionsId());
 	    pStmt.executeUpdate();
@@ -96,8 +96,8 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
     public TransaktionsContainer getAllTransaktionsForUser(LoginUser user) {
 	TransaktionsContainer data = null;
 	try {
-	    String pSql = "SELECT transaktions_id, transaktions_date, transaktions_betrag, transaktions_text, "
-		    + "transaktions_type, t.konto_id, transaktions_hash " + "FROM db_transaktion t "
+	    String pSql = "SELECT transaktion_id, transaktion_date, transaktion_betrag, transaktion_text, "
+		    + "transaktion_type, t.konto_id, transaktion_hash " + "FROM db_transaktion t "
 		    + "JOIN db_konto k on k.konto_id = t.konto_id " + "WHERE k.owner = ?";
 	    pStmt = connect.prepareStatement(pSql);
 	    pStmt.setInt(1, user.getUserId());
@@ -125,8 +125,8 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
     public TransaktionsContainer getTransaktionsForKonto(int kontoId) {
 	TransaktionsContainer data = null;
 	try {
-	    String pSql = "SELECT transaktions_id, transaktions_date, transaktions_betrag, transaktions_text, "
-		    + "transaktions_type, konto_id, transaktions_hash " + "FROM db_transaktion WHERE konto_id = ?";
+	    String pSql = "SELECT transaktion_id, transaktion_date, transaktion_betrag, transaktion_text, "
+		    + "transaktion_type, konto_id, transaktion_hash " + "FROM db_transaktion WHERE konto_id = ?";
 
 	    pStmt = connect.prepareStatement(pSql);
 	    pStmt.setInt(1, kontoId);
