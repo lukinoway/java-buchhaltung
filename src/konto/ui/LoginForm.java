@@ -33,7 +33,7 @@ public class LoginForm extends Panel {
 
     public LoginForm() {
 
-	this.setWidth(600, Unit.PIXELS);
+	this.setWidth(700, Unit.PIXELS);
 	this.setHeight(150, Unit.PIXELS);
 
 	main.setWidth(100, Unit.PERCENTAGE);
@@ -50,7 +50,6 @@ public class LoginForm extends Panel {
 
 	this.setContent(main);
 	this.setStyleName("light");
-
 	// action part
 	loginBtn.addClickListener(new ClickListener() {
 

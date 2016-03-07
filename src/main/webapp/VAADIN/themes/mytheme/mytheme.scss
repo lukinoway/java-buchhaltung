@@ -54,6 +54,12 @@
 		color: blue;
 	}
 	
+	.v-panel {
+		border: none;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    	text-align: center;
+	}
+	
 	.v-panel-caption {
 		font-weight: bold;
 		font-size: 24px;
@@ -137,7 +143,7 @@
 	}
 	
 	.userLabel {
-		font-size: 30px
+		font-size: 30px;
 		color: black;
 		font-weight: bold;
 	}
