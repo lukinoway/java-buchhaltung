@@ -191,6 +191,15 @@ public class NewTransaktionWindow extends Window {
 			    typeId);
 
 		    container.addTransaktion(transaktion);
+		    
+		    // reset window
+		    transaktionsText.setValue("");
+		    transaktionsBetrag.setValue("");
+		    transaktionsDatum.setValue(null);
+		    transaktionsKonto.setValue(null);
+		    transaktionsType.setValue(null);
+		    
+		    transaktionsText.focus();
 
 		} catch (Exception e) {
 		    e.printStackTrace();
