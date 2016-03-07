@@ -1,3 +1,15 @@
+## 2016-03-07
+- added "new user"-button to login mask
+- added user to session (SessionManager) -> need to import tomcat libaries
+- refactored some code parts
+- created new classes for comboboxes (category, konto)
+- creation and delete functions are working
+
+- ToDo
+-- load transaktion is not fully done (konto load is working except nullpoint exception)
+-- update function for all datasources
+-- possibility to add attachments
+
 ## 2016-03-05
 - major progress in project
 - implemented DB connection to postgreSQL DB

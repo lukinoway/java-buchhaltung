@@ -3,11 +3,6 @@ package konto.ui.view.Transaktion;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-
-import javax.swing.text.DateFormatter;
-
 import org.vaadin.teemu.VaadinIcons;
 
 import com.vaadin.ui.Alignment;
@@ -15,21 +10,38 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.Button.ClickEvent;
 
+import konto.data.DBUtil.ITransaktion;
+import konto.data.DBUtil.TransaktionDBUtil;
+import konto.data.model.LoginUser;
+import konto.data.model.Transaktion;
+import konto.ui.elements.KontoComboBox;
+import konto.ui.session.SessionManager;
+
 public class TransaktionsSearchBar extends HorizontalLayout {
+
+    private static final long serialVersionUID = 1L;
 
     String format = "yyyy-MM-dd";
 
     // GUI features
     Label nameLbl = new Label("SearchBar");
-    TextField kontoNr = new TextField("Konto ID");
+    KontoComboBox kontoBox = new KontoComboBox();
     DateField fromDate = new DateField("Von");
     DateField toDate = new DateField("Bis");
     public Button searchBtn = new Button("Suche");
+    
+    LoginUser user;
+    TransaktionsContainer container;
+    TransaktionsGrid grid;
+    
+    ITransaktion transaktionsUtil = new TransaktionDBUtil();
 
-    public TransaktionsSearchBar() {
+    public TransaktionsSearchBar(TransaktionsContainer container) {
+	
+	this.container = container;
+	this.user = SessionManager.getUser();
 	
 	// add style
 	this.addStyleName("searchbar");
@@ -43,7 +55,7 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 
 	this.addComponent(nameLbl);
 	this.setComponentAlignment(nameLbl, Alignment.TOP_LEFT);
-	this.addComponent(kontoNr);
+	this.addComponent(kontoBox);	
 	this.addComponent(fromDate);
 	this.addComponent(toDate);
 	this.addComponent(searchBtn);
@@ -58,7 +70,10 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 
 	    @Override
 	    public void buttonClick(ClickEvent event) {
-		LocalDate fromDate = getFromDate();
+		
+		loadData();
+		
+/*		LocalDate fromDate = getFromDate();
 		LocalDate toDate = getToDate();
 
 		System.out.println("ButtonClick - von: " + fromDate);
@@ -66,7 +81,7 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 
 //		TransaktionsContainer test = new TransaktionsContainer(
 //			transaktion.selectDataByDate(fromDate, toDate, 1));
-		System.out.println("ButtonClick - back from dbUtil");
+		System.out.println("ButtonClick - back from dbUtil");*/
 	    }
 	});
 	
@@ -91,6 +106,28 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	    returnDate = LocalDateTime.ofInstant(toDate.getValue().toInstant(), ZoneId.systemDefault()).toLocalDate();
 	}
 	return returnDate;
+    }
+    
+    
+    private void loadData() {
+	if (kontoBox != null || !(kontoBox.getValue() == null)) {
+	    refillContainer(transaktionsUtil.getTransaktionsForKonto(kontoBox.getComboBoxIDValue()));
+	}
+	else {
+	    System.out.println("nothing to do");
+	}
+    }
+    
+    /**
+     * helper function to refill container
+     * @param newcontainer
+     */
+    private void refillContainer(TransaktionsContainer newcontainer) {
+	container.removeAllItems();
+	for (int i = 1; i <= newcontainer.size(); i++) {
+	    Transaktion temp = newcontainer.buildTransaktion(newcontainer.getItem(i));
+	    container.addTransaktionLocal(temp);
+	}
     }
 
 }

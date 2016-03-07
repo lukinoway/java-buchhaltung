@@ -9,11 +9,11 @@ import konto.data.model.LoginUser;
  */
 public interface IUser {
 	
-	public int createUser(LoginUser user);
+	public void createUser(LoginUser user);
 	
 	public boolean validateLogin(LoginUser user);
 	
-	public int loadUserId(LoginUser user);
+	public void loadUserId(LoginUser user);
 	
 	public void changePwd(LoginUser user);
 	

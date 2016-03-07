@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import konto.data.model.Category;
 import konto.data.model.Konto;
+import konto.data.model.LoginUser;
 import konto.data.model.Transaktion;
 import konto.ui.view.Transaktion.TransaktionsContainer;
 
@@ -25,5 +26,9 @@ public interface ITransaktion {
 
     public TransaktionsContainer selectDataByTimeType(LocalDate begin, LocalDate end, Konto konto,
 	    Category category);
+    
+    public TransaktionsContainer getAllTransaktionsForUser(LoginUser user);
+    
+    public TransaktionsContainer getTransaktionsForKonto(int kontoId);
 
 }

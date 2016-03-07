@@ -1,6 +1,5 @@
 package konto.ui.view.Transaktion;
 
-import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.GeneratedPropertyContainer;
 import com.vaadin.data.util.PropertyValueGenerator;
@@ -12,7 +11,7 @@ public class TransaktionsGrid extends Grid {
 
     private static final long serialVersionUID = 1L;
 
-    public TransaktionsGrid(Container.Indexed indexed) {
+    public TransaktionsGrid(TransaktionsContainer indexed) {
 	
 	// add style
 	this.addStyleName("transaktionsGrid");
@@ -45,7 +44,7 @@ public class TransaktionsGrid extends Grid {
 	// add renderer for delete column
 	ButtonRenderer deleteBtn = new ButtonRenderer(event -> {
 	    Object itemId = event.getItemId();
-	    indexed.removeItem(itemId);
+	    indexed.removeItemDB(itemId);
 	});
 	
 		

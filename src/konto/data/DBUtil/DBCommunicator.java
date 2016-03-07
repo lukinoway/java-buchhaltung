@@ -22,7 +22,7 @@ public class DBCommunicator implements Serializable {
     private ResultSet resultSet = null;
 
     // connection information
-    String server_name = "192.168.1.248";
+    String server_name = "localhost";
     String db_user = "dev";
     String db_pwd = "dev";
 

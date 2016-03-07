@@ -3,8 +3,8 @@ package konto.ui;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 
-import konto.data.model.LoginUser;
 import konto.ui.SideBar;
+import konto.ui.session.SessionManager;
 import konto.ui.view.Category.CategoryMainView;
 import konto.ui.view.Konto.KontoMainView;
 import konto.ui.view.Transaktion.TransaktionsMainView;
@@ -20,7 +20,6 @@ public class MainApp extends UI {
     HorizontalLayout main = new HorizontalLayout();
     
     LoginForm loginForm = new LoginForm();
-    LoginUser user = null;
     VerticalLayout shownView = new VerticalLayout();
     SideBar sideBar = new SideBar();
     TransaktionsMainView transaktionsView;
@@ -66,12 +65,11 @@ public class MainApp extends UI {
         // show content only to valid users
         if (loginForm.isValidLogin()) {	
         	
-    	    this.user = loginForm.getCurrentUser();
-    	    sideBar.changeUserLabel(user.getUserName());
+    	    sideBar.changeUserLabel(SessionManager.getUser().getUserName());
     	    
     	    // need to wait for current User
-    	    kontoView = new KontoMainView(user);
-    	    transaktionsView = new TransaktionsMainView(user);
+    	    kontoView = new KontoMainView();
+    	    transaktionsView = new TransaktionsMainView();
         	
         	main.removeAllComponents();
         	main.setSizeUndefined();

@@ -4,126 +4,126 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class Transaktion {
 
-	private int transaktionsId;
-	private final Double transaktionsBetrag;
-	private final String transaktionsText;
-	private String transaktionsHash;
-	private final LocalDate transaktionsDate;
-	private final int kontoId;
-	private final int typeId;
+    private int transaktionsId;
+    private final Double transaktionsBetrag;
+    private final String transaktionsText;
+    private String transaktionsHash;
+    private final LocalDate transaktionsDate;
+    private final int kontoId;
+    private final int typeId;
 
-	/**
-	 * this will be used to read csv and write to DB / tr_id will be created in
-	 * DB
-	 * 
-	 * @param tr_date
-	 * @param tr_betrag
-	 * @param tr_text
-	 * @throws NoSuchAlgorithmException
-	 */
-	public Transaktion(LocalDate tr_date, Double tr_betrag, String tr_text, int kontoId, int typeId)
-			throws NoSuchAlgorithmException {
+    /**
+     * this will be used to read csv and write to DB / tr_id will be created in
+     * DB
+     * 
+     * @param tr_date
+     * @param tr_betrag
+     * @param tr_text
+     * @throws NoSuchAlgorithmException
+     */
+    public Transaktion(LocalDate tr_date, Double tr_betrag, String tr_text, int kontoId, int typeId)
+	    throws NoSuchAlgorithmException {
 
-		// set values
-		this.transaktionsDate = tr_date;
-		this.transaktionsBetrag = tr_betrag;
-		this.transaktionsText = tr_text;
-		this.kontoId = kontoId;
-		this.typeId = typeId;
+	// set values
+	this.transaktionsDate = tr_date;
+	this.transaktionsBetrag = tr_betrag;
+	this.transaktionsText = tr_text;
+	this.kontoId = kontoId;
+	this.typeId = typeId;
 
-		// dummy_id
-		this.transaktionsId = 0;
+	// dummy_id
+	this.transaktionsId = 0;
 
-		// create hash
-		createTransaktionsHash(tr_text + tr_date.toString() + tr_betrag);
+	// create hash
+	createTransaktionsHash(tr_text + tr_date.toString() + tr_betrag);
+    }
+
+    /**
+     * this constructor will be used when we get data from our DB
+     * 
+     * @param tr_id
+     * @param tr_date
+     * @param tr_betrag
+     * @param tr_text
+     * @param tr_hash
+     */
+    public Transaktion(int tr_id, LocalDate tr_date, Double tr_betrag, String tr_text, String tr_hash, int kontoId,
+	    int typeId) {
+
+	// set values
+	this.transaktionsDate = tr_date;
+	this.transaktionsBetrag = tr_betrag;
+	this.transaktionsText = tr_text;
+	this.transaktionsId = tr_id;
+	this.transaktionsHash = tr_hash;
+	this.kontoId = kontoId;
+	this.typeId = typeId;
+    }
+
+    public void setTransaktionsId(int transaktionsId) {
+	this.transaktionsId = transaktionsId;
+    }
+
+    // transaktiosns_id handling
+    public int getTransaktionsId() {
+	return transaktionsId;
+    }
+
+    // transaktions_betrag handling
+    public Double getTransaktionsBetrag() {
+	return transaktionsBetrag;
+    }
+
+    // transaktions_text handling
+    public String getTransaktionsText() {
+	return transaktionsText;
+    }
+
+    // transaktions date handling
+    public LocalDate getTransaktionsDate() {
+	return transaktionsDate;
+    }
+
+    public String getTransaktionsHash() {
+	return transaktionsHash;
+    }
+
+    /**
+     * Function to create a hash of input information
+     * 
+     * @param in_string
+     * @throws NoSuchAlgorithmException
+     */
+    public void createTransaktionsHash(String in_string) throws NoSuchAlgorithmException {
+	try {
+	    MessageDigest m = MessageDigest.getInstance("MD5");
+	    m.reset();
+	    m.update(in_string.getBytes());
+	    byte[] digest = m.digest();
+	    BigInteger bigInt = new BigInteger(1, digest);
+	    String hashtext = bigInt.toString(16);
+	    // Now we need to zero pad it if you actually want the full 32
+	    // chars.
+	    while (hashtext.length() < 32) {
+		hashtext = "0" + hashtext;
+	    }
+	    this.transaktionsHash = hashtext;
+	} catch (NoSuchAlgorithmException e) {
+	    System.out.println("createTransaktionsHash - hier lief was schief: NoSuchAlgorithmException");
+	} catch (Exception e) {
+	    e.printStackTrace();
 	}
+    }
 
-	/**
-	 * this constructor will be used when we get data from our DB
-	 * 
-	 * @param tr_id
-	 * @param tr_date
-	 * @param tr_betrag
-	 * @param tr_text
-	 * @param tr_hash
-	 */
-	public Transaktion(int tr_id, LocalDate tr_date, Double tr_betrag, String tr_text, String tr_hash, int kontoId, int typeId) {
+    public int getKontoId() {
+	return kontoId;
+    }
 
-		// set values
-		this.transaktionsDate = tr_date;
-		this.transaktionsBetrag = tr_betrag;
-		this.transaktionsText = tr_text;
-		this.transaktionsId = tr_id;
-		this.transaktionsHash = tr_hash;
-		this.kontoId = kontoId;
-		this.typeId = typeId;
-	}
-
-	public void setTransaktionsId(int transaktionsId) {
-		this.transaktionsId = transaktionsId;
-	}
-	
-	// transaktiosns_id handling
-	public int getTransaktionsId() {
-		return transaktionsId;
-	}
-
-	// transaktions_betrag handling
-	public Double getTransaktionsBetrag() {
-		return transaktionsBetrag;
-	}
-
-	// transaktions_text handling
-	public String getTransaktionsText() {
-		return transaktionsText;
-	}
-
-	// transaktions date handling
-	public LocalDate getTransaktionsDate() {
-		return transaktionsDate;
-	}
-
-	public String getTransaktionsHash() {
-		return transaktionsHash;
-	}
-
-	/**
-	 * Function to create a hash of input information
-	 * 
-	 * @param in_string
-	 * @throws NoSuchAlgorithmException
-	 */
-	public void createTransaktionsHash(String in_string) throws NoSuchAlgorithmException {
-		try {
-			MessageDigest m = MessageDigest.getInstance("MD5");
-			m.reset();
-			m.update(in_string.getBytes());
-			byte[] digest = m.digest();
-			BigInteger bigInt = new BigInteger(1, digest);
-			String hashtext = bigInt.toString(16);
-			// Now we need to zero pad it if you actually want the full 32
-			// chars.
-			while (hashtext.length() < 32) {
-				hashtext = "0" + hashtext;
-			}
-			this.transaktionsHash = hashtext;
-		} catch (NoSuchAlgorithmException e) {
-			System.out.println("createTransaktionsHash - hier lief was schief: NoSuchAlgorithmException");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public int getKontoId() {
-		return kontoId;
-	}
-
-	public int getTypeId() {
-		return typeId;
-	}
+    public int getTypeId() {
+	return typeId;
+    }
 
 }

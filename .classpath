@@ -12,6 +12,31 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/annotations-api.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/catalina.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/catalina-ant.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/catalina-ha.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/catalina-tribes.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/ecj-4.2.2.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/el-api.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/jasper.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/jasper-el.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/tomcat7-websocket.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/tomcat-api.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/tomcat-coyote.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/tomcat-dbcp.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/tomcat-i18n-es.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/tomcat-i18n-fr.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/tomcat-i18n-ja.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/tomcat-jdbc.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/tomcat-util.jar"/>
+	<classpathentry kind="lib" path="D:/SelfService_DEV/tomcat/lib/websocket-api.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

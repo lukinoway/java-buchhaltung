@@ -7,10 +7,6 @@ import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.ButtonRenderer;
 
-import konto.data.DBUtil.CategoryDBUtil;
-import konto.data.DBUtil.ICategory;
-import konto.data.model.Category;
-
 public class CategoryGrid extends Grid{
 
 	private static final long serialVersionUID = 1L;
