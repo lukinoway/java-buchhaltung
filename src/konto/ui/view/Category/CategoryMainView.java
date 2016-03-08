@@ -13,6 +13,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import konto.data.DBUtil.CategoryDBUtil;
 import konto.data.DBUtil.ICategory;
+import konto.data.container.CategoryContainer;
 import konto.data.model.Category;
 
 public class CategoryMainView extends VerticalLayout {

@@ -7,6 +7,8 @@ import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.ButtonRenderer;
 
+import konto.data.container.CategoryContainer;
+
 public class CategoryGrid extends Grid{
 
 	private static final long serialVersionUID = 1L;

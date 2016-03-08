@@ -5,9 +5,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import konto.data.container.KontoContainer;
 import konto.data.model.Konto;
 import konto.data.model.LoginUser;
-import konto.ui.view.Konto.KontoContainer;
 
 public class KontoDBUtil extends DBCommunicator implements IKonto {
 

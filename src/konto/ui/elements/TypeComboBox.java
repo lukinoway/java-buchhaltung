@@ -4,7 +4,7 @@ import com.vaadin.ui.Select;
 
 import konto.data.DBUtil.CategoryDBUtil;
 import konto.data.DBUtil.ICategory;
-import konto.ui.view.Category.CategoryContainer;
+import konto.data.container.CategoryContainer;
 
 public class TypeComboBox extends TemplateComboBox {
 

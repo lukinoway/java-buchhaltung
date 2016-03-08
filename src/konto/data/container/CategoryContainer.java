@@ -1,4 +1,4 @@
-package konto.ui.view.Category;
+package konto.data.container;
 
 import java.util.ArrayList;
 

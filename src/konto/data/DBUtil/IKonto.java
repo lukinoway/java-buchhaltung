@@ -1,8 +1,8 @@
 package konto.data.DBUtil;
 
+import konto.data.container.KontoContainer;
 import konto.data.model.Konto;
 import konto.data.model.LoginUser;
-import konto.ui.view.Konto.KontoContainer;
 
 public interface IKonto {
 

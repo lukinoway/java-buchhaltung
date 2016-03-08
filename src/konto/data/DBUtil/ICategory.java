@@ -1,7 +1,7 @@
 package konto.data.DBUtil;
 
+import konto.data.container.CategoryContainer;
 import konto.data.model.Category;
-import konto.ui.view.Category.CategoryContainer;
 
 public interface ICategory {
 	

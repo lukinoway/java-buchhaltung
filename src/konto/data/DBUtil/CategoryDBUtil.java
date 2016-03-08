@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import konto.data.container.CategoryContainer;
 import konto.data.model.Category;
-import konto.ui.view.Category.CategoryContainer;
 
 public class CategoryDBUtil extends DBCommunicator implements ICategory {
 

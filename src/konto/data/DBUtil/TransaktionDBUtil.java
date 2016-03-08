@@ -10,11 +10,11 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
+import konto.data.container.TransaktionsContainer;
 import konto.data.model.Category;
 import konto.data.model.Konto;
 import konto.data.model.LoginUser;
 import konto.data.model.Transaktion;
-import konto.ui.view.Transaktion.TransaktionsContainer;
 
 public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 

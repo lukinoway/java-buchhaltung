@@ -10,6 +10,7 @@ import com.vaadin.ui.Window;
 
 import konto.data.DBUtil.CategoryDBUtil;
 import konto.data.DBUtil.ICategory;
+import konto.data.container.CategoryContainer;
 import konto.data.model.Category;
 
 import com.vaadin.ui.Button.ClickEvent;

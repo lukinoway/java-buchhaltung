@@ -11,6 +11,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import konto.data.DBUtil.IKonto;
 import konto.data.DBUtil.KontoDBUtil;
+import konto.data.container.KontoContainer;
 import konto.data.model.LoginUser;
 import konto.ui.session.SessionManager;
 

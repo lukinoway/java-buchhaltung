@@ -14,6 +14,7 @@ import com.vaadin.ui.Button.ClickEvent;
 
 import konto.data.DBUtil.ITransaktion;
 import konto.data.DBUtil.TransaktionDBUtil;
+import konto.data.container.TransaktionsContainer;
 import konto.data.model.LoginUser;
 import konto.data.model.Transaktion;
 import konto.ui.elements.KontoComboBox;

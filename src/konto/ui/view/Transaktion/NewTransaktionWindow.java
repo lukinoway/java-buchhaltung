@@ -16,6 +16,7 @@ import konto.data.DBUtil.CategoryDBUtil;
 import konto.data.DBUtil.ICategory;
 import konto.data.DBUtil.IKonto;
 import konto.data.DBUtil.KontoDBUtil;
+import konto.data.container.TransaktionsContainer;
 import konto.data.model.LoginUser;
 import konto.data.model.Transaktion;
 import konto.ui.elements.KontoComboBox;

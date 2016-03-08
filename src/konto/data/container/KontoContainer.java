@@ -1,4 +1,4 @@
-package konto.ui.view.Konto;
+package konto.data.container;
 
 import java.util.ArrayList;
 

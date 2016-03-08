@@ -1,4 +1,4 @@
-package konto.ui.view.Transaktion;
+package konto.data.container;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -10,6 +10,7 @@ import com.vaadin.ui.Button.ClickEvent;
 
 import konto.data.DBUtil.ITransaktion;
 import konto.data.DBUtil.TransaktionDBUtil;
+import konto.data.container.TransaktionsContainer;
 import konto.data.model.LoginUser;
 import konto.ui.session.SessionManager;
 

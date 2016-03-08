@@ -9,6 +9,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import konto.data.container.KontoContainer;
 import konto.data.model.Konto;
 import konto.data.model.LoginUser;
 import konto.ui.session.SessionManager;

@@ -4,8 +4,8 @@ import com.vaadin.ui.Select;
 
 import konto.data.DBUtil.IKonto;
 import konto.data.DBUtil.KontoDBUtil;
+import konto.data.container.KontoContainer;
 import konto.ui.session.SessionManager;
-import konto.ui.view.Konto.KontoContainer;
 
 public class KontoComboBox extends TemplateComboBox{
 

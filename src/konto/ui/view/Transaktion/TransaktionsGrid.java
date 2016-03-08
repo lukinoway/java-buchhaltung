@@ -7,6 +7,8 @@ import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.ButtonRenderer;
 
+import konto.data.container.TransaktionsContainer;
+
 public class TransaktionsGrid extends Grid {
 
     private static final long serialVersionUID = 1L;
