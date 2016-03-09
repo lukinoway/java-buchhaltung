@@ -20,7 +20,7 @@ import konto.data.container.TransaktionsContainer;
 import konto.data.model.LoginUser;
 import konto.data.model.Transaktion;
 import konto.ui.elements.KontoComboBox;
-import konto.ui.elements.TypeComboBox;
+import konto.ui.elements.CategoryComboBox;
 import konto.ui.session.SessionManager;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -32,7 +32,7 @@ public class NewTransaktionWindow extends Window {
     TextField transaktionsBetrag = new TextField("Betrag");
     DateField transaktionsDatum = new DateField("Datum");
     KontoComboBox transaktionsKonto = new KontoComboBox();
-    TypeComboBox transaktionsType = new TypeComboBox();
+    CategoryComboBox transaktionsType = new CategoryComboBox();
     Button saveBtn = new Button("speichern");
     Button cancelBtn = new Button("abbrechen");
 
@@ -46,9 +46,9 @@ public class NewTransaktionWindow extends Window {
     // Layout stuff
     GridLayout gridView = new GridLayout(2, 7);
 
-    public NewTransaktionWindow(TransaktionsContainer container) {
+    public NewTransaktionWindow() {
 
-	this.container = container;
+	this.container = SessionManager.getTransaktionsContainer();
 	this.setContent(gridView);
 	this.center();
 	this.setCaption("Neue Transaktion");

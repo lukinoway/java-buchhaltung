@@ -29,8 +29,10 @@ public class KontoMainView extends VerticalLayout {
 
 	this.user = SessionManager.getUser();
 
+	// create container and store in session
 	container = kontoUtil.getKontoForUser(user);
-
+	SessionManager.setKontoContainer(container);
+	
 	grid = new KontoGrid(container);
 	this.addComponent(grid);
 
@@ -46,7 +48,7 @@ public class KontoMainView extends VerticalLayout {
 	    @Override
 	    public void buttonClick(ClickEvent event) {
 
-		NewKontoWindow w = new NewKontoWindow(container);
+		NewKontoWindow w = new NewKontoWindow();
 		UI.getCurrent().addWindow(w);
 		w.focus();
 

@@ -20,7 +20,7 @@ public class KontoComboBox extends TemplateComboBox{
     }
     
     private void fillKontoComboBox() {
-	KontoContainer kcontainer = kontoUtil.getKontoForUser(SessionManager.getUser());
+	KontoContainer kcontainer = SessionManager.getKontoContainer();
 
 	this.setContainerDataSource(kcontainer);
 	this.setItemCaptionMode(Select.ITEM_CAPTION_MODE_PROPERTY);

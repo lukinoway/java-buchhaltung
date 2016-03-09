@@ -1,3 +1,8 @@
+## 2016-03-09
+- added options to search bar
+-- still missing implementation for search function
+- some minor improvements
+
 ## 2016-03-07
 - added "new user"-button to login mask
 - added user to session (SessionManager) -> need to import tomcat libaries

@@ -5,6 +5,9 @@ import java.io.Serializable;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.server.VaadinSession;
 
+import konto.data.container.CategoryContainer;
+import konto.data.container.KontoContainer;
+import konto.data.container.TransaktionsContainer;
 import konto.data.model.LoginUser;
 
 /**
@@ -34,6 +37,66 @@ public class SessionManager implements Serializable {
         } finally {
             VaadinSession.getCurrent().getLockInstance().unlock();
         }
+    }
+    
+    public static TransaktionsContainer getTransaktionsContainer() {
+        if (VaadinSession.getCurrent().getAttribute("transaktion") instanceof TransaktionsContainer) {
+            TransaktionsContainer container = (TransaktionsContainer) VaadinSession.getCurrent().getAttribute("transaktion");
+            return container;
+        }
+        
+        return null;
+    }
+    
+    public static void setTransaktionsContainer(TransaktionsContainer container) {
+	if (container != null)
+	try {
+            VaadinSession.getCurrent().getLockInstance().lock();
+            VaadinSession.getCurrent().setAttribute("transaktion", container);
+	} finally {
+	    VaadinSession.getCurrent().getLockInstance().unlock();
+	}
+	
+    }
+    
+    public static KontoContainer getKontoContainer() {
+        if (VaadinSession.getCurrent().getAttribute("konto") instanceof KontoContainer) {
+            KontoContainer container = (KontoContainer) VaadinSession.getCurrent().getAttribute("konto");
+            return container;
+        }
+        
+        return null;
+    }
+    
+    public static void setKontoContainer(KontoContainer container) {
+	if (container != null)
+	try {
+            VaadinSession.getCurrent().getLockInstance().lock();
+            VaadinSession.getCurrent().setAttribute("konto", container);
+	} finally {
+	    VaadinSession.getCurrent().getLockInstance().unlock();
+	}
+	
+    }
+    
+    public static CategoryContainer getCategoryContainer() {
+        if (VaadinSession.getCurrent().getAttribute("category") instanceof CategoryContainer) {
+            CategoryContainer container = (CategoryContainer) VaadinSession.getCurrent().getAttribute("category");
+            return container;
+        }
+        
+        return null;
+    }
+    
+    public static void setCategoryContainer(CategoryContainer container) {
+	if (container != null)
+	try {
+            VaadinSession.getCurrent().getLockInstance().lock();
+            VaadinSession.getCurrent().setAttribute("category", container);
+	} finally {
+	    VaadinSession.getCurrent().getLockInstance().unlock();
+	}
+	
     }
     
 }

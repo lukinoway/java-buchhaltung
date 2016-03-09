@@ -35,16 +35,16 @@ public class TransaktionsMainView extends VerticalLayout {
 
 	this.user = SessionManager.getUser();
 
-	// create test data
-	// createTestData();
+	// store data in session
 	container = transaktionUtil.getAllTransaktionsForUser(user);
+	SessionManager.setTransaktionsContainer(container);
 
 	// set data
 	this.setWidth(100, Unit.PERCENTAGE);
 
 	transaktionsgrid = new TransaktionsGrid(container);
 
-	searchBar = new TransaktionsSearchBar(container);
+	searchBar = new TransaktionsSearchBar();
 	this.addComponent(searchBar);
 	this.addComponent(transaktionsgrid);
 
@@ -56,7 +56,7 @@ public class TransaktionsMainView extends VerticalLayout {
 
 	    @Override
 	    public void buttonClick(ClickEvent event) {
-		NewTransaktionWindow w = new NewTransaktionWindow(container);
+		NewTransaktionWindow w = new NewTransaktionWindow();
 		UI.getCurrent().addWindow(w);
 		w.focus();
 	    }

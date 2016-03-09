@@ -28,8 +28,8 @@ public class NewKontoWindow extends Window {
 
     KontoContainer container;
 
-    public NewKontoWindow(KontoContainer container) {
-	this.container = container;
+    public NewKontoWindow() {
+	this.container = SessionManager.getKontoContainer();
 	this.user = SessionManager.getUser();
 	this.setContent(gridView);
 	this.center();

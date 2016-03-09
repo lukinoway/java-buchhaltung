@@ -75,24 +75,6 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
     }
 
     @Override
-    public TransaktionsContainer selectDataByDate(LocalDate begin, LocalDate end, Konto konto) {
-	// TODO Auto-generated method stub
-	return null;
-    }
-
-    @Override
-    public TransaktionsContainer selectDataByType(Konto konto, Category category) {
-	// TODO Auto-generated method stub
-	return null;
-    }
-
-    @Override
-    public TransaktionsContainer selectDataByTimeType(LocalDate begin, LocalDate end, Konto konto, Category category) {
-	// TODO Auto-generated method stub
-	return null;
-    }
-
-    @Override
     public TransaktionsContainer getAllTransaktionsForUser(LoginUser user) {
 	TransaktionsContainer data = null;
 	try {
@@ -122,12 +104,22 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	return data;
     }
 
-    public TransaktionsContainer getTransaktionsForKonto(int kontoId) {
+    @Override
+    public TransaktionsContainer getTransaktionsForKontoCategory(int kontoId, int categoryId) {
 	TransaktionsContainer data = null;
 	try {
 	    String pSql = "SELECT transaktion_id, transaktion_date, transaktion_betrag, transaktion_text, "
-		    + "transaktion_type, konto_id, transaktion_hash " + "FROM db_transaktion WHERE konto_id = ?";
+		    + "transaktion_type, konto_id, transaktion_hash " + "FROM db_transaktion WHERE ";
+	    
+	    String kontopart = "konto_id = ?";
+	    String andpart = " AND ";
+	    String categorypart = "transaktion_type = ?";
+		    
 
+	    if (kontoId == null) {
+		
+	    }
+	    
 	    pStmt = connect.prepareStatement(pSql);
 	    pStmt.setInt(1, kontoId);
 	    resSet = pStmt.executeQuery();
@@ -147,6 +139,27 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	return data;
     }
 
+    @Override
+    public TransaktionsContainer getTransaktionsForDateKontoCategory(LocalDate begin, LocalDate end, int kontoId,
+	    int categoryId) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public TransaktionsContainer getTransaktionsForMonthKontoCategory(LocalDate monthYear, int kontoId,
+	    int categoryId) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public TransaktionsContainer getTransaktionsForYearKontoCategory(LocalDate monthYear, int kontoId, int categoryId) {
+	// TODO Auto-generated method stub
+	return null;
+    }
+    
+    
     // Close everything
     public void close() {
 	try {

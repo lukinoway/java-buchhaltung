@@ -5,11 +5,15 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import org.vaadin.teemu.VaadinIcons;
 
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.OptionGroup;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
 import konto.data.DBUtil.ITransaktion;
@@ -17,6 +21,7 @@ import konto.data.DBUtil.TransaktionDBUtil;
 import konto.data.container.TransaktionsContainer;
 import konto.data.model.LoginUser;
 import konto.data.model.Transaktion;
+import konto.ui.elements.CategoryComboBox;
 import konto.ui.elements.KontoComboBox;
 import konto.ui.session.SessionManager;
 
@@ -25,13 +30,24 @@ public class TransaktionsSearchBar extends HorizontalLayout {
     private static final long serialVersionUID = 1L;
 
     String format = "yyyy-MM-dd";
+    String formatMonth = "yyyy-MM";
+    String formatYear = "yyyy";
 
     // GUI features
     Label nameLbl = new Label("SearchBar");
+    
+    VerticalLayout optionLayout = new VerticalLayout();
+    OptionGroup searchType = new OptionGroup("Filter Auswahl");
+    
+    VerticalLayout searchElements = new VerticalLayout();
     KontoComboBox kontoBox = new KontoComboBox();
+    CategoryComboBox categoryBox = new CategoryComboBox();
     DateField fromDate = new DateField("Von");
     DateField toDate = new DateField("Bis");
-    public Button searchBtn = new Button("Suche");
+    DateField monthYear = new DateField("Monat");
+    DateField year = new DateField("Jahr");
+    Button searchBtn = new Button("Suche");
+    
     
     LoginUser user;
     TransaktionsContainer container;
@@ -39,26 +55,39 @@ public class TransaktionsSearchBar extends HorizontalLayout {
     
     ITransaktion transaktionsUtil = new TransaktionDBUtil();
 
-    public TransaktionsSearchBar(TransaktionsContainer container) {
+    public TransaktionsSearchBar() {
 	
-	this.container = container;
+	// set local data
+	this.container = SessionManager.getTransaktionsContainer();
 	this.user = SessionManager.getUser();
 	
 	// add style
 	this.addStyleName("searchbar");
 	this.setWidth(1000, Unit.PIXELS);
 	
-	// set date format to 2015-04-29
+	// set datefield formats
 	fromDate.setDateFormat(format);
 	toDate.setDateFormat(format);
+	monthYear.setDateFormat(formatMonth);
+	year.setDateFormat(formatYear);
 
 	nameLbl.setStyleName("h2");
+	
+	// add filter options
+	searchType.addItems("von-bis Übersicht", "Monatsübersicht", "Jahresübersicht", "AlleDaten");
+	
 
 	this.addComponent(nameLbl);
 	this.setComponentAlignment(nameLbl, Alignment.TOP_LEFT);
-	this.addComponent(kontoBox);	
+	
+	optionLayout.addComponent(searchType);
+	this.addComponent(optionLayout);
+	this.addComponent(searchElements);
+	
+/*	this.addComponent(kontoBox);	
 	this.addComponent(fromDate);
 	this.addComponent(toDate);
+	*/
 	this.addComponent(searchBtn);
 	this.setComponentAlignment(searchBtn, Alignment.MIDDLE_RIGHT);
 	searchBtn.setIcon(VaadinIcons.SEARCH);
@@ -83,7 +112,22 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 //		TransaktionsContainer test = new TransaktionsContainer(
 //			transaktion.selectDataByDate(fromDate, toDate, 1));
 		System.out.println("ButtonClick - back from dbUtil");*/
+		
+		System.out.println("option button: " + searchType.getValue().toString());
 	    }
+	});
+	
+	
+	// option buttons
+	searchType.addValueChangeListener(new ValueChangeListener() {
+
+	    private static final long serialVersionUID = 1L;
+
+	    @Override
+	    public void valueChange(ValueChangeEvent event) {
+		buildSearchElements(searchType.getValue().toString());
+	    }
+	    
 	});
 	
     }
@@ -112,7 +156,7 @@ public class TransaktionsSearchBar extends HorizontalLayout {
     
     private void loadData() {
 	if (kontoBox != null || !(kontoBox.getValue() == null)) {
-	    refillContainer(transaktionsUtil.getTransaktionsForKonto(kontoBox.getComboBoxIDValue()));
+	    //refillContainer(transaktionsUtil.getTransaktionsForKonto(kontoBox.getComboBoxIDValue()));
 	}
 	else {
 	    System.out.println("nothing to do");
@@ -128,6 +172,33 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	for (int i = 1; i <= newcontainer.size(); i++) {
 	    Transaktion temp = newcontainer.buildTransaktion(newcontainer.getItem(i));
 	    container.addTransaktionLocal(temp);
+	}
+    }
+    
+    private void buildSearchElements(String option) {
+	searchElements.removeAllComponents();
+	
+	// visible in all searchbars
+	searchElements.addComponent(kontoBox);
+	kontoBox.setNullSelectionAllowed(true);
+	
+	searchElements.addComponent(categoryBox);
+	categoryBox.setNullSelectionAllowed(true);
+	
+	System.out.println("option button: " + option);
+	// check for selected option
+	if (option.equals("von-bis Übersicht")) {
+	    searchElements.addComponent(fromDate);
+	    searchElements.addComponent(toDate);
+	}
+	if (option.equals("Monatsübersicht")) {
+	    searchElements.addComponent(monthYear);
+	}
+	if (option.equals("Jahresübersicht")) {
+	    searchElements.addComponent(year);
+	} 
+	if (option.equals("AlleDaten")) {
+	    
 	}
     }
 

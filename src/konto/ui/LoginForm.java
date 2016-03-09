@@ -50,6 +50,8 @@ public class LoginForm extends Panel {
 
 	this.setContent(main);
 	this.setStyleName("light");
+	
+	
 	// action part
 	loginBtn.addClickListener(new ClickListener() {
 

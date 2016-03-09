@@ -5,20 +5,21 @@ import com.vaadin.ui.Select;
 import konto.data.DBUtil.CategoryDBUtil;
 import konto.data.DBUtil.ICategory;
 import konto.data.container.CategoryContainer;
+import konto.ui.session.SessionManager;
 
-public class TypeComboBox extends TemplateComboBox {
+public class CategoryComboBox extends TemplateComboBox {
 
     private static final long serialVersionUID = 1L;
     ICategory categoryUtil = new CategoryDBUtil();
     
-    public TypeComboBox() {
+    public CategoryComboBox() {
 	super();
 	this.setCaption("Kategorie");
 	this.fillTypeComboBox();
     }
     
     private void fillTypeComboBox() {
-	CategoryContainer kcontainer = categoryUtil.getAllCategories();
+	CategoryContainer kcontainer = SessionManager.getCategoryContainer();
 
 	this.setContainerDataSource(kcontainer);
 	this.setItemCaptionMode(Select.ITEM_CAPTION_MODE_PROPERTY);

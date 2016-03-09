@@ -19,16 +19,17 @@ public interface ITransaktion {
     public void updateTransaktion(Transaktion transaktion);
 
     public void deleteTransaktion(Transaktion transaktion);
-
-    public TransaktionsContainer selectDataByDate(LocalDate begin, LocalDate end, Konto konto);
-
-    public TransaktionsContainer selectDataByType(Konto konto, Category category);
-
-    public TransaktionsContainer selectDataByTimeType(LocalDate begin, LocalDate end, Konto konto,
-	    Category category);
-    
+   
     public TransaktionsContainer getAllTransaktionsForUser(LoginUser user);
     
-    public TransaktionsContainer getTransaktionsForKonto(int kontoId);
+    public TransaktionsContainer getTransaktionsForKontoCategory(int kontoId, int categoryId);
+    
+    public TransaktionsContainer getTransaktionsForDateKontoCategory(LocalDate begin, LocalDate end, int kontoId, int categoryId);
+    
+    public TransaktionsContainer getTransaktionsForMonthKontoCategory(LocalDate monthYear, int kontoId, int categoryId);
+    
+    public TransaktionsContainer getTransaktionsForYearKontoCategory(LocalDate monthYear, int kontoId, int categoryId);
+    
+    
 
 }

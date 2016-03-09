@@ -35,7 +35,7 @@ public class TransaktionsGrid extends Grid {
 
 		@Override
 	    public String getValue(Item item, Object itemId, Object propertyID) {
-		return "Delete";
+		return "x";
 	    }
 
 	    @Override
@@ -49,10 +49,9 @@ public class TransaktionsGrid extends Grid {
 	    indexed.removeItemDB(itemId);
 	});
 	
-		
 	getColumn("delete").setRenderer(deleteBtn);
 	getColumns().stream().forEach(c -> c.setSortable(false));
-	
+	getColumn("delete").setWidth(60);
 	
     }
 
