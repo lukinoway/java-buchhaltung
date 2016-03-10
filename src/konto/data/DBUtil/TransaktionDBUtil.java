@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import konto.data.container.TransaktionsContainer;
-import konto.data.model.Category;
-import konto.data.model.Konto;
 import konto.data.model.LoginUser;
 import konto.data.model.Transaktion;
 
@@ -110,18 +108,27 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	try {
 	    String pSql = "SELECT transaktion_id, transaktion_date, transaktion_betrag, transaktion_text, "
 		    + "transaktion_type, konto_id, transaktion_hash " + "FROM db_transaktion WHERE ";
-	    
-	    String kontopart = "konto_id = ?";
-	    String andpart = " AND ";
-	    String categorypart = "transaktion_type = ?";
-		    
 
-	    if (kontoId == null) {
-		
+	    String kontopart = "konto_id = ?";
+	    String categorypart = "transaktion_type = ?";
+
+	    // check input
+	    if (kontoId == 0) {
+		pSql += categorypart;
+		pStmt = connect.prepareStatement(pSql);
+		pStmt.setInt(1, categoryId);
 	    }
-	    
-	    pStmt = connect.prepareStatement(pSql);
-	    pStmt.setInt(1, kontoId);
+	    if (categoryId == 0) {
+		pSql += kontopart;
+		pStmt = connect.prepareStatement(pSql);
+		pStmt.setInt(1, kontoId);
+	    } else {
+		pSql += kontopart + " AND " + categorypart;
+		pStmt = connect.prepareStatement(pSql);
+		pStmt.setInt(1, kontoId);
+		pStmt.setInt(2, categoryId);
+	    }
+
 	    resSet = pStmt.executeQuery();
 
 	    ArrayList<Transaktion> transaktionList = new ArrayList<Transaktion>();
@@ -135,6 +142,8 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 
 	} catch (Exception e) {
 	    e.printStackTrace();
+	} finally {
+	    close();
 	}
 	return data;
     }
@@ -142,24 +151,155 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
     @Override
     public TransaktionsContainer getTransaktionsForDateKontoCategory(LocalDate begin, LocalDate end, int kontoId,
 	    int categoryId) {
-	// TODO Auto-generated method stub
-	return null;
+	TransaktionsContainer data = null;
+	try {
+	    String pSql = "SELECT transaktion_id, transaktion_date, transaktion_betrag, transaktion_text, "
+		    + "transaktion_type, konto_id, transaktion_hash " + "FROM db_transaktion WHERE transaktion_date between ? and ? ";
+
+	    String kontopart = "konto_id = ?";
+	    String categorypart = "transaktion_type = ?";
+
+	    // check input
+	    if (kontoId == 0) {
+		pSql += " AND " + categorypart;
+		pStmt = connect.prepareStatement(pSql);
+		pStmt.setDate(1, convertLocalDateToSqlDate(begin));
+		pStmt.setDate(2, convertLocalDateToSqlDate(end));
+		pStmt.setInt(3, categoryId);
+	    }
+	    if (categoryId == 0) {
+		pSql += " AND " + kontopart;
+		pStmt = connect.prepareStatement(pSql);
+		pStmt.setDate(1, convertLocalDateToSqlDate(begin));
+		pStmt.setDate(2, convertLocalDateToSqlDate(end));
+		pStmt.setInt(3, kontoId);
+	    } else {
+		pSql += " AND " + kontopart + " AND " + categorypart;
+		pStmt = connect.prepareStatement(pSql);
+		pStmt.setDate(1, convertLocalDateToSqlDate(begin));
+		pStmt.setDate(2, convertLocalDateToSqlDate(end));
+		pStmt.setInt(3, kontoId);
+		pStmt.setInt(4, categoryId);
+	    }
+
+	    resSet = pStmt.executeQuery();
+
+	    ArrayList<Transaktion> transaktionList = new ArrayList<Transaktion>();
+	    while (resSet.next()) {
+
+		transaktionList.add(new Transaktion(resSet.getInt(1), convertDateToLocalDate(resSet.getDate(2)),
+			resSet.getDouble(3), resSet.getString(4), resSet.getString(7), resSet.getInt(6),
+			resSet.getInt(5)));
+	    }
+	    data = new TransaktionsContainer(transaktionList);
+
+	} catch (Exception e) {
+	    e.printStackTrace();
+	} finally {
+	    close();
+	}
+	return data;
     }
 
     @Override
     public TransaktionsContainer getTransaktionsForMonthKontoCategory(LocalDate monthYear, int kontoId,
 	    int categoryId) {
-	// TODO Auto-generated method stub
-	return null;
+	TransaktionsContainer data = null;
+	try {
+	    String pSql = "SELECT transaktion_id, transaktion_date, transaktion_betrag, transaktion_text, "
+		    + "transaktion_type, konto_id, transaktion_hash " + "FROM db_transaktion WHERE date_trunc('month', transaktion_date) = date_trunc('month', cast( ? as timestamp)) ";
+
+	    String kontopart = "konto_id = ?";
+	    String categorypart = "transaktion_type = ?";
+
+	    // check input
+	    if (kontoId == 0) {
+		pSql += " AND " + categorypart;
+		pStmt = connect.prepareStatement(pSql);
+		pStmt.setDate(1, convertLocalDateToSqlDate(monthYear));
+		pStmt.setInt(2, categoryId);
+	    }
+	    if (categoryId == 0) {
+		pSql += " AND " + kontopart;
+		pStmt = connect.prepareStatement(pSql);
+		pStmt.setDate(1, convertLocalDateToSqlDate(monthYear));
+		pStmt.setInt(2, kontoId);
+	    } else {
+		pSql += " AND " + kontopart + " AND " + categorypart;
+		pStmt = connect.prepareStatement(pSql);
+		pStmt.setDate(1, convertLocalDateToSqlDate(monthYear));
+		pStmt.setInt(2, kontoId);
+		pStmt.setInt(3, categoryId);
+	    }
+	    System.out.println("query: " + pSql);
+	    resSet = pStmt.executeQuery();
+
+	    ArrayList<Transaktion> transaktionList = new ArrayList<Transaktion>();
+	    while (resSet.next()) {
+
+		transaktionList.add(new Transaktion(resSet.getInt(1), convertDateToLocalDate(resSet.getDate(2)),
+			resSet.getDouble(3), resSet.getString(4), resSet.getString(7), resSet.getInt(6),
+			resSet.getInt(5)));
+	    }
+	    data = new TransaktionsContainer(transaktionList);
+
+	} catch (Exception e) {
+	    e.printStackTrace();
+	} finally {
+	    close();
+	}
+	return data;
     }
 
     @Override
-    public TransaktionsContainer getTransaktionsForYearKontoCategory(LocalDate monthYear, int kontoId, int categoryId) {
-	// TODO Auto-generated method stub
-	return null;
+    public TransaktionsContainer getTransaktionsForYearKontoCategory(LocalDate year, int kontoId, int categoryId) {
+	TransaktionsContainer data = null;
+	try {
+	    String pSql = "SELECT transaktion_id, transaktion_date, transaktion_betrag, transaktion_text, "
+		    + "transaktion_type, konto_id, transaktion_hash " + "FROM db_transaktion WHERE date_trunc('year', transaktion_date) = date_trunc('year', cast( ? as timestamp)) ";
+
+	    String kontopart = "konto_id = ?";
+	    String categorypart = "transaktion_type = ?";
+
+	    // check input
+	    if (kontoId == 0) {
+		pSql += " AND " + categorypart;
+		pStmt = connect.prepareStatement(pSql);
+		pStmt.setDate(1, convertLocalDateToSqlDate(year));
+		pStmt.setInt(2, categoryId);
+	    }
+	    if (categoryId == 0) {
+		pSql += " AND " + kontopart;
+		pStmt = connect.prepareStatement(pSql);
+		pStmt.setDate(1, convertLocalDateToSqlDate(year));
+		pStmt.setInt(2, kontoId);
+	    } else {
+		pSql += " AND " + kontopart + " AND " + categorypart;
+		pStmt = connect.prepareStatement(pSql);
+		pStmt.setDate(1, convertLocalDateToSqlDate(year));
+		pStmt.setInt(2, kontoId);
+		pStmt.setInt(3, categoryId);
+	    }
+
+	    resSet = pStmt.executeQuery();
+
+	    ArrayList<Transaktion> transaktionList = new ArrayList<Transaktion>();
+	    while (resSet.next()) {
+
+		transaktionList.add(new Transaktion(resSet.getInt(1), convertDateToLocalDate(resSet.getDate(2)),
+			resSet.getDouble(3), resSet.getString(4), resSet.getString(7), resSet.getInt(6),
+			resSet.getInt(5)));
+	    }
+	    data = new TransaktionsContainer(transaktionList);
+
+	} catch (Exception e) {
+	    e.printStackTrace();
+	} finally {
+	    close();
+	}
+	return data;
     }
-    
-    
+
     // Close everything
     public void close() {
 	try {

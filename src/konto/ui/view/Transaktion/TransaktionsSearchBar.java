@@ -54,6 +54,8 @@ public class TransaktionsSearchBar extends HorizontalLayout {
     TransaktionsGrid grid;
     
     ITransaktion transaktionsUtil = new TransaktionDBUtil();
+    
+    String selectedOption;
 
     public TransaktionsSearchBar() {
 	
@@ -74,7 +76,10 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	nameLbl.setStyleName("h2");
 	
 	// add filter options
-	searchType.addItems("von-bis Übersicht", "Monatsübersicht", "Jahresübersicht", "AlleDaten");
+	searchType.addItems("AlleDaten", "von-bis Übersicht", "Monatsübersicht", "Jahresübersicht");
+	searchType.setNullSelectionAllowed(false);
+	searchType.select("AlleDaten");
+	buildSearchElements(searchType.getValue().toString());
 	
 
 	this.addComponent(nameLbl);
@@ -84,13 +89,10 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	this.addComponent(optionLayout);
 	this.addComponent(searchElements);
 	
-/*	this.addComponent(kontoBox);	
-	this.addComponent(fromDate);
-	this.addComponent(toDate);
-	*/
 	this.addComponent(searchBtn);
 	this.setComponentAlignment(searchBtn, Alignment.MIDDLE_RIGHT);
 	searchBtn.setIcon(VaadinIcons.SEARCH);
+	
 	
 	
 	// searchbutton
@@ -102,18 +104,6 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	    public void buttonClick(ClickEvent event) {
 		
 		loadData();
-		
-/*		LocalDate fromDate = getFromDate();
-		LocalDate toDate = getToDate();
-
-		System.out.println("ButtonClick - von: " + fromDate);
-		System.out.println("ButtonClick - bis: " + toDate);
-
-//		TransaktionsContainer test = new TransaktionsContainer(
-//			transaktion.selectDataByDate(fromDate, toDate, 1));
-		System.out.println("ButtonClick - back from dbUtil");*/
-		
-		System.out.println("option button: " + searchType.getValue().toString());
 	    }
 	});
 	
@@ -132,7 +122,7 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	
     }
 
-    public LocalDate getFromDate() {
+    private LocalDate getFromDate() {
 	LocalDate returnDate;
 	if (fromDate.getValue() == null) {
 	    returnDate = LocalDate.parse("2010-01-01");
@@ -143,7 +133,7 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 
     }
 
-    public LocalDate getToDate() {
+    private LocalDate getToDate() {
 	LocalDate returnDate;
 	if (toDate.getValue() == null) {
 	    returnDate = LocalDate.now();
@@ -153,13 +143,59 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	return returnDate;
     }
     
-    
-    private void loadData() {
-	if (kontoBox != null || !(kontoBox.getValue() == null)) {
-	    //refillContainer(transaktionsUtil.getTransaktionsForKonto(kontoBox.getComboBoxIDValue()));
+    private LocalDate getYearMonth() {
+	LocalDate returnDate;
+	if (monthYear.getValue() == null) {
+	    returnDate = LocalDate.now();
+	} else {
+	    returnDate = LocalDateTime.ofInstant(monthYear.getValue().toInstant(), ZoneId.systemDefault()).toLocalDate();
 	}
-	else {
-	    System.out.println("nothing to do");
+	return returnDate;
+    }
+    
+    private LocalDate getYear() {
+	LocalDate returnDate;
+	if (year.getValue() == null) {
+	    returnDate = LocalDate.now();
+	} else {
+	    returnDate = LocalDateTime.ofInstant(year.getValue().toInstant(), ZoneId.systemDefault()).toLocalDate();
+	}
+	return returnDate;
+    }
+    
+    /**
+     * load data from DB
+     */
+    private void loadData() {
+	System.out.print("load data: " + selectedOption);
+	// check main input
+	int kontoId = 0;
+	int categoryId = 0;
+	if (kontoBox.getValue() != null) {
+	    kontoId = kontoBox.getComboBoxIDValue();
+	}
+	if (categoryBox.getValue() != null) {
+	    categoryId = categoryBox.getComboBoxIDValue();
+	}
+	
+	// now decide which query should be run
+	if (selectedOption.equals("von-bis Übersicht")) {
+	    refillContainer(transaktionsUtil.getTransaktionsForDateKontoCategory(getFromDate(), getToDate(), kontoId, categoryId));
+	}
+	if (selectedOption.equals("Monatsübersicht")) {
+	    refillContainer(transaktionsUtil.getTransaktionsForMonthKontoCategory(getYearMonth(), kontoId, categoryId));
+	}
+	if (selectedOption.equals("Jahresübersicht")) {
+	    refillContainer(transaktionsUtil.getTransaktionsForYearKontoCategory(getYear(), kontoId, categoryId));
+	} 
+	if (selectedOption.equals("AlleDaten")) {
+	    if (kontoId > 0 || categoryId > 0) {
+		refillContainer(transaktionsUtil.getTransaktionsForKontoCategory(kontoId, categoryId));
+	    }
+	}
+	// get all data if there is something wrong
+	if (kontoId == 0 && categoryId == 0) {
+	    refillContainer(transaktionsUtil.getAllTransaktionsForUser(user));
 	}
     }
     
@@ -175,6 +211,10 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	}
     }
     
+    /**
+     * build search elements
+     * @param option
+     */
     private void buildSearchElements(String option) {
 	searchElements.removeAllComponents();
 	
@@ -198,8 +238,10 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	    searchElements.addComponent(year);
 	} 
 	if (option.equals("AlleDaten")) {
-	    
+
 	}
+	
+	selectedOption = option;
     }
 
 }

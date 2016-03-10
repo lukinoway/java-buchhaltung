@@ -28,7 +28,7 @@ public interface ITransaktion {
     
     public TransaktionsContainer getTransaktionsForMonthKontoCategory(LocalDate monthYear, int kontoId, int categoryId);
     
-    public TransaktionsContainer getTransaktionsForYearKontoCategory(LocalDate monthYear, int kontoId, int categoryId);
+    public TransaktionsContainer getTransaktionsForYearKontoCategory(LocalDate year, int kontoId, int categoryId);
     
     
 

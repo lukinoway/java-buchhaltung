@@ -8,15 +8,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/** 
+/**
  * Main Class to handle to communication between BackEnd and DB
+ * 
  * @author lpichle
  *
  */
 public class DBCommunicator implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	static Connection connect = null;
+    private static final long serialVersionUID = 1L;
+    static Connection connect = null;
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
@@ -27,25 +28,26 @@ public class DBCommunicator implements Serializable {
     String db_pwd = "dev";
 
     DBCommunicator() {
-		// initialize connection
-		connectDB();
+	// initialize connection
+	connectDB();
     }
-    
+
     public void connectDB() {
 	try {
-	    // check if connection is already open (increase overall performance)
+	    // check if connection is already open (increase overall
+	    // performance)
 	    if (connect == null) {
 		// This will load the MySQL driver, each DB has its own driver
 		Class.forName("org.postgresql.Driver");
 		// Setup the connection with the DB
 		connect = DriverManager.getConnection(
-		    "jdbc:postgresql://" + server_name + "/db_home?" + "user=" + db_user + "&password=" + db_pwd);
+			"jdbc:postgresql://" + server_name + "/db_home?" + "user=" + db_user + "&password=" + db_pwd);
 	    }
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
     }
-    
+
     public void createStatement() {
 	try {
 	    statement = connect.createStatement();
@@ -83,7 +85,7 @@ public class DBCommunicator implements Serializable {
 		    "insert into konto_app." + tableName + "( " + columnPart + " ) values( " + valuePart + " )");
 	} catch (Exception e) {
 	    throw e;
-	} 
+	}
     }
 
     public ResultSet insertDataPrepared(String tableName, String valuePart, String columnPart) throws Exception {
@@ -97,7 +99,7 @@ public class DBCommunicator implements Serializable {
 	    return resultSet;
 	} catch (Exception e) {
 	    throw e;
-	} 
+	}
     }
 
     /**
@@ -134,7 +136,7 @@ public class DBCommunicator implements Serializable {
 	    throw e;
 	}
     }
-    
+
     public Connection getConnection() {
 	return connect;
     }
@@ -152,7 +154,7 @@ public class DBCommunicator implements Serializable {
 	    e.printStackTrace();
 	}
     }
-    
+
     public void closeConnection() {
 	try {
 	    if (connect != null) {

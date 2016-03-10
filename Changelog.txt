@@ -1,3 +1,8 @@
+## 2016-03-10
+- implemented different search functions
+- added export function (just plain export) -> maybe open new window with grid to export
+-- birt oder spagoBI reports??
+
 ## 2016-03-09
 - added options to search bar
 -- still missing implementation for search function

@@ -1,5 +1,6 @@
 package konto.ui.view.Transaktion;
 
+import org.vaadin.haijian.PdfExporter;
 import org.vaadin.teemu.VaadinIcons;
 
 import com.vaadin.ui.Alignment;
@@ -7,7 +8,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
-
+import com.vaadin.ui.Button.ClickListener;
 import konto.data.DBUtil.ITransaktion;
 import konto.data.DBUtil.TransaktionDBUtil;
 import konto.data.container.TransaktionsContainer;
@@ -26,6 +27,9 @@ public class TransaktionsMainView extends VerticalLayout {
     ITransaktion transaktionUtil = new TransaktionDBUtil();
     TransaktionsGrid transaktionsgrid;
     TransaktionsSearchBar searchBar;
+    
+    Button addTransaktionBtn = new Button();
+    Button exportGridBtn = new Button("Export");
 
     private TransaktionsContainer container;
 
@@ -48,9 +52,7 @@ public class TransaktionsMainView extends VerticalLayout {
 	this.addComponent(searchBar);
 	this.addComponent(transaktionsgrid);
 
-	// add new Button
-	Button addTransaktionBtn = new Button();
-	addTransaktionBtn.addClickListener(new Button.ClickListener() {
+	addTransaktionBtn.addClickListener(new ClickListener() {
 
 	    private static final long serialVersionUID = 1L;
 
@@ -66,22 +68,16 @@ public class TransaktionsMainView extends VerticalLayout {
 	this.setComponentAlignment(addTransaktionBtn, Alignment.BOTTOM_CENTER);
 	addTransaktionBtn.setIcon(VaadinIcons.PLUS_CIRCLE);
 	addTransaktionBtn.setStyleName("addButton");
-
+	
+	
+	// export Button
+	PdfExporter pdfExport = new PdfExporter(transaktionsgrid.getContainerDataSource(), transaktionsgrid.getContainerDataSource().getContainerPropertyIds().toArray());
+	pdfExport.setCaption("Export");
+	pdfExport.setWithBorder(true);
+	pdfExport.setIcon(VaadinIcons.DOWNLOAD);
+	this.addComponent(pdfExport);
+	this.setComponentAlignment(pdfExport, Alignment.BOTTOM_CENTER);
+	
     }
-
-    /**
-     * Create some test data
-     */
-    /*
-     * private void createTestData() { try { ArrayList<Transaktion> collector =
-     * new ArrayList<Transaktion>();
-     * 
-     * collector.add(new Transaktion(LocalDate.now(), 20.0, "text1", 0, 0));
-     * collector.add(new Transaktion(LocalDate.now(), 30.0, "text2", 0, 0));
-     * collector.add(new Transaktion(LocalDate.now(), 40.0, "text3", 0, 0));
-     * collector.add(new Transaktion(LocalDate.now(), 50.0, "text4", 0, 0));
-     * container = new TransaktionsContainer(collector); } catch
-     * (NoSuchAlgorithmException e) { e.printStackTrace(); } }
-     */
 
 }
