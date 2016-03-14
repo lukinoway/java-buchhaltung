@@ -51,7 +51,7 @@
 	}
 	
 	.v-button-caption {
-		color: blue;
+		//color: blue;
 	}
 	
 	.v-panel {
@@ -114,14 +114,15 @@
 	}
 	
 	.navigationBtn {
-		height: 60px;
+		height: 30px;
 		width: 180px;
 		font-size: 24px;
 		margin-left: 0px;
 		background-color: none;
 		border: none;
-		color: black;	
-		line-height: 2;
+		//color: black;	
+		//line-height: 2;
+		text-align: left;
 	}
 	
 	.v-textfield {

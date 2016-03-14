@@ -1,7 +1,6 @@
 package konto.ui.view.Category;
 
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.event.ShortcutListener;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.GridLayout;
@@ -43,6 +42,9 @@ public class NewCategoryWindow extends Window {
 
 	// build grid
 	buildGrid();
+	
+	saveBtn.setClickShortcut(KeyCode.ENTER);
+	cancelBtn.setClickShortcut(KeyCode.ESCAPE);
 
 	// add new entry
 	saveBtn.addClickListener(new ClickListener() {
@@ -66,28 +68,6 @@ public class NewCategoryWindow extends Window {
 
 	    }
 
-	});
-
-	// add data on enter
-	saveBtn.addShortcutListener(new ShortcutListener("enter Category", ShortcutAction.KeyCode.ENTER, null) {
-
-	    private static final long serialVersionUID = 1L;
-
-	    @Override
-	    public void handleAction(Object sender, Object target) {
-		addData();
-	    }
-	});
-
-	// close window on ESC
-	this.addShortcutListener(new ShortcutListener("ESC Category", ShortcutAction.KeyCode.ESCAPE, null) {
-
-	    private static final long serialVersionUID = 1L;
-
-	    @Override
-	    public void handleAction(Object sender, Object target) {
-		NewCategoryWindow.this.close();
-	    }
 	});
 
 	categoryName.focus();

@@ -2,11 +2,13 @@ package konto.ui.view.Konto;
 
 import org.vaadin.teemu.VaadinIcons;
 
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.ui.VerticalLayout;
 
 import konto.data.DBUtil.IKonto;
@@ -38,6 +40,8 @@ public class KontoMainView extends VerticalLayout {
 
 	addKontoBtn.setIcon(VaadinIcons.PLUS_CIRCLE);
 	addKontoBtn.setStyleName("addButton");
+	addKontoBtn.addStyleName(ValoTheme.BUTTON_BORDERLESS);
+	addKontoBtn.setClickShortcut(KeyCode.A);
 	this.addComponent(addKontoBtn);
 	this.setComponentAlignment(addKontoBtn, Alignment.BOTTOM_CENTER);
 

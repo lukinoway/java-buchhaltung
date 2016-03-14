@@ -1,7 +1,6 @@
 package konto.ui.view.Konto;
 
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.event.ShortcutListener;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.TextField;
@@ -37,6 +36,9 @@ public class NewKontoWindow extends Window {
 
 	// build grid
 	buildGrid();
+	
+	saveBtn.setClickShortcut(KeyCode.ENTER);
+	cancelBtn.setClickShortcut(KeyCode.ESCAPE);
 
 	// add new entry
 	saveBtn.addClickListener(new ClickListener() {
@@ -60,28 +62,6 @@ public class NewKontoWindow extends Window {
 
 	    }
 
-	});
-
-	// add data on enter
-	saveBtn.addShortcutListener(new ShortcutListener("enter Konto", ShortcutAction.KeyCode.ENTER, null) {
-
-	    private static final long serialVersionUID = 1L;
-
-	    @Override
-	    public void handleAction(Object sender, Object target) {
-		addData();
-	    }
-	});
-
-	// close window on ESC
-	this.addShortcutListener(new ShortcutListener("ESC Konto", ShortcutAction.KeyCode.ESCAPE, null) {
-
-	    private static final long serialVersionUID = 1L;
-
-	    @Override
-	    public void handleAction(Object sender, Object target) {
-		NewKontoWindow.this.close();
-	    }
 	});
 
     }

@@ -9,6 +9,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class SideBar extends HorizontalLayout {
 
@@ -45,6 +46,7 @@ public class SideBar extends HorizontalLayout {
 	setHeight(100, Unit.PERCENTAGE);
 
 	expanderBtn.setIcon(VaadinIcons.BACKWARDS);
+	expanderBtn.addStyleName(ValoTheme.BUTTON_BORDERLESS);
 	expanderBtn.addClickListener(new ClickListener() {
 
 	    private static final long serialVersionUID = 1L;

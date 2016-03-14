@@ -7,6 +7,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import konto.data.DBUtil.ITransaktion;
@@ -68,6 +69,8 @@ public class TransaktionsMainView extends VerticalLayout {
 	this.setComponentAlignment(addTransaktionBtn, Alignment.BOTTOM_CENTER);
 	addTransaktionBtn.setIcon(VaadinIcons.PLUS_CIRCLE);
 	addTransaktionBtn.setStyleName("addButton");
+	addTransaktionBtn.addStyleName(ValoTheme.BUTTON_BORDERLESS);
+	//addTransaktionBtn.setClickShortcut(KeyCode.A);
 	
 	
 	// export Button

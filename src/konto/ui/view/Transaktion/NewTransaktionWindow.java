@@ -4,8 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.event.ShortcutListener;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.GridLayout;
@@ -56,6 +55,9 @@ public class NewTransaktionWindow extends Window {
 
 	// build grid
 	buildGrid();
+	
+	saveBtn.setClickShortcut(KeyCode.ENTER);
+	cancelBtn.setClickShortcut(KeyCode.ESCAPE);
 
 	// add new entry
 	saveBtn.addClickListener(new ClickListener() {
@@ -79,28 +81,6 @@ public class NewTransaktionWindow extends Window {
 
 	    }
 
-	});
-
-	// add data on enter
-	saveBtn.addShortcutListener(new ShortcutListener("enter Transaktion", ShortcutAction.KeyCode.ENTER, null) {
-
-	    private static final long serialVersionUID = 1L;
-
-	    @Override
-	    public void handleAction(Object sender, Object target) {
-		addData();
-	    }
-	});
-
-	// close window on ESC
-	this.addShortcutListener(new ShortcutListener("ESC Transaktion", ShortcutAction.KeyCode.ESCAPE, null) {
-
-	    private static final long serialVersionUID = 1L;
-
-	    @Override
-	    public void handleAction(Object sender, Object target) {
-		NewTransaktionWindow.this.close();
-	    }
 	});
 
     }

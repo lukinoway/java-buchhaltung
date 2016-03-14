@@ -1,16 +1,18 @@
 package konto.ui;
 
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.event.ShortcutListener;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 import konto.data.DBUtil.IUser;
 import konto.data.DBUtil.UserDBUtil;
@@ -21,7 +23,8 @@ import konto.ui.view.User.NewUserWindow;
 public class LoginForm extends Panel {
 
     private static final long serialVersionUID = 1L;
-    HorizontalLayout main = new HorizontalLayout();
+    VerticalLayout main = new VerticalLayout();
+    HorizontalLayout buttonBar = new HorizontalLayout();
     TextField userName = new TextField("Benutzer");
     PasswordField userPass = new PasswordField("Password");
     Button loginBtn = new Button("Login");
@@ -33,20 +36,32 @@ public class LoginForm extends Panel {
 
     public LoginForm() {
 
-	this.setWidth(700, Unit.PIXELS);
-	this.setHeight(150, Unit.PIXELS);
+	this.setWidth(300, Unit.PIXELS);
+	//this.setHeight(500, Unit.PIXELS);
 
 	main.setWidth(100, Unit.PERCENTAGE);
 
 	this.setCaption("Login to HomeAPP");
 
 	main.addComponent(userName);
+	userName.setWidth(100, Unit.PERCENTAGE);
+	userName.addStyleName(ValoTheme.TEXTFIELD_SMALL);
 	main.addComponent(userPass);
-	main.addComponent(loginBtn);
-	main.setComponentAlignment(loginBtn, Alignment.BOTTOM_RIGHT);
+	userPass.setWidth(100, Unit.PERCENTAGE);
+	userPass.addStyleName(ValoTheme.TEXTFIELD_SMALL);
+	
+	// build button bar	
+	main.addComponent(buttonBar);
+	buttonBar.setWidth(100, Unit.PERCENTAGE);
+	
+	buttonBar.addComponent(loginBtn);
+	buttonBar.setComponentAlignment(loginBtn, Alignment.BOTTOM_LEFT);
+	loginBtn.setClickShortcut(KeyCode.ENTER);
+	loginBtn.addStyleName(ValoTheme.BUTTON_PRIMARY);
 
-	main.addComponent(createUserBtn);
-	main.setComponentAlignment(createUserBtn, Alignment.BOTTOM_RIGHT);
+	buttonBar.addComponent(createUserBtn);
+	buttonBar.setComponentAlignment(createUserBtn, Alignment.BOTTOM_RIGHT);
+	createUserBtn.addStyleName(ValoTheme.BUTTON_FRIENDLY);
 
 	this.setContent(main);
 	this.setStyleName("light");
@@ -63,17 +78,6 @@ public class LoginForm extends Panel {
 
 	    }
 
-	});
-
-	// add data on enter
-	loginBtn.addShortcutListener(new ShortcutListener("enter User", ShortcutAction.KeyCode.ENTER, null) {
-
-	    private static final long serialVersionUID = 1L;
-
-	    @Override
-	    public void handleAction(Object sender, Object target) {
-		loginAttemp();
-	    }
 	});
 
 	// add possibillity to add user in login mask
@@ -119,7 +123,6 @@ public class LoginForm extends Panel {
     /**
      * try to Login
      */
-    @SuppressWarnings("deprecation")
     private void loginAttemp() {
 	if (validInput()) {
 	    if (!validLogin) {
@@ -130,7 +133,7 @@ public class LoginForm extends Panel {
 		    SessionManager.setUser(loginUser);
 		    ((MainApp) getUI()).buildMainView();
 		} else {
-		    getUI().showNotification("Fehler beim Login - Bitte Eingabe Prüfen");
+		    Notification.show("Fehler beim Login - Bitte Eingabe Prüfen");
 		    userName.focus();
 		}
 	    }

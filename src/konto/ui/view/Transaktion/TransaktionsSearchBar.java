@@ -7,6 +7,7 @@ import org.vaadin.teemu.VaadinIcons;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
@@ -14,6 +15,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.ui.Button.ClickEvent;
 
 import konto.data.DBUtil.ITransaktion;
@@ -92,7 +94,8 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	this.addComponent(searchBtn);
 	this.setComponentAlignment(searchBtn, Alignment.MIDDLE_RIGHT);
 	searchBtn.setIcon(VaadinIcons.SEARCH);
-	
+	searchBtn.addStyleName(ValoTheme.BUTTON_FRIENDLY);
+	searchBtn.setClickShortcut(KeyCode.ENTER);
 	
 	
 	// searchbutton
@@ -221,21 +224,28 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	// visible in all searchbars
 	searchElements.addComponent(kontoBox);
 	kontoBox.setNullSelectionAllowed(true);
+	kontoBox.addStyleName(ValoTheme.COMBOBOX_SMALL);
 	
 	searchElements.addComponent(categoryBox);
 	categoryBox.setNullSelectionAllowed(true);
+	categoryBox.addStyleName(ValoTheme.COMBOBOX_SMALL);
 	
 	System.out.println("option button: " + option);
 	// check for selected option
 	if (option.equals("von-bis Übersicht")) {
 	    searchElements.addComponent(fromDate);
 	    searchElements.addComponent(toDate);
+	    
+	    fromDate.addStyleName(ValoTheme.DATEFIELD_SMALL);
+	    toDate.addStyleName(ValoTheme.DATEFIELD_SMALL);
 	}
 	if (option.equals("Monatsübersicht")) {
 	    searchElements.addComponent(monthYear);
+	    monthYear.addStyleName(ValoTheme.DATEFIELD_SMALL);
 	}
 	if (option.equals("Jahresübersicht")) {
 	    searchElements.addComponent(year);
+	    year.addStyleName(ValoTheme.DATEFIELD_SMALL);
 	} 
 	if (option.equals("AlleDaten")) {
 
