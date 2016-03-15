@@ -1,3 +1,8 @@
+## 2016-03-15
+- fixed pom config for tomcat libs
+- added tomcat deploy config
+-- mvn tomcat7:deploy oder tomcat7:redeploy
+
 ## 2016-03-14
 - merged vaadin branch on master
 - fixed keyevents (can be added via buttons)
