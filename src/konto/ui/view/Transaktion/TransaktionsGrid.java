@@ -3,8 +3,11 @@ package konto.ui.view.Transaktion;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.GeneratedPropertyContainer;
 import com.vaadin.data.util.PropertyValueGenerator;
+import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.renderers.ButtonRenderer;
 
 import konto.data.container.TransaktionsContainer;
@@ -52,6 +55,22 @@ public class TransaktionsGrid extends Grid {
 	getColumn("delete").setRenderer(deleteBtn);
 	getColumns().stream().forEach(c -> c.setSortable(false));
 	getColumn("delete").setWidth(60);
+	
+	this.addItemClickListener(new ItemClickListener() {
+
+	    private static final long serialVersionUID = 1L;
+
+	    @Override
+	    public void itemClick(ItemClickEvent event) {
+		if(event.isDoubleClick()) {
+		    TransaktionWindow w = new TransaktionWindow(event.getItemId());
+		    UI.getCurrent().addWindow(w);
+		    w.focus();
+		}
+		
+	    }
+	    
+	});
 	
     }
 

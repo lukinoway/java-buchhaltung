@@ -59,7 +59,7 @@ public class TransaktionsMainView extends VerticalLayout {
 
 	    @Override
 	    public void buttonClick(ClickEvent event) {
-		NewTransaktionWindow w = new NewTransaktionWindow();
+		TransaktionWindow w = new TransaktionWindow();
 		UI.getCurrent().addWindow(w);
 		w.focus();
 	    }
