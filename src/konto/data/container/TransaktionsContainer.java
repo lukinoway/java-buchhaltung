@@ -25,8 +25,8 @@ public class TransaktionsContainer extends IndexedContainer {
 	this.addContainerProperty("Betrag", Double.class, null);
 	this.addContainerProperty("Datum", LocalDate.class, null);
 	this.addContainerProperty("Hash", String.class, null);
-	this.addContainerProperty("Kategorie", Integer.class, null);
-	this.addContainerProperty("Konto", Integer.class, null);
+	this.addContainerProperty("KategorieId", Integer.class, null);
+	this.addContainerProperty("KontoId", Integer.class, null);
 
 	for (Transaktion transaktion : transaktionList) {
 	    Object id = addItem();
@@ -37,8 +37,8 @@ public class TransaktionsContainer extends IndexedContainer {
 		item.getItemProperty("Betrag").setValue(transaktion.getTransaktionsBetrag());
 		item.getItemProperty("Datum").setValue(transaktion.getTransaktionsDate());
 		item.getItemProperty("Hash").setValue(transaktion.getTransaktionsHash());
-		item.getItemProperty("Kategorie").setValue(transaktion.getTypeId());
-		item.getItemProperty("Konto").setValue(transaktion.getKontoId());
+		item.getItemProperty("KategorieId").setValue(transaktion.getTypeId());
+		item.getItemProperty("KontoId").setValue(transaktion.getKontoId());
 	    }
 	}
     }
@@ -62,8 +62,8 @@ public class TransaktionsContainer extends IndexedContainer {
 	    item.getItemProperty("Betrag").setValue(transaktion.getTransaktionsBetrag());
 	    item.getItemProperty("Datum").setValue(transaktion.getTransaktionsDate());
 	    item.getItemProperty("Hash").setValue(transaktion.getTransaktionsHash());
-	    item.getItemProperty("Kategorie").setValue(transaktion.getTypeId());
-	    item.getItemProperty("Konto").setValue(transaktion.getKontoId());
+	    item.getItemProperty("KategorieId").setValue(transaktion.getTypeId());
+	    item.getItemProperty("KontoId").setValue(transaktion.getKontoId());
 	}
     }
     
@@ -82,8 +82,8 @@ public class TransaktionsContainer extends IndexedContainer {
 	    item.getItemProperty("Betrag").setValue(transaktion.getTransaktionsBetrag());
 	    item.getItemProperty("Datum").setValue(transaktion.getTransaktionsDate());
 	    item.getItemProperty("Hash").setValue(transaktion.getTransaktionsHash());
-	    item.getItemProperty("Kategorie").setValue(transaktion.getTypeId());
-	    item.getItemProperty("Konto").setValue(transaktion.getKontoId());
+	    item.getItemProperty("KategorieId").setValue(transaktion.getTypeId());
+	    item.getItemProperty("KontoId").setValue(transaktion.getKontoId());
 	}
     }
 
@@ -114,8 +114,8 @@ public class TransaktionsContainer extends IndexedContainer {
 	return new Transaktion((Integer) item.getItemProperty("ID").getValue(),
 		(LocalDate) item.getItemProperty("Datum").getValue(),
 		(Double) item.getItemProperty("Betrag").getValue(), (String) item.getItemProperty("Text").getValue(),
-		(String) item.getItemProperty("Hash").getValue(), (Integer) item.getItemProperty("Konto").getValue(),
-		(Integer) item.getItemProperty("Kategorie").getValue());
+		(String) item.getItemProperty("Hash").getValue(), (Integer) item.getItemProperty("KontoId").getValue(),
+		(Integer) item.getItemProperty("KategorieId").getValue());
 
     }
 }

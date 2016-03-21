@@ -27,4 +27,8 @@ public abstract class TemplateComboBox extends ComboBox{
 	System.out.println("Box ID: " + boxId);
 	return boxId;
     }
+    
+    public void setComboBoxValue(int idValue) {
+
+    }
 }

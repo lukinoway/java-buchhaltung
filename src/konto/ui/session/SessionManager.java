@@ -1,8 +1,10 @@
 package konto.ui.session;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 import com.vaadin.annotations.PreserveOnRefresh;
+import com.vaadin.data.Item;
 import com.vaadin.server.VaadinSession;
 
 import konto.data.container.CategoryContainer;
@@ -69,15 +71,37 @@ public class SessionManager implements Serializable {
     }
     
     public static void setKontoContainer(KontoContainer container) {
-	if (container != null)
-	try {
-            VaadinSession.getCurrent().getLockInstance().lock();
-            VaadinSession.getCurrent().setAttribute("konto", container);
-	} finally {
-	    VaadinSession.getCurrent().getLockInstance().unlock();
+	if (container != null) {
+	    // create Hashmap to store ID's and Name
+	    HashMap<Integer, String> kontoMap = new HashMap<Integer, String>();
+	    for (int i = 1; i < container.size(); i++) {
+		Item item = container.getItem(i);
+		int id = (Integer) item.getItemProperty("ID").getValue();
+		String text = (String) item.getItemProperty("Beschreibung").getValue();
+		kontoMap.put(id, text);
+	    }
+
+	    try {
+		VaadinSession.getCurrent().getLockInstance().lock();
+		VaadinSession.getCurrent().setAttribute("konto", container);
+		VaadinSession.getCurrent().setAttribute("kontoMap", kontoMap);
+	    } finally {
+		VaadinSession.getCurrent().getLockInstance().unlock();
+	    }
 	}
-	
+
     }
+    
+    public static HashMap<Integer, String> getKontoMap() {
+	if (VaadinSession.getCurrent().getAttribute("kontoMap") instanceof HashMap) {
+            @SuppressWarnings("unchecked")
+	    HashMap<Integer, String> map = (HashMap<Integer, String>) VaadinSession.getCurrent().getAttribute("kontoMap");
+            return map;
+        }
+        
+        return null;
+    }
+    
     
     public static CategoryContainer getCategoryContainer() {
         if (VaadinSession.getCurrent().getAttribute("category") instanceof CategoryContainer) {
@@ -89,14 +113,36 @@ public class SessionManager implements Serializable {
     }
     
     public static void setCategoryContainer(CategoryContainer container) {
-	if (container != null)
-	try {
-            VaadinSession.getCurrent().getLockInstance().lock();
-            VaadinSession.getCurrent().setAttribute("category", container);
-	} finally {
-	    VaadinSession.getCurrent().getLockInstance().unlock();
+	if (container != null) {
+	    
+	    // create Hashmap to store ID's and Name
+	    HashMap<Integer, String> categoryMap = new HashMap<Integer, String>();
+	    for (int i = 1; i < container.size(); i++) {
+		Item item = container.getItem(i);
+		int id = (Integer) item.getItemProperty("ID").getValue();
+		String text = (String) item.getItemProperty("Text").getValue();
+		categoryMap.put(id, text);
+	    }
+
+	    try {
+		VaadinSession.getCurrent().getLockInstance().lock();
+		VaadinSession.getCurrent().setAttribute("category", container);
+		VaadinSession.getCurrent().setAttribute("categoryMap", categoryMap);
+	    } finally {
+		VaadinSession.getCurrent().getLockInstance().unlock();
+	    }
 	}
-	
+
+    }
+    
+    public static HashMap<Integer, String> getCategoryMap() {
+	if (VaadinSession.getCurrent().getAttribute("categoryMap") instanceof HashMap) {
+            @SuppressWarnings("unchecked")
+	    HashMap<Integer, String> map = (HashMap<Integer, String>) VaadinSession.getCurrent().getAttribute("categoryMap");
+            return map;
+        }
+        
+        return null;
     }
     
 }
