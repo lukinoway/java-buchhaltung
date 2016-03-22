@@ -46,7 +46,6 @@ public class TransaktionsGrid extends Grid {
 	    @Override
 	    public String getValue(Item item, Object itemId, Object propertyId) {
 		int id = (Integer)item.getItemProperty("KategorieId").getValue();
-		System.out.println("ID " + id);
 		try {
 		    return categoryMap.get(id).toString();
 		} catch (NullPointerException e) {

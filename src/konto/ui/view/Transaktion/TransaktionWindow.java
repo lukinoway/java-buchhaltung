@@ -109,7 +109,6 @@ public class TransaktionWindow extends Window {
 		}
 		else {
 		    updateTransaktion();
-		    TransaktionWindow.this.close();
 		}
 	    }
 	});
@@ -261,6 +260,8 @@ public class TransaktionWindow extends Window {
 		    transaktion.createTransaktionsHash();
 		    
 		    container.updateTransaktion(itemId, transaktion);
+		    
+		    TransaktionWindow.this.close();
 		    
 		} catch (Exception e) {
 		    e.printStackTrace();

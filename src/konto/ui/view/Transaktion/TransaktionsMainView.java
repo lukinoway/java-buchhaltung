@@ -1,8 +1,12 @@
 package konto.ui.view.Transaktion;
 
+import org.apache.poi.hssf.extractor.ExcelExtractor;
+import org.vaadin.haijian.ExcelExporter;
 import org.vaadin.haijian.PdfExporter;
 import org.vaadin.teemu.VaadinIcons;
 
+import com.itextpdf.text.pdf.PdfPTable;
+import com.vaadin.data.Container.Indexed;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
@@ -74,13 +78,16 @@ public class TransaktionsMainView extends VerticalLayout {
 	//addTransaktionBtn.setClickShortcut(KeyCode.A);
 	
 	
+	// prepare for export
+	Indexed trData = transaktionsgrid.getContainerDataSource();
+	trData.removeContainerProperty("delete");
+	
 	// export Button
-	PdfExporter pdfExport = new PdfExporter(transaktionsgrid.getContainerDataSource(), transaktionsgrid.getContainerDataSource().getContainerPropertyIds().toArray());
-	pdfExport.setCaption("Export");
-	pdfExport.setWithBorder(true);
-	pdfExport.setIcon(VaadinIcons.DOWNLOAD);
-	this.addComponent(pdfExport);
-	this.setComponentAlignment(pdfExport, Alignment.BOTTOM_CENTER);
+	ExcelExporter excelExport = new ExcelExporter(trData, trData.getContainerPropertyIds().toArray());
+	excelExport.setCaption("Export");
+	excelExport.setIcon(VaadinIcons.DOWNLOAD);
+	this.addComponent(excelExport);
+	this.setComponentAlignment(excelExport, Alignment.BOTTOM_CENTER);
 	
     }
 
