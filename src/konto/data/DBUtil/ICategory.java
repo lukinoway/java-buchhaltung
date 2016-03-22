@@ -7,6 +7,8 @@ public interface ICategory {
 	
 	public void createCategory(Category category);
 	
+	public void updateCategory(Category category);
+	
 	public void deleteCategory(Category category);
 	
 	public CategoryContainer getAllCategories();

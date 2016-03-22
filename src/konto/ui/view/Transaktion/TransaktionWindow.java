@@ -1,6 +1,7 @@
 package konto.ui.view.Transaktion;
 
 import java.sql.Date;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -49,6 +50,7 @@ public class TransaktionWindow extends Window {
     
     private boolean updateData = false;
     private Transaktion transaktion;
+    private Object itemId;
 
     public TransaktionWindow() {
 
@@ -67,6 +69,7 @@ public class TransaktionWindow extends Window {
 	this.setCaption("Update Transaktion");
 	this.user = SessionManager.getUser();
 	this.updateData = true;
+	this.itemId = itemId;
 
 	// build grid
 	buildGrid();
@@ -105,7 +108,8 @@ public class TransaktionWindow extends Window {
 		    addData();
 		}
 		else {
-		    
+		    updateTransaktion();
+		    TransaktionWindow.this.close();
 		}
 	    }
 	});
@@ -127,6 +131,7 @@ public class TransaktionWindow extends Window {
 	this.center();
     }
     
+
     /**
      * load transaktion from ID
      * @param indexId
@@ -138,8 +143,8 @@ public class TransaktionWindow extends Window {
 	transaktionsText.setValue(transaktion.getTransaktionsText());
 	transaktionsBetrag.setValue(String.valueOf(transaktion.getTransaktionsBetrag()));
 	transaktionsDatum.setValue(Date.valueOf(transaktion.getTransaktionsDate()));
-	transaktionsKonto.setValue(transaktion.getKontoId());
-	transaktionsType.setValue(transaktion.getTypeId());
+	transaktionsKonto.setComboBoxValue(transaktion.getKontoId());
+	transaktionsType.setComboBoxValue(transaktion.getTypeId());
     }
 
     /**
@@ -189,10 +194,21 @@ public class TransaktionWindow extends Window {
 	if (transaktionsDatum.getValue() == null) {
 	    returnDate = LocalDate.now();
 	} else {
-	    returnDate = LocalDateTime.ofInstant(transaktionsDatum.getValue().toInstant(), ZoneId.systemDefault())
-		    .toLocalDate();
+	    try {
+		System.out.println("Datum: '" + transaktionsDatum.getValue() + "'");
+		returnDate = LocalDateTime.ofInstant(transaktionsDatum.getValue().toInstant(), ZoneId.systemDefault())
+			.toLocalDate();
+	    } catch (Exception e) {
+		returnDate = convertDateToLocalDate((Date) transaktionsDatum.getValue());
+	    }
 	}
 	return returnDate;
+    }
+    
+    private LocalDate convertDateToLocalDate(Date date) {
+	// date conversion
+	Instant instant = Instant.ofEpochMilli(date.getTime());
+	return LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
     }
 
     /**
@@ -227,6 +243,31 @@ public class TransaktionWindow extends Window {
 		}
 	    }
 	}
+    }
+    
+    protected void updateTransaktion() {
+	if (validateInput()) {
+	    if (container != null) {
+		try {
+		    // get ComboBox Values
+		    int kontoId = transaktionsKonto.getComboBoxIDValue();
+		    int typeId = transaktionsType.getComboBoxIDValue();
+		    
+		    transaktion.setKontoId(kontoId);
+		    transaktion.setTypeId(typeId);
+		    transaktion.setTransaktionsBetrag(Double.parseDouble(transaktionsBetrag.getValue()));
+		    transaktion.setTransaktionsText(transaktionsText.getValue());
+		    transaktion.setTransaktionsDate(getTransaktionsDate());
+		    transaktion.createTransaktionsHash();
+		    
+		    container.updateTransaktion(itemId, transaktion);
+		    
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+	    }
+	}
+	
     }
 
 }

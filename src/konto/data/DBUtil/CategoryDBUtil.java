@@ -37,6 +37,20 @@ public class CategoryDBUtil extends DBCommunicator implements ICategory {
 	}
 
     }
+    
+    public void updateCategory(Category category) {
+	try {
+	    String pSql = "update db_transaktion_type set type_text = ? where type_id = ?";
+	    pStmt = connect.prepareStatement(pSql);
+	    pStmt.setString(1, category.getTypeText());
+	    pStmt.setInt(2, category.getTypeId());
+	    pStmt.executeUpdate();
+	} catch (Exception e) {
+	    e.printStackTrace();
+	} finally {
+	    close();
+	}
+    }
 
     @Override
     public void deleteCategory(Category category) {

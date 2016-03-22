@@ -52,7 +52,7 @@ public class KontoMainView extends VerticalLayout {
 	    @Override
 	    public void buttonClick(ClickEvent event) {
 
-		NewKontoWindow w = new NewKontoWindow();
+		KontoWindow w = new KontoWindow();
 		UI.getCurrent().addWindow(w);
 		w.focus();
 

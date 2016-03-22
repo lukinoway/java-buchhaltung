@@ -8,12 +8,12 @@ import java.time.LocalDate;
 public class Transaktion {
 
     private int transaktionsId;
-    private final Double transaktionsBetrag;
-    private final String transaktionsText;
+    private Double transaktionsBetrag;
+    private String transaktionsText;
     private String transaktionsHash;
-    private final LocalDate transaktionsDate;
-    private final int kontoId;
-    private final int typeId;
+    private LocalDate transaktionsDate;
+    private int kontoId;
+    private int typeId;
 
     /**
      * this will be used to read csv and write to DB / tr_id will be created in
@@ -38,7 +38,7 @@ public class Transaktion {
 	this.transaktionsId = 0;
 
 	// create hash
-	createTransaktionsHash(tr_text + tr_date.toString() + tr_betrag);
+	createTransaktionsHash();
     }
 
     /**
@@ -60,6 +60,26 @@ public class Transaktion {
 	this.transaktionsId = tr_id;
 	this.transaktionsHash = tr_hash;
 	this.kontoId = kontoId;
+	this.typeId = typeId;
+    }
+
+    public void setTransaktionsBetrag(Double transaktionsBetrag) {
+	this.transaktionsBetrag = transaktionsBetrag;
+    }
+
+    public void setTransaktionsText(String transaktionsText) {
+	this.transaktionsText = transaktionsText;
+    }
+
+    public void setTransaktionsDate(LocalDate transaktionsDate) {
+	this.transaktionsDate = transaktionsDate;
+    }
+
+    public void setKontoId(int kontoId) {
+	this.kontoId = kontoId;
+    }
+
+    public void setTypeId(int typeId) {
 	this.typeId = typeId;
     }
 
@@ -97,7 +117,8 @@ public class Transaktion {
      * @param in_string
      * @throws NoSuchAlgorithmException
      */
-    public void createTransaktionsHash(String in_string) throws NoSuchAlgorithmException {
+    public void createTransaktionsHash() throws NoSuchAlgorithmException {
+	String in_string = this.transaktionsText + this.transaktionsDate.toString() + this.transaktionsBetrag;
 	try {
 	    MessageDigest m = MessageDigest.getInstance("MD5");
 	    m.reset();

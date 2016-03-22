@@ -53,7 +53,22 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 
     @Override
     public void updateTransaktion(Transaktion transaktion) {
-	// TODO Auto-generated method stub
+	try {
+	    String pSql = "update db_transaktion set transaktion_date = ?, transaktion_betrag = ?, transaktion_text = ?, transaktion_type = ?, konto_id = ?, transaktion_hash = ? where transaktion_id = ?";
+	    pStmt = connect.prepareStatement(pSql);
+	    pStmt.setDate(1, convertLocalDateToSqlDate(transaktion.getTransaktionsDate()));
+	    pStmt.setDouble(2, transaktion.getTransaktionsBetrag());
+	    pStmt.setString(3, transaktion.getTransaktionsText());
+	    pStmt.setInt(4, transaktion.getTypeId());
+	    pStmt.setInt(5, transaktion.getKontoId());
+	    pStmt.setString(6, transaktion.getTransaktionsHash());
+	    pStmt.setInt(7, transaktion.getTransaktionsId());
+	    pStmt.executeUpdate();
+	} catch (Exception e) {
+	    
+	} finally {
+	    close();
+	}
 
     }
 
@@ -78,7 +93,7 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	try {
 	    String pSql = "SELECT transaktion_id, transaktion_date, transaktion_betrag, transaktion_text, "
 		    + "transaktion_type, t.konto_id, transaktion_hash " + "FROM db_transaktion t "
-		    + "JOIN db_konto k on k.konto_id = t.konto_id " + "WHERE k.owner = ?";
+		    + "JOIN db_konto k on k.konto_id = t.konto_id " + "WHERE k.owner = ? ORDER BY transaktion_date";
 	    pStmt = connect.prepareStatement(pSql);
 	    pStmt.setInt(1, user.getUserId());
 	    resSet = pStmt.executeQuery();
@@ -115,16 +130,16 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	    // check input
 	    if (kontoId == 0) {
 		pSql += categorypart;
-		pStmt = connect.prepareStatement(pSql);
+		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
 		pStmt.setInt(1, categoryId);
 	    }
 	    if (categoryId == 0) {
 		pSql += kontopart;
-		pStmt = connect.prepareStatement(pSql);
+		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
 		pStmt.setInt(1, kontoId);
 	    } else {
 		pSql += kontopart + " AND " + categorypart;
-		pStmt = connect.prepareStatement(pSql);
+		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
 		pStmt.setInt(1, kontoId);
 		pStmt.setInt(2, categoryId);
 	    }
@@ -162,20 +177,20 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	    // check input
 	    if (kontoId == 0) {
 		pSql += " AND " + categorypart;
-		pStmt = connect.prepareStatement(pSql);
+		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
 		pStmt.setDate(1, convertLocalDateToSqlDate(begin));
 		pStmt.setDate(2, convertLocalDateToSqlDate(end));
 		pStmt.setInt(3, categoryId);
 	    }
 	    if (categoryId == 0) {
 		pSql += " AND " + kontopart;
-		pStmt = connect.prepareStatement(pSql);
+		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
 		pStmt.setDate(1, convertLocalDateToSqlDate(begin));
 		pStmt.setDate(2, convertLocalDateToSqlDate(end));
 		pStmt.setInt(3, kontoId);
 	    } else {
 		pSql += " AND " + kontopart + " AND " + categorypart;
-		pStmt = connect.prepareStatement(pSql);
+		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
 		pStmt.setDate(1, convertLocalDateToSqlDate(begin));
 		pStmt.setDate(2, convertLocalDateToSqlDate(end));
 		pStmt.setInt(3, kontoId);
@@ -215,18 +230,18 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	    // check input
 	    if (kontoId == 0) {
 		pSql += " AND " + categorypart;
-		pStmt = connect.prepareStatement(pSql);
+		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
 		pStmt.setDate(1, convertLocalDateToSqlDate(monthYear));
 		pStmt.setInt(2, categoryId);
 	    }
 	    if (categoryId == 0) {
 		pSql += " AND " + kontopart;
-		pStmt = connect.prepareStatement(pSql);
+		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
 		pStmt.setDate(1, convertLocalDateToSqlDate(monthYear));
 		pStmt.setInt(2, kontoId);
 	    } else {
 		pSql += " AND " + kontopart + " AND " + categorypart;
-		pStmt = connect.prepareStatement(pSql);
+		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
 		pStmt.setDate(1, convertLocalDateToSqlDate(monthYear));
 		pStmt.setInt(2, kontoId);
 		pStmt.setInt(3, categoryId);
@@ -264,18 +279,18 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	    // check input
 	    if (kontoId == 0) {
 		pSql += " AND " + categorypart;
-		pStmt = connect.prepareStatement(pSql);
+		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
 		pStmt.setDate(1, convertLocalDateToSqlDate(year));
 		pStmt.setInt(2, categoryId);
 	    }
 	    if (categoryId == 0) {
 		pSql += " AND " + kontopart;
-		pStmt = connect.prepareStatement(pSql);
+		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
 		pStmt.setDate(1, convertLocalDateToSqlDate(year));
 		pStmt.setInt(2, kontoId);
 	    } else {
 		pSql += " AND " + kontopart + " AND " + categorypart;
-		pStmt = connect.prepareStatement(pSql);
+		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
 		pStmt.setDate(1, convertLocalDateToSqlDate(year));
 		pStmt.setInt(2, kontoId);
 		pStmt.setInt(3, categoryId);

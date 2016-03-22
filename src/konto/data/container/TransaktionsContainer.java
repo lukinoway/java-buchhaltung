@@ -86,6 +86,28 @@ public class TransaktionsContainer extends IndexedContainer {
 	    item.getItemProperty("KontoId").setValue(transaktion.getKontoId());
 	}
     }
+    
+    /**
+     * Update existing Transaktion
+     * @param itemId
+     * @param transaktion
+     */
+    @SuppressWarnings("unchecked")
+    public void updateTransaktion(Object itemId, Transaktion transaktion) {
+	Item item = getItem(itemId);
+	if (item != null) {
+	    transaktionUtil.updateTransaktion(transaktion);
+	    
+	    // update container values
+	    item.getItemProperty("ID").setValue(transaktion.getTransaktionsId());
+	    item.getItemProperty("Text").setValue(transaktion.getTransaktionsText());
+	    item.getItemProperty("Betrag").setValue(transaktion.getTransaktionsBetrag());
+	    item.getItemProperty("Datum").setValue(transaktion.getTransaktionsDate());
+	    item.getItemProperty("Hash").setValue(transaktion.getTransaktionsHash());
+	    item.getItemProperty("KategorieId").setValue(transaktion.getTypeId());
+	    item.getItemProperty("KontoId").setValue(transaktion.getKontoId());
+	}
+    }
 
     /**
      * remove transaktion from DB and from List

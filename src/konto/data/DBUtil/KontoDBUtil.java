@@ -42,8 +42,19 @@ public class KontoDBUtil extends DBCommunicator implements IKonto {
     }
 
     @Override
-    public void updateKonto() {
-	// TODO Auto-generated method stub
+    public void updateKonto(Konto konto) {
+	try {
+	    String pSql = "update db_konto set konto_nr = ?, konto_desc_text = ? where konto_id = ?";
+	    pStmt = connect.prepareStatement(pSql);
+	    pStmt.setString(1, konto.getKontoNr());
+	    pStmt.setString(2, konto.getKontoName());
+	    pStmt.setInt(3, konto.getKontoId());
+	    pStmt.executeUpdate();
+	} catch (Exception e) {
+	    e.printStackTrace();
+	} finally {
+	    close();
+	}
 
     }
 

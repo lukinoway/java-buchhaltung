@@ -8,7 +8,7 @@ public interface IKonto {
 
     public void createKonto(Konto konto);
 
-    public void updateKonto();
+    public void updateKonto(Konto konto);
 
     public void deleteKonto(Konto konto);
     

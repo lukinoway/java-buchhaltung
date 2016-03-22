@@ -48,7 +48,7 @@ public class CategoryMainView extends VerticalLayout {
 
 	    @Override
 	    public void buttonClick(ClickEvent event) {
-		NewCategoryWindow w = new NewCategoryWindow();
+		CategoryWindow w = new CategoryWindow();
 		UI.getCurrent().addWindow(w);
 		w.focus();
 

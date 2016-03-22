@@ -15,7 +15,7 @@ public class CategoryContainer extends IndexedContainer {
     ICategory categoryUtil = new CategoryDBUtil();
 
     /**
-     * Category data to store data
+     * Category container to store data
      * 
      * @param categoryList
      */
@@ -50,6 +50,18 @@ public class CategoryContainer extends IndexedContainer {
 	}
 
     }
+    
+    @SuppressWarnings("unchecked")
+    public void updateCategory(Object itemId, Category category) {
+	Item item = getItem(itemId);
+	if (item != null) {
+	    categoryUtil.updateCategory(category);
+	    
+	    // update container values
+	    item.getItemProperty("ID").setValue(category.getTypeId());
+	    item.getItemProperty("Text").setValue(category.getTypeText());
+	}
+    }
 
     /**
      * Remove Category from DB and from List
@@ -75,7 +87,7 @@ public class CategoryContainer extends IndexedContainer {
      * @param item
      * @return Category
      */
-    private Category buildCategory(Item item) {
+    public Category buildCategory(Item item) {
 	return new Category((Integer) item.getItemProperty("ID").getValue(),
 		(String) item.getItemProperty("Text").getValue());
     }

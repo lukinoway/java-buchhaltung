@@ -28,7 +28,16 @@ public abstract class TemplateComboBox extends ComboBox{
 	return boxId;
     }
     
+    /**
+     * Select value by ID
+     * @param idValue
+     */
     public void setComboBoxValue(int idValue) {
+	for (int i=1; i <= this.size(); i++) {
+	    if (idValue == (Integer) this.getItem(i).getItemProperty("ID").getValue()) {
+		this.setValue(i);
+	    }
+	}
 
     }
 }

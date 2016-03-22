@@ -74,7 +74,7 @@ public class SessionManager implements Serializable {
 	if (container != null) {
 	    // create Hashmap to store ID's and Name
 	    HashMap<Integer, String> kontoMap = new HashMap<Integer, String>();
-	    for (int i = 1; i < container.size(); i++) {
+	    for (int i = 1; i <= container.size(); i++) {
 		Item item = container.getItem(i);
 		int id = (Integer) item.getItemProperty("ID").getValue();
 		String text = (String) item.getItemProperty("Beschreibung").getValue();
@@ -117,7 +117,7 @@ public class SessionManager implements Serializable {
 	    
 	    // create Hashmap to store ID's and Name
 	    HashMap<Integer, String> categoryMap = new HashMap<Integer, String>();
-	    for (int i = 1; i < container.size(); i++) {
+	    for (int i = 1; i <= container.size(); i++) {
 		Item item = container.getItem(i);
 		int id = (Integer) item.getItemProperty("ID").getValue();
 		String text = (String) item.getItemProperty("Text").getValue();
