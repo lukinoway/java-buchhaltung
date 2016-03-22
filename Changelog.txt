@@ -1,3 +1,7 @@
+## 2016-03-22
+- added update function to all views
+- added category / konto name column to transaktiongrid
+
 ## 2016-03-15
 - fixed pom config for tomcat libs
 - added tomcat deploy config
