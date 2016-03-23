@@ -1,0 +1,18 @@
+## TODO
+- Export Report
+-- soll über dynamikreports generiert werden
+-- muss noch weitere Nachforschungen anstellen
+
+- Eigenübertrag von eigenem Benutzer Konto
+1. Eigenübertrag ist nur möglich wenn Anzahl der Konten > 2
+2. Maske mit Von-Konto, Zu-Konto, Betrag
+3. erstellt automatisch Transaktionen für das jeweilige Konto
+
+- Offene Zahlungen an andere Benutzer
+1. Benutzer erstellt Zahlungsforderung an anderen Benutzer
+2. anderer Benutzer bezahlt Betrag bei dem Benutzer und bestätigt Zahlungsforderung
+3. auf beiden Seiten wird eine Transaktion erstellt, anderer Benutzer -, Benutzer +
+
+- Liste mit BIC IBAN anderer Benutzer Konten
+-- Benutzer will Überweisungsdaten einsehen
+-- Liste mit möglichen Konten (sichtbarkeit kann am Konto festgelegt werden)
