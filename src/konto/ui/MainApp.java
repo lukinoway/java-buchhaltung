@@ -48,6 +48,7 @@ public class MainApp extends UI {
     		shownView.removeAllComponents();
     		if (view.equals(TransaktionsMainView.class.getName())) {
     			shownView.addComponent(transaktionsView);
+    			transaktionsView.rebuildActionBar();
     			currentView = view;
     		}
     		if (view.equals(CategoryMainView.class.getName())) {

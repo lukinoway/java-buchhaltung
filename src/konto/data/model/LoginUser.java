@@ -20,6 +20,11 @@ public class LoginUser implements Serializable {
 	createHash(this.userName + "konto" + this.userPass);
 
     }
+    
+    public LoginUser(int userId, String userName) {
+	this.userId = userId;
+	this.userName = userName;
+    }
 
     public int getUserId() {
 	return userId;

@@ -8,6 +8,7 @@ import com.vaadin.data.util.IndexedContainer;
 import konto.data.DBUtil.IKonto;
 import konto.data.DBUtil.KontoDBUtil;
 import konto.data.model.Konto;
+import konto.ui.session.SessionManager;
 
 public class KontoContainer extends IndexedContainer {
 
@@ -71,6 +72,9 @@ public class KontoContainer extends IndexedContainer {
 
 	    // delete from DB
 	    kontoUtil.deleteKonto(konto);
+	    
+	    // delete from HashMap
+	    SessionManager.getKontoMap().remove(konto.getKontoId());
 
 	    // now delete from List
 	    removeItem(itemId);

@@ -8,6 +8,7 @@ import com.vaadin.data.util.IndexedContainer;
 import konto.data.DBUtil.CategoryDBUtil;
 import konto.data.DBUtil.ICategory;
 import konto.data.model.Category;
+import konto.ui.session.SessionManager;
 
 public class CategoryContainer extends IndexedContainer {
 
@@ -73,6 +74,9 @@ public class CategoryContainer extends IndexedContainer {
 	    Category category = buildCategory(item);
 	    // delete from DB
 	    categoryUtil.deleteCategory(category);
+	    
+	    // delete from HashMap
+	    SessionManager.getCategoryMap().remove(category.getTypeId());
 
 	    // now delete from List
 	    removeItem(itemId);

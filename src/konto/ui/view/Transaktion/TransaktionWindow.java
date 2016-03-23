@@ -43,8 +43,6 @@ public class TransaktionWindow extends Window {
     IKonto kontoUtil = new KontoDBUtil();
     ICategory categoryUtil = new CategoryDBUtil();
 
-    LoginUser user;
-
     // Layout stuff
     GridLayout gridView = new GridLayout(2, 7);
     
@@ -56,7 +54,6 @@ public class TransaktionWindow extends Window {
 
 	this.container = SessionManager.getTransaktionsContainer();
 	this.setCaption("Neue Transaktion");
-	this.user = SessionManager.getUser();
 
 	// build grid
 	buildGrid();
@@ -67,7 +64,6 @@ public class TransaktionWindow extends Window {
 
 	this.container = SessionManager.getTransaktionsContainer();
 	this.setCaption("Update Transaktion");
-	this.user = SessionManager.getUser();
 	this.updateData = true;
 	this.itemId = itemId;
 

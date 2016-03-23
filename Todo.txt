@@ -7,8 +7,10 @@
 1. Eigenübertrag ist nur möglich wenn Anzahl der Konten > 2
 2. Maske mit Von-Konto, Zu-Konto, Betrag
 3. erstellt automatisch Transaktionen für das jeweilige Konto
+- done !
 
 - Offene Zahlungen an andere Benutzer
+-- Konto Infos müssen erweitert werden um IBAN, BIC, sichtbar
 1. Benutzer erstellt Zahlungsforderung an anderen Benutzer
 2. anderer Benutzer bezahlt Betrag bei dem Benutzer und bestätigt Zahlungsforderung
 3. auf beiden Seiten wird eine Transaktion erstellt, anderer Benutzer -, Benutzer +

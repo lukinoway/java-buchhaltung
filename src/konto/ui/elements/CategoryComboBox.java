@@ -2,15 +2,12 @@ package konto.ui.elements;
 
 import com.vaadin.ui.Select;
 
-import konto.data.DBUtil.CategoryDBUtil;
-import konto.data.DBUtil.ICategory;
 import konto.data.container.CategoryContainer;
 import konto.ui.session.SessionManager;
 
 public class CategoryComboBox extends TemplateComboBox {
 
     private static final long serialVersionUID = 1L;
-    ICategory categoryUtil = new CategoryDBUtil();
     
     public CategoryComboBox() {
 	super();

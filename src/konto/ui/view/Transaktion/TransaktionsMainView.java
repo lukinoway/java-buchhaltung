@@ -1,11 +1,8 @@
 package konto.ui.view.Transaktion;
 
-import org.apache.poi.hssf.extractor.ExcelExtractor;
 import org.vaadin.haijian.ExcelExporter;
-import org.vaadin.haijian.PdfExporter;
 import org.vaadin.teemu.VaadinIcons;
 
-import com.itextpdf.text.pdf.PdfPTable;
 import com.vaadin.data.Container.Indexed;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -14,6 +11,8 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.HorizontalLayout;
+
 import konto.data.DBUtil.ITransaktion;
 import konto.data.DBUtil.TransaktionDBUtil;
 import konto.data.container.TransaktionsContainer;
@@ -32,8 +31,10 @@ public class TransaktionsMainView extends VerticalLayout {
     ITransaktion transaktionUtil = new TransaktionDBUtil();
     TransaktionsGrid transaktionsgrid;
     TransaktionsSearchBar searchBar;
+    HorizontalLayout actionBar = new HorizontalLayout();
     
     Button addTransaktionBtn = new Button();
+    Button addTransferBtn = new Button();
     Button exportGridBtn = new Button("Export");
 
     private TransaktionsContainer container;
@@ -52,12 +53,23 @@ public class TransaktionsMainView extends VerticalLayout {
 	this.setWidth(100, Unit.PERCENTAGE);
 
 	transaktionsgrid = new TransaktionsGrid(container);
-	transaktionsgrid.setHeight(UI.getCurrent().getPage().getBrowserWindowHeight()-350, Unit.PIXELS);
+	transaktionsgrid.setHeight(UI.getCurrent().getPage().getBrowserWindowHeight()-300, Unit.PIXELS);
 
 	searchBar = new TransaktionsSearchBar();
 	this.addComponent(searchBar);
 	this.addComponent(transaktionsgrid);
+	buildActionBar();
 
+	
+    }
+    
+    private void buildActionBar() {
+	
+	actionBar.addComponent(addTransaktionBtn);
+	actionBar.setComponentAlignment(addTransaktionBtn, Alignment.MIDDLE_CENTER);
+	addTransaktionBtn.setIcon(VaadinIcons.PLUS_CIRCLE);
+	addTransaktionBtn.setStyleName("addButton");
+	addTransaktionBtn.addStyleName(ValoTheme.BUTTON_BORDERLESS);
 	addTransaktionBtn.addClickListener(new ClickListener() {
 
 	    private static final long serialVersionUID = 1L;
@@ -70,14 +82,30 @@ public class TransaktionsMainView extends VerticalLayout {
 	    }
 	});
 
-	this.addComponent(addTransaktionBtn);
-	this.setComponentAlignment(addTransaktionBtn, Alignment.BOTTOM_CENTER);
-	addTransaktionBtn.setIcon(VaadinIcons.PLUS_CIRCLE);
-	addTransaktionBtn.setStyleName("addButton");
-	addTransaktionBtn.addStyleName(ValoTheme.BUTTON_BORDERLESS);
-	//addTransaktionBtn.setClickShortcut(KeyCode.A);
+	// only show button if there are more than 2 kontos
+	if(SessionManager.getKontoMap().size()>1) {
+	    actionBar.addComponent(addTransferBtn);
+	    actionBar.setComponentAlignment(addTransferBtn, Alignment.MIDDLE_CENTER);
+	}
 	
 	
+	addTransferBtn.setIcon(VaadinIcons.EXCHANGE);
+	addTransferBtn.addStyleName(ValoTheme.BUTTON_BORDERLESS);
+	addTransferBtn.addStyleName("icon");
+	addTransferBtn.addClickListener(new ClickListener() {
+
+	    private static final long serialVersionUID = 1L;
+
+	    @Override
+	    public void buttonClick(ClickEvent event) {
+		TransaktionsTransferWindow w = new TransaktionsTransferWindow();
+		UI.getCurrent().addWindow(w);
+		w.focus();
+		
+	    }
+	    
+	});
+
 	// prepare for export
 	Indexed trData = transaktionsgrid.getContainerDataSource();
 	trData.removeContainerProperty("delete");
@@ -86,9 +114,18 @@ public class TransaktionsMainView extends VerticalLayout {
 	ExcelExporter excelExport = new ExcelExporter(trData, trData.getContainerPropertyIds().toArray());
 	excelExport.setCaption("Export");
 	excelExport.setIcon(VaadinIcons.DOWNLOAD);
-	this.addComponent(excelExport);
-	this.setComponentAlignment(excelExport, Alignment.BOTTOM_CENTER);
+	actionBar.addComponent(excelExport);
+	actionBar.setComponentAlignment(excelExport, Alignment.MIDDLE_CENTER);
 	
+	this.addComponent(actionBar);
+	this.setComponentAlignment(actionBar, Alignment.BOTTOM_CENTER);
+	
+    }
+    
+    public void rebuildActionBar() {
+	this.removeComponent(actionBar);
+	actionBar.removeAllComponents();
+	buildActionBar();
     }
 
 }
