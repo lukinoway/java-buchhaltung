@@ -11,6 +11,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 import konto.ui.view.Category.CategoryMainView;
 import konto.ui.view.Konto.KontoMainView;
+import konto.ui.view.Payment.PaymentMainView;
 import konto.ui.view.Transaktion.TransaktionsMainView;
 import konto.ui.view.User.NewUserWindow;
 
@@ -20,6 +21,7 @@ public class ViewMenu extends VerticalLayout {
     Button overView = new Button("Transaktionen");
     Button typeData = new Button("Kategorien");
     Button kontoBtn = new Button("Konto's");
+    Button paymentBtn = new Button("Zahlungsauftrag");
     Button addUser = new Button("Neuer User");
 
     public ViewMenu() {
@@ -39,11 +41,17 @@ public class ViewMenu extends VerticalLayout {
 	kontoBtn.setStyleName("navigationBtn");
 	kontoBtn.setIcon(VaadinIcons.CREDIT_CARD);
 	kontoBtn.addStyleName(ValoTheme.BUTTON_BORDERLESS);
+	
+	this.addComponent(paymentBtn);
+	paymentBtn.setStyleName("navigationBtn");
+	paymentBtn.setIcon(VaadinIcons.INVOICE);
+	paymentBtn.addStyleName(ValoTheme.BUTTON_BORDERLESS);
 
 	this.addComponent(addUser);
 	addUser.setStyleName("navigationBtn");
 	addUser.setIcon(VaadinIcons.USER);
 	addUser.addStyleName(ValoTheme.BUTTON_BORDERLESS);
+	
 
 	// add actions
 	overView.addClickListener(new ClickListener() {
@@ -73,6 +81,17 @@ public class ViewMenu extends VerticalLayout {
 	    @Override
 	    public void buttonClick(ClickEvent event) {
 		((MainApp) UI.getCurrent()).setMainView(KontoMainView.class.getName());
+	    }
+	});
+	
+	paymentBtn.addClickListener(new ClickListener() {
+
+	    private static final long serialVersionUID = 1L;
+
+	    @Override
+	    public void buttonClick(ClickEvent event) {
+		((MainApp) UI.getCurrent()).setMainView(PaymentMainView.class.getName());
+		
 	    }
 	});
 

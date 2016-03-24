@@ -4,10 +4,12 @@ import com.vaadin.data.Item;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.CheckBox;
 
 import konto.data.container.KontoContainer;
 import konto.data.model.Konto;
@@ -20,9 +22,11 @@ public class KontoWindow extends Window {
 
     LoginUser user;
 
-    GridLayout gridView = new GridLayout(2, 4);
+    GridLayout gridView = new GridLayout(2, 7);
     TextField kontoNr = new TextField("Konto NR");
     TextField kontoText = new TextField("Beschreibung");
+    TextArea transferInfo = new TextArea("Überweisungs Details");
+    CheckBox visibleCheck = new CheckBox("Sichtbar für andere");
     Button saveBtn = new Button("speichern");
     Button cancelBtn = new Button("abbrechen");
 
@@ -85,22 +89,23 @@ public class KontoWindow extends Window {
 	// set values
 	kontoNr.setValue(konto.getKontoNr());
 	kontoText.setValue(konto.getKontoName());
+	visibleCheck.setValue(konto.isVisible());
+	transferInfo.setValue(konto.getKontoTransferInfo());
     }
 
     protected void addData() {
 	if (validateInput()) {
 	    if (container != null) {
 		try {
-		    konto = new Konto(kontoNr.getValue(), kontoText.getValue(), user.getUserId());
+		    konto = new Konto(kontoNr.getValue(), kontoText.getValue(), user.getUserId(), visibleCheck.getValue(), transferInfo.getValue().toString());
 
 		    container.addKonto(konto);
 		    
 		    // update stored data
 		    SessionManager.getKontoMap().put(konto.getKontoId(), konto.getKontoName());
 
-		    kontoNr.setValue("");
-		    kontoText.setValue("");
-		    kontoNr.focus();
+		    // close window
+		    KontoWindow.this.close();
 
 		} catch (Exception e) {
 		    e.printStackTrace();
@@ -116,11 +121,15 @@ public class KontoWindow extends Window {
 		try {
 		    konto.setKontoNr(kontoNr.getValue());
 		    konto.setKontoName(kontoText.getValue());
+		    konto.setVisible(visibleCheck.getValue());
+		    konto.setKontoTransferInfo(transferInfo.getValue());
 
 		    container.updateKonto(itemId, konto);
 		    
 		    // update stored data
 		    SessionManager.getKontoMap().replace(konto.getKontoId(), konto.getKontoName());
+		    
+		    KontoWindow.this.close();
 
 		} catch (Exception e) {
 		    e.printStackTrace();
@@ -135,9 +144,14 @@ public class KontoWindow extends Window {
 
 	gridView.addComponent(kontoText, 0, 1, 1, 1);
 	kontoText.setWidth(100, Unit.PERCENTAGE);
+	
+	gridView.addComponent(transferInfo, 0, 2, 1, 4);
+	transferInfo.setWidth(100, Unit.PERCENTAGE);
+	
+	gridView.addComponent(visibleCheck, 0, 5, 1, 5);
 
-	gridView.addComponent(saveBtn, 0, 3, 0, 3);
-	gridView.addComponent(cancelBtn, 1, 3, 1, 3);
+	gridView.addComponent(saveBtn, 0, 6, 0, 6);
+	gridView.addComponent(cancelBtn, 1, 6, 1, 6);
 	gridView.setMargin(true);
 	
 	saveBtn.setClickShortcut(KeyCode.ENTER);
@@ -155,7 +169,6 @@ public class KontoWindow extends Window {
 		}
 		else {
 		    updateKonto();
-		    KontoWindow.this.close();
 		}
 	    }
 	});

@@ -22,6 +22,7 @@ public class KontoGrid extends Grid {
 	// create a wrapper container
 	GeneratedPropertyContainer wrapperContainer = new GeneratedPropertyContainer(container);
 	wrapperContainer.removeContainerProperty("ID");
+	wrapperContainer.removeContainerProperty("UserId");
 	setContainerDataSource(wrapperContainer);
 	wrapperContainer.addGeneratedProperty("delete", new PropertyValueGenerator<String>() {
 

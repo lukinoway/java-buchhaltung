@@ -99,12 +99,22 @@
 		<artifactId>dynamicreports-googlecharts</artifactId>
 		<version>4.1.0</version>
 	</dependency>
+	 
 	<dependency>
 		<groupId>org.apache.tomcat.maven</groupId>
 		<artifactId>tomcat7-maven-plugin</artifactId>
 		<version>2.2</version>
 	</dependency>
+	
+	<dependency>
+  <groupId>org.apache.tomcat</groupId>
+  <artifactId>tomcat-catalina</artifactId>
+  <version>7.0.47</version>
+  <scope>provided</scope>
+</dependency>
+	
   </dependencies>
+  
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>

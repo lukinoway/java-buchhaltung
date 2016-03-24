@@ -17,6 +17,7 @@ import konto.data.model.Rechnung;
 
 public class RechnungsDBUtil extends DBCommunicator implements IRechnung {
 
+    private static final long serialVersionUID = 1L;
     private ResultSet resSet = null;
 
     public RechnungsDBUtil() {

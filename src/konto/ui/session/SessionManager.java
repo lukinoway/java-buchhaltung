@@ -9,6 +9,7 @@ import com.vaadin.server.VaadinSession;
 
 import konto.data.container.CategoryContainer;
 import konto.data.container.KontoContainer;
+import konto.data.container.PaymentContainer;
 import konto.data.container.TransaktionsContainer;
 import konto.data.model.LoginUser;
 
@@ -55,6 +56,26 @@ public class SessionManager implements Serializable {
 	try {
             VaadinSession.getCurrent().getLockInstance().lock();
             VaadinSession.getCurrent().setAttribute("transaktion", container);
+	} finally {
+	    VaadinSession.getCurrent().getLockInstance().unlock();
+	}
+	
+    }
+    
+    public static PaymentContainer getPaymentContainer() {
+        if (VaadinSession.getCurrent().getAttribute("payment") instanceof PaymentContainer) {
+            PaymentContainer container = (PaymentContainer) VaadinSession.getCurrent().getAttribute("payment");
+            return container;
+        }
+        
+        return null;
+    }
+    
+    public static void setPaymentContainer(PaymentContainer container) {
+	if (container != null)
+	try {
+            VaadinSession.getCurrent().getLockInstance().lock();
+            VaadinSession.getCurrent().setAttribute("payment", container);
 	} finally {
 	    VaadinSession.getCurrent().getLockInstance().unlock();
 	}

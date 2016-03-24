@@ -3,7 +3,11 @@ package konto.data.DBUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import konto.data.container.KontoContainer;
+import konto.data.container.UserContainer;
+import konto.data.model.Konto;
 import konto.data.model.LoginUser;
 
 public class UserDBUtil extends DBCommunicator implements IUser {
@@ -89,6 +93,29 @@ public class UserDBUtil extends DBCommunicator implements IUser {
 	} finally {
 	    close();
 	}
+    }
+    
+    @Override
+    public UserContainer getUsers() {
+	UserContainer data = null;
+	try {
+	    String pSql = "select user_id, user_name from db_user";
+	    pStmt = connect.prepareStatement(pSql);
+	    resSet = pStmt.executeQuery();
+
+	    ArrayList<LoginUser> userList = new ArrayList<LoginUser>();
+	    while (resSet.next()) {
+		userList.add(new LoginUser(resSet.getInt(1), resSet.getString(2)));
+	    }
+	    data = new UserContainer(userList);
+
+	} catch (Exception e) {
+	    e.printStackTrace();
+	} finally {
+	    close();
+	}
+
+	return data;
     }
 
     // Close everything

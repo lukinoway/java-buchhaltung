@@ -3,8 +3,6 @@ package konto.data.DBUtil;
 import java.time.LocalDate;
 
 import konto.data.container.TransaktionsContainer;
-import konto.data.model.Category;
-import konto.data.model.Konto;
 import konto.data.model.LoginUser;
 import konto.data.model.Transaktion;
 

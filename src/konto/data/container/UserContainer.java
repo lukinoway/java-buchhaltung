@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 
-import konto.data.model.Konto;
 import konto.data.model.LoginUser;
 
 public class UserContainer extends IndexedContainer{
@@ -15,18 +14,22 @@ public class UserContainer extends IndexedContainer{
     @SuppressWarnings("unchecked")
     public UserContainer(ArrayList<LoginUser> userList) {
 	this.addContainerProperty("ID", Integer.class, null);
-	this.addContainerProperty("Konto", String.class, null);
-	this.addContainerProperty("Beschreibung", String.class, null);
+	this.addContainerProperty("User", String.class, null);
 
 	for (LoginUser user : userList) {
 	    Object id = addItem();
 	    Item item = getItem(id);
 	    if (item != null) {
-		item.getItemProperty("ID").setValue(konto.getKontoId());
-		item.getItemProperty("Konto").setValue(konto.getKontoNr());
-		item.getItemProperty("Beschreibung").setValue(konto.getKontoName());
+		item.getItemProperty("ID").setValue(user.getUserId());
+		item.getItemProperty("User").setValue(user.getUserName());
 	    }
 	}
+    }
+    
+    
+    public LoginUser buildUser(Item item) {
+	return new LoginUser((Integer) item.getItemProperty("ID").getValue(), 
+		(String) item.getItemProperty("User").getValue());
     }
 
 }

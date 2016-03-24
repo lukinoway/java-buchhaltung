@@ -3,13 +3,9 @@ package konto.data.DBUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
-
+import konto.data.Util.DateConverter;
 import konto.data.container.TransaktionsContainer;
 import konto.data.model.LoginUser;
 import konto.data.model.Transaktion;
@@ -31,7 +27,7 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 		    + "(transaktion_date, transaktion_betrag, transaktion_text, transaktion_type, konto_id, transaktion_hash) "
 		    + "values(?, ?, ?, ?, ?, ?)";
 	    pStmt = connect.prepareStatement((pSql), Statement.RETURN_GENERATED_KEYS);
-	    pStmt.setDate(1, convertLocalDateToSqlDate(transaktion.getTransaktionsDate()));
+	    pStmt.setDate(1, DateConverter.convertLocalDateToSqlDate(transaktion.getTransaktionsDate()));
 	    pStmt.setDouble(2, transaktion.getTransaktionsBetrag());
 	    pStmt.setString(3, transaktion.getTransaktionsText());
 	    pStmt.setInt(4, transaktion.getTypeId());
@@ -56,7 +52,7 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	try {
 	    String pSql = "update db_transaktion set transaktion_date = ?, transaktion_betrag = ?, transaktion_text = ?, transaktion_type = ?, konto_id = ?, transaktion_hash = ? where transaktion_id = ?";
 	    pStmt = connect.prepareStatement(pSql);
-	    pStmt.setDate(1, convertLocalDateToSqlDate(transaktion.getTransaktionsDate()));
+	    pStmt.setDate(1, DateConverter.convertLocalDateToSqlDate(transaktion.getTransaktionsDate()));
 	    pStmt.setDouble(2, transaktion.getTransaktionsBetrag());
 	    pStmt.setString(3, transaktion.getTransaktionsText());
 	    pStmt.setInt(4, transaktion.getTypeId());
@@ -102,7 +98,7 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	    System.out.println("user ID: " + user.getUserId());
 	    while (resSet.next()) {
 
-		transaktionList.add(new Transaktion(resSet.getInt(1), convertDateToLocalDate(resSet.getDate(2)),
+		transaktionList.add(new Transaktion(resSet.getInt(1), DateConverter.convertDateToLocalDate(resSet.getDate(2)),
 			resSet.getDouble(3), resSet.getString(4), resSet.getString(7), resSet.getInt(6),
 			resSet.getInt(5)));
 	    }
@@ -149,7 +145,7 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	    ArrayList<Transaktion> transaktionList = new ArrayList<Transaktion>();
 	    while (resSet.next()) {
 
-		transaktionList.add(new Transaktion(resSet.getInt(1), convertDateToLocalDate(resSet.getDate(2)),
+		transaktionList.add(new Transaktion(resSet.getInt(1), DateConverter.convertDateToLocalDate(resSet.getDate(2)),
 			resSet.getDouble(3), resSet.getString(4), resSet.getString(7), resSet.getInt(6),
 			resSet.getInt(5)));
 	    }
@@ -178,21 +174,21 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	    if (kontoId == 0) {
 		pSql += " AND " + categorypart;
 		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
-		pStmt.setDate(1, convertLocalDateToSqlDate(begin));
-		pStmt.setDate(2, convertLocalDateToSqlDate(end));
+		pStmt.setDate(1, DateConverter.convertLocalDateToSqlDate(begin));
+		pStmt.setDate(2, DateConverter.convertLocalDateToSqlDate(end));
 		pStmt.setInt(3, categoryId);
 	    }
 	    if (categoryId == 0) {
 		pSql += " AND " + kontopart;
 		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
-		pStmt.setDate(1, convertLocalDateToSqlDate(begin));
-		pStmt.setDate(2, convertLocalDateToSqlDate(end));
+		pStmt.setDate(1, DateConverter.convertLocalDateToSqlDate(begin));
+		pStmt.setDate(2, DateConverter.convertLocalDateToSqlDate(end));
 		pStmt.setInt(3, kontoId);
 	    } else {
 		pSql += " AND " + kontopart + " AND " + categorypart;
 		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
-		pStmt.setDate(1, convertLocalDateToSqlDate(begin));
-		pStmt.setDate(2, convertLocalDateToSqlDate(end));
+		pStmt.setDate(1, DateConverter.convertLocalDateToSqlDate(begin));
+		pStmt.setDate(2, DateConverter.convertLocalDateToSqlDate(end));
 		pStmt.setInt(3, kontoId);
 		pStmt.setInt(4, categoryId);
 	    }
@@ -202,7 +198,7 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	    ArrayList<Transaktion> transaktionList = new ArrayList<Transaktion>();
 	    while (resSet.next()) {
 
-		transaktionList.add(new Transaktion(resSet.getInt(1), convertDateToLocalDate(resSet.getDate(2)),
+		transaktionList.add(new Transaktion(resSet.getInt(1), DateConverter.convertDateToLocalDate(resSet.getDate(2)),
 			resSet.getDouble(3), resSet.getString(4), resSet.getString(7), resSet.getInt(6),
 			resSet.getInt(5)));
 	    }
@@ -231,18 +227,18 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	    if (kontoId == 0) {
 		pSql += " AND " + categorypart;
 		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
-		pStmt.setDate(1, convertLocalDateToSqlDate(monthYear));
+		pStmt.setDate(1, DateConverter.convertLocalDateToSqlDate(monthYear));
 		pStmt.setInt(2, categoryId);
 	    }
 	    if (categoryId == 0) {
 		pSql += " AND " + kontopart;
 		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
-		pStmt.setDate(1, convertLocalDateToSqlDate(monthYear));
+		pStmt.setDate(1, DateConverter.convertLocalDateToSqlDate(monthYear));
 		pStmt.setInt(2, kontoId);
 	    } else {
 		pSql += " AND " + kontopart + " AND " + categorypart;
 		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
-		pStmt.setDate(1, convertLocalDateToSqlDate(monthYear));
+		pStmt.setDate(1, DateConverter.convertLocalDateToSqlDate(monthYear));
 		pStmt.setInt(2, kontoId);
 		pStmt.setInt(3, categoryId);
 	    }
@@ -252,7 +248,7 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	    ArrayList<Transaktion> transaktionList = new ArrayList<Transaktion>();
 	    while (resSet.next()) {
 
-		transaktionList.add(new Transaktion(resSet.getInt(1), convertDateToLocalDate(resSet.getDate(2)),
+		transaktionList.add(new Transaktion(resSet.getInt(1), DateConverter.convertDateToLocalDate(resSet.getDate(2)),
 			resSet.getDouble(3), resSet.getString(4), resSet.getString(7), resSet.getInt(6),
 			resSet.getInt(5)));
 	    }
@@ -280,18 +276,18 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	    if (kontoId == 0) {
 		pSql += " AND " + categorypart;
 		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
-		pStmt.setDate(1, convertLocalDateToSqlDate(year));
+		pStmt.setDate(1, DateConverter.convertLocalDateToSqlDate(year));
 		pStmt.setInt(2, categoryId);
 	    }
 	    if (categoryId == 0) {
 		pSql += " AND " + kontopart;
 		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
-		pStmt.setDate(1, convertLocalDateToSqlDate(year));
+		pStmt.setDate(1, DateConverter.convertLocalDateToSqlDate(year));
 		pStmt.setInt(2, kontoId);
 	    } else {
 		pSql += " AND " + kontopart + " AND " + categorypart;
 		pStmt = connect.prepareStatement(pSql + " ORDER BY transaktion_date");
-		pStmt.setDate(1, convertLocalDateToSqlDate(year));
+		pStmt.setDate(1, DateConverter.convertLocalDateToSqlDate(year));
 		pStmt.setInt(2, kontoId);
 		pStmt.setInt(3, categoryId);
 	    }
@@ -301,7 +297,7 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	    ArrayList<Transaktion> transaktionList = new ArrayList<Transaktion>();
 	    while (resSet.next()) {
 
-		transaktionList.add(new Transaktion(resSet.getInt(1), convertDateToLocalDate(resSet.getDate(2)),
+		transaktionList.add(new Transaktion(resSet.getInt(1), DateConverter.convertDateToLocalDate(resSet.getDate(2)),
 			resSet.getDouble(3), resSet.getString(4), resSet.getString(7), resSet.getInt(6),
 			resSet.getInt(5)));
 	    }
@@ -328,19 +324,6 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
-    }
-
-    private java.sql.Date convertLocalDateToSqlDate(LocalDate localdate) {
-	LocalDate ld = localdate;
-	Instant instant = ld.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-	Date res = Date.from(instant);
-	return new java.sql.Date(res.getTime());
-    }
-
-    private LocalDate convertDateToLocalDate(Date date) {
-	// date conversion
-	Instant instant = Instant.ofEpochMilli(date.getTime());
-	return LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
     }
 
 }

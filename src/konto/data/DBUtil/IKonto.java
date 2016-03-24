@@ -13,5 +13,13 @@ public interface IKonto {
     public void deleteKonto(Konto konto);
     
     public KontoContainer getKontoForUser(LoginUser user);
+    
+    public KontoContainer getVisibleKontosForUser(LoginUser user);
+    
+    public KontoContainer getVisibleKontos(LoginUser user);
+    
+    public int getUserIdforKonto(int kontoId);
+    
+    public String getTransferInformationforKonto(int kontoId);
 
 }

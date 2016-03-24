@@ -53,7 +53,7 @@ public class TransaktionsMainView extends VerticalLayout {
 	this.setWidth(100, Unit.PERCENTAGE);
 
 	transaktionsgrid = new TransaktionsGrid(container);
-	transaktionsgrid.setHeight(UI.getCurrent().getPage().getBrowserWindowHeight()-300, Unit.PIXELS);
+	calGridHeight();
 
 	searchBar = new TransaktionsSearchBar();
 	this.addComponent(searchBar);
@@ -126,6 +126,10 @@ public class TransaktionsMainView extends VerticalLayout {
 	this.removeComponent(actionBar);
 	actionBar.removeAllComponents();
 	buildActionBar();
+    }
+    
+    public void calGridHeight() {
+	transaktionsgrid.setHeight(UI.getCurrent().getPage().getBrowserWindowHeight()-300, Unit.PIXELS);
     }
 
 }

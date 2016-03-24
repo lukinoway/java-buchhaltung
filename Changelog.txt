@@ -1,3 +1,7 @@
+## 2016-03-24
+- added payment menu + window + grid, datasources
+- still not working enum listing in payment container
+
 ## 2016-03-22
 - added update function to all views
 - added category / konto name column to transaktiongrid

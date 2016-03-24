@@ -25,6 +25,8 @@ public class KontoContainer extends IndexedContainer {
 	this.addContainerProperty("ID", Integer.class, null);
 	this.addContainerProperty("Konto", String.class, null);
 	this.addContainerProperty("Beschreibung", String.class, null);
+	this.addContainerProperty("UserId", Integer.class, null);
+	this.addContainerProperty("Visible", Boolean.class, null);
 
 	for (Konto konto : kontoList) {
 	    Object id = addItem();
@@ -33,6 +35,8 @@ public class KontoContainer extends IndexedContainer {
 		item.getItemProperty("ID").setValue(konto.getKontoId());
 		item.getItemProperty("Konto").setValue(konto.getKontoNr());
 		item.getItemProperty("Beschreibung").setValue(konto.getKontoName());
+		item.getItemProperty("UserId").setValue(konto.getUserId());
+		item.getItemProperty("Visible").setValue(konto.isVisible());
 	    }
 	}
     }
@@ -50,6 +54,8 @@ public class KontoContainer extends IndexedContainer {
 	    item.getItemProperty("ID").setValue(konto.getKontoId());
 	    item.getItemProperty("Konto").setValue(konto.getKontoNr());
 	    item.getItemProperty("Beschreibung").setValue(konto.getKontoName());
+	    item.getItemProperty("UserId").setValue(konto.getUserId());
+	    item.getItemProperty("Visible").setValue(konto.isVisible());
 	}
 
     }
@@ -62,6 +68,7 @@ public class KontoContainer extends IndexedContainer {
 	    
 	    item.getItemProperty("Konto").setValue(konto.getKontoNr());
 	    item.getItemProperty("Beschreibung").setValue(konto.getKontoName());
+	    item.getItemProperty("Visible").setValue(konto.isVisible());
 	}
     }
 
@@ -86,7 +93,10 @@ public class KontoContainer extends IndexedContainer {
     public Konto buildKonto(Item item) {
 	return new Konto((Integer) item.getItemProperty("ID").getValue(), 
 		(String) item.getItemProperty("Konto").getValue(), 
-		(String) item.getItemProperty("Beschreibung").getValue(), 0);
+		(String) item.getItemProperty("Beschreibung").getValue(), 
+		(Integer) item.getItemProperty("UserId").getValue(),
+		(boolean) item.getItemProperty("Visible").getValue(),
+		kontoUtil.getTransferInformationforKonto((Integer) item.getItemProperty("ID").getValue()));
     }
 
 }
