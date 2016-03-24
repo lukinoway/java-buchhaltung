@@ -117,8 +117,20 @@ public class PaymentDBUtil extends DBCommunicator implements IPayment {
 	    
 	    ArrayList<PaymentOrder> paymentList = new ArrayList<PaymentOrder>();
 	    while(resSet.next()) {
+		
+		// dirty workaround
+		int statusCode = resSet.getInt(2);
+		PaymentStatus status;
+		if(statusCode == 99) {
+		    status = PaymentStatus.BEZAHLT;
+		}
+		else {
+		    status = PaymentStatus.NEU;
+		}
+		
+		    
 		paymentList.add(new PaymentOrder(resSet.getInt(1), resSet.getString(4), resSet.getInt(2), 
-			resSet.getInt(3), resSet.getDouble(5), DateConverter.convertDateToLocalDate(resSet.getDate(6)), resSet.getInt(7)));
+			resSet.getInt(3), resSet.getDouble(5), DateConverter.convertDateToLocalDate(resSet.getDate(6)), status));
 	    }
 	    container = new PaymentContainer(paymentList);
 	} catch (Exception e) {

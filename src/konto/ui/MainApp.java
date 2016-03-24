@@ -63,6 +63,7 @@ public class MainApp extends UI {
 	    }
 	    if (view.equals(PaymentMainView.class.getName())) {
 		shownView.addComponent(paymentView);
+		paymentView.loadPayments();
 		currentView = view;
 	    }
 	}

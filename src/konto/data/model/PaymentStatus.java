@@ -14,9 +14,5 @@ public enum PaymentStatus {
     public int getStatusCode() {
 	return this.statusCode;
     }
-    
-    public void setStatusCode(int statusCode) {
-	this.statusCode = statusCode;
-    }
 
 }

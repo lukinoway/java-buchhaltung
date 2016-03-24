@@ -40,15 +40,16 @@ public class PaymentOrder implements Serializable {
 	this.betrag = betrag;
 	this.date = date;
 	this.status = PaymentStatus.NEU;
+	this.paymentId = paymentId;
     }
     
-    public PaymentOrder(int paymentId,String text, int erstellerId, int schuldnerId, double betrag, LocalDate date, int statusCode) {
+    public PaymentOrder(int paymentId,String text, int erstellerId, int schuldnerId, double betrag, LocalDate date, PaymentStatus status) {
 	this.paymentText = text;
 	this.erstellerKontoId = erstellerId;
 	this.schuldnerKontoId = schuldnerId;
 	this.betrag = betrag;
 	this.date = date;
-	this.status.setStatusCode(statusCode);
+	this.status = status;
 	
 	
 	this.paymentId = paymentId;

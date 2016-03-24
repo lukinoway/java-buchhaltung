@@ -36,7 +36,7 @@ public class PaymentMainView extends VerticalLayout{
 	this.user = SessionManager.getUser();
 
 	// create container and store in session
-	container = paymentUtil.getAllPaymentsForUser(user);
+	loadPayments();
 	SessionManager.setPaymentContainer(container);
 	
 	grid = new PaymentGrid(container);
@@ -63,6 +63,13 @@ public class PaymentMainView extends VerticalLayout{
 	    }
 
 	});
+    }
+    
+    /**
+     * reload data
+     */
+    public void loadPayments() {
+	container = paymentUtil.getAllPaymentsForUser(user);
     }
 
 }
