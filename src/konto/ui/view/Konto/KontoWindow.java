@@ -22,10 +22,11 @@ public class KontoWindow extends Window {
 
     LoginUser user;
 
-    GridLayout gridView = new GridLayout(2, 7);
+    GridLayout gridView = new GridLayout(2, 8);
     TextField kontoNr = new TextField("Konto NR");
     TextField kontoText = new TextField("Beschreibung");
     TextArea transferInfo = new TextArea("Überweisungs Details");
+    TextField bankURLText = new TextField("Online Banking Adresse");
     CheckBox visibleCheck = new CheckBox("Sichtbar für andere");
     Button saveBtn = new Button("speichern");
     Button cancelBtn = new Button("abbrechen");
@@ -91,13 +92,15 @@ public class KontoWindow extends Window {
 	kontoText.setValue(konto.getKontoName());
 	visibleCheck.setValue(konto.isVisible());
 	transferInfo.setValue(konto.getKontoTransferInfo());
+	bankURLText.setValue(konto.getBankURL());
     }
 
     protected void addData() {
 	if (validateInput()) {
 	    if (container != null) {
 		try {
-		    konto = new Konto(kontoNr.getValue(), kontoText.getValue(), user.getUserId(), visibleCheck.getValue(), transferInfo.getValue().toString());
+		    konto = new Konto(kontoNr.getValue(), kontoText.getValue(), user.getUserId(), 
+			    visibleCheck.getValue(), transferInfo.getValue().toString(), bankURLText.getValue());
 
 		    container.addKonto(konto);
 		    
@@ -123,6 +126,7 @@ public class KontoWindow extends Window {
 		    konto.setKontoName(kontoText.getValue());
 		    konto.setVisible(visibleCheck.getValue());
 		    konto.setKontoTransferInfo(transferInfo.getValue());
+		    konto.setBankURL(bankURLText.getValue());
 
 		    container.updateKonto(itemId, konto);
 		    
@@ -145,13 +149,16 @@ public class KontoWindow extends Window {
 	gridView.addComponent(kontoText, 0, 1, 1, 1);
 	kontoText.setWidth(100, Unit.PERCENTAGE);
 	
-	gridView.addComponent(transferInfo, 0, 2, 1, 4);
+	gridView.addComponent(bankURLText, 0, 2, 1, 2);
+	bankURLText.setWidth(100, Unit.PERCENTAGE);
+	
+	gridView.addComponent(transferInfo, 0, 3, 1, 5);
 	transferInfo.setWidth(100, Unit.PERCENTAGE);
 	
-	gridView.addComponent(visibleCheck, 0, 5, 1, 5);
+	gridView.addComponent(visibleCheck, 0, 6, 1, 6);
 
-	gridView.addComponent(saveBtn, 0, 6, 0, 6);
-	gridView.addComponent(cancelBtn, 1, 6, 1, 6);
+	gridView.addComponent(saveBtn, 0, 7, 0, 7);
+	gridView.addComponent(cancelBtn, 1, 7, 1, 7);
 	gridView.setMargin(true);
 	
 	saveBtn.setClickShortcut(KeyCode.ENTER);

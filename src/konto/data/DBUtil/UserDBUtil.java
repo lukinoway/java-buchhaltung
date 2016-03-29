@@ -5,9 +5,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import konto.data.container.KontoContainer;
 import konto.data.container.UserContainer;
-import konto.data.model.Konto;
 import konto.data.model.LoginUser;
 
 public class UserDBUtil extends DBCommunicator implements IUser {

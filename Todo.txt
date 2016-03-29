@@ -27,4 +27,4 @@
 
 
 - auto size von einzelnen grids
--- kategoriegrid muss angepasst werden
+-- kategoriegrid muss angepasst werden -> done

@@ -17,7 +17,6 @@ public class CategoryGrid extends Grid {
     private static final long serialVersionUID = 1L;
 
     public CategoryGrid(CategoryContainer container) {
-	this.setHeightMode(HeightMode.ROW);
 
 	// create a wrapper container
 	GeneratedPropertyContainer wrapperContainer = new GeneratedPropertyContainer(container);

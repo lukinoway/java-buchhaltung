@@ -15,6 +15,7 @@ import konto.data.DBUtil.IPayment;
 import konto.data.DBUtil.PaymentDBUtil;
 import konto.data.container.PaymentContainer;
 import konto.data.model.LoginUser;
+import konto.data.model.PaymentOrder;
 import konto.ui.session.SessionManager;
 
 /**
@@ -36,7 +37,7 @@ public class PaymentMainView extends VerticalLayout{
 	this.user = SessionManager.getUser();
 
 	// create container and store in session
-	loadPayments();
+	container = paymentUtil.getAllPaymentsForUser(user);
 	SessionManager.setPaymentContainer(container);
 	
 	grid = new PaymentGrid(container);
@@ -69,7 +70,19 @@ public class PaymentMainView extends VerticalLayout{
      * reload data
      */
     public void loadPayments() {
-	container = paymentUtil.getAllPaymentsForUser(user);
+	refillContainer(paymentUtil.getAllPaymentsForUser(user));
+    }
+    
+    /**
+     * helper function to refill container
+     * @param paymentContainer
+     */
+    private void refillContainer(PaymentContainer paymentContainer) {
+	container.removeAllItems();
+	for (int i = 1; i <= paymentContainer.size(); i++) {
+	    PaymentOrder temp = paymentContainer.buildPayment(paymentContainer.getItem(i));
+	    container.addPaymentLocal(temp);
+	}
     }
 
 }

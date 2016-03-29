@@ -21,5 +21,7 @@ public interface IKonto {
     public int getUserIdforKonto(int kontoId);
     
     public String getTransferInformationforKonto(int kontoId);
+    
+    public String getBankURL(int kontoId);
 
 }

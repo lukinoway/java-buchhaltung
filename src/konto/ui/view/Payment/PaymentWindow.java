@@ -95,15 +95,19 @@ public class PaymentWindow extends Window{
 
 	    @Override
 	    public void buttonClick(ClickEvent event) {
-		if(update) {
-		    updatePayment();
-		}
-		if(paymentMode) {
-		    container.onPayment(itemId, payment);
-		    PaymentWindow.this.close();
-		}
-		if(!paymentMode && !update) {
-		    addPayment();
+		try {
+    		if(update) {
+    		    updatePayment();
+    		}
+    		if(paymentMode) {
+    		    container.onPayment(itemId, payment);
+    		    PaymentWindow.this.close();
+    		}
+    		if(!paymentMode && !update) {
+    		    addPayment();
+    		}
+		} catch (Exception e) {
+		    e.printStackTrace();
 		}
 	    }
 	});

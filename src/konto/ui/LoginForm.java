@@ -75,7 +75,6 @@ public class LoginForm extends Panel {
 	    @Override
 	    public void buttonClick(ClickEvent event) {
 		loginAttemp();
-
 	    }
 
 	});

@@ -96,7 +96,8 @@ public class KontoContainer extends IndexedContainer {
 		(String) item.getItemProperty("Beschreibung").getValue(), 
 		(Integer) item.getItemProperty("UserId").getValue(),
 		(boolean) item.getItemProperty("Visible").getValue(),
-		kontoUtil.getTransferInformationforKonto((Integer) item.getItemProperty("ID").getValue()));
+		kontoUtil.getTransferInformationforKonto((Integer) item.getItemProperty("ID").getValue()),
+		kontoUtil.getBankURL((Integer) item.getItemProperty("ID").getValue()));
     }
 
 }

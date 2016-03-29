@@ -34,6 +34,7 @@ public class CategoryMainView extends VerticalLayout {
 
 	grid = new CategoryGrid(container);
 	this.addComponent(grid);
+	calcGridHeight();
 
 	addCategoryBtn.setIcon(VaadinIcons.PLUS_CIRCLE);
 	addCategoryBtn.setStyleName("addButton");
@@ -55,6 +56,10 @@ public class CategoryMainView extends VerticalLayout {
 	    }
 
 	});
+    }
+    
+    public void calcGridHeight() {
+	grid.setHeight(UI.getCurrent().getPage().getBrowserWindowHeight()-100, Unit.PIXELS);
     }
 
 }

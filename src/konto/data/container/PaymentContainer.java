@@ -27,7 +27,7 @@ public class PaymentContainer extends IndexedContainer {
 	this.addContainerProperty("Text", String.class, null);
 	this.addContainerProperty("Betrag", Double.class, null);
 	this.addContainerProperty("Datum", LocalDate.class, null);
-	this.addContainerProperty("Status", String.class, null);
+	this.addContainerProperty("Status", PaymentStatus.class, null);
 	
 	for(PaymentOrder payment : paymentList) {
 	    Object id = addItem();
@@ -39,7 +39,7 @@ public class PaymentContainer extends IndexedContainer {
 		item.getItemProperty("Text").setValue(payment.getPaymentText());
 		item.getItemProperty("Betrag").setValue(payment.getBetrag());
 		item.getItemProperty("Datum").setValue(payment.getDate());
-		item.getItemProperty("Status").setValue(payment.getStatus().toString());
+		item.getItemProperty("Status").setValue(payment.getStatus());
 	    }
 	}
 	
@@ -60,7 +60,24 @@ public class PaymentContainer extends IndexedContainer {
 		item.getItemProperty("Text").setValue(payment.getPaymentText());
 		item.getItemProperty("Betrag").setValue(payment.getBetrag());
 		item.getItemProperty("Datum").setValue(payment.getDate());
-		item.getItemProperty("Status").setValue(payment.getStatus().toString());
+		item.getItemProperty("Status").setValue(payment.getStatus());
+	    }
+	    
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void addPaymentLocal(PaymentOrder payment) {
+	// add to List
+	Object id = addItem();
+	Item item = getItem(id);
+	    if (item != null) {
+		item.getItemProperty("ID").setValue(payment.getPaymentId());
+		item.getItemProperty("creatorKnt").setValue(payment.getErstellerKontoId());
+		item.getItemProperty("borrowerKnt").setValue(payment.getSchuldnerKontoId());
+		item.getItemProperty("Text").setValue(payment.getPaymentText());
+		item.getItemProperty("Betrag").setValue(payment.getBetrag());
+		item.getItemProperty("Datum").setValue(payment.getDate());
+		item.getItemProperty("Status").setValue(payment.getStatus());
 	    }
 	    
     }
@@ -77,7 +94,7 @@ public class PaymentContainer extends IndexedContainer {
 	    item.getItemProperty("Text").setValue(payment.getPaymentText());
 	    item.getItemProperty("Betrag").setValue(payment.getBetrag());
 	    item.getItemProperty("Datum").setValue(payment.getDate());
-	    item.getItemProperty("Status").setValue(payment.getStatus().toString());
+	    item.getItemProperty("Status").setValue(payment.getStatus());
 	}
     }
     
@@ -89,7 +106,8 @@ public class PaymentContainer extends IndexedContainer {
 		(Integer) item.getItemProperty("creatorKnt").getValue(), 
 		(Integer) item.getItemProperty("borrowerKnt").getValue(), 
 		(Double) item.getItemProperty("Betrag").getValue(), 
-		(LocalDate) item.getItemProperty("Datum").getValue()
+		(LocalDate) item.getItemProperty("Datum").getValue(),
+		(PaymentStatus) item.getItemProperty("Status").getValue()
 		);
     }
     
@@ -100,7 +118,7 @@ public class PaymentContainer extends IndexedContainer {
 	paymentUtil.updatePaymentStatus(payment);
 	Item item = getItem(itemId);
 	if (item != null) {
-	    item.getItemProperty("Status").setValue(payment.getStatus().toString());
+	    item.getItemProperty("Status").setValue(payment.getStatus());
 	}
 	
 	// change status to "bezahlt"

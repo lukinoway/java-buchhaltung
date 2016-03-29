@@ -22,13 +22,14 @@ public class KontoDBUtil extends DBCommunicator implements IKonto {
     @Override
     public void createKonto(Konto konto) {
 	try {
-	    String pSql = "insert into db_konto(konto_nr, konto_desc_text, owner, visible, konto_transfer_info) values(?, ?, ?, ?, ?)";
+	    String pSql = "insert into db_konto(konto_nr, konto_desc_text, owner, visible, konto_transfer_info, konto_bank_url) values(?, ?, ?, ?, ?, ?)";
 	    pStmt = connect.prepareStatement((pSql), Statement.RETURN_GENERATED_KEYS);
 	    pStmt.setString(1, konto.getKontoNr());
 	    pStmt.setString(2, konto.getKontoName());
 	    pStmt.setInt(3, konto.getUserId());
 	    pStmt.setBoolean(4, konto.isVisible());
 	    pStmt.setString(5, konto.getKontoTransferInfo());
+	    pStmt.setString(6, konto.getBankURL());
 	    pStmt.executeUpdate();
 
 	    resSet = pStmt.getGeneratedKeys();
@@ -46,13 +47,14 @@ public class KontoDBUtil extends DBCommunicator implements IKonto {
     @Override
     public void updateKonto(Konto konto) {
 	try {
-	    String pSql = "update db_konto set konto_nr = ?, konto_desc_text = ?, visible = ?, konto_transfer_info = ?  where konto_id = ?";
+	    String pSql = "update db_konto set konto_nr = ?, konto_desc_text = ?, visible = ?, konto_transfer_info = ?, konto_bank_url = ?  where konto_id = ?";
 	    pStmt = connect.prepareStatement(pSql);
 	    pStmt.setString(1, konto.getKontoNr());
 	    pStmt.setString(2, konto.getKontoName());
 	    pStmt.setBoolean(3, konto.isVisible());
 	    pStmt.setString(4, konto.getKontoTransferInfo());
-	    pStmt.setInt(5, konto.getKontoId());
+	    pStmt.setString(5, konto.getBankURL());
+	    pStmt.setInt(6, konto.getKontoId());
 	    pStmt.executeUpdate();
 	} catch (Exception e) {
 	    e.printStackTrace();
@@ -191,6 +193,25 @@ public class KontoDBUtil extends DBCommunicator implements IKonto {
 	    close();
 	}
 	return transferInfo;
+    }
+    
+    public String getBankURL(int kontoId) {
+	String bankURL = null;
+	try {
+	    String pSql = "select konto_bank_url from db_konto where konto_id = ?";
+	    pStmt = connect.prepareStatement(pSql);
+	    pStmt.setInt(1, kontoId);
+	    resSet = pStmt.executeQuery();
+	    
+	    resSet.next();
+	    bankURL = resSet.getString(1);
+	    
+	} catch (Exception e) {
+	    e.printStackTrace();
+	} finally {
+	    close();
+	}
+	return bankURL;
     }
 
 

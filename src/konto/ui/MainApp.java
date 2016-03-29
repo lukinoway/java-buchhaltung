@@ -22,7 +22,7 @@ public class MainApp extends UI {
     LoginForm loginForm = new LoginForm();
     VerticalLayout shownView = new VerticalLayout();
     SideBar sideBar = new SideBar();
-    CategoryMainView categoryView = new CategoryMainView();
+    private CategoryMainView categoryView;
     private TransaktionsMainView transaktionsView;
     private KontoMainView kontoView;
     private PaymentMainView paymentView;
@@ -55,6 +55,7 @@ public class MainApp extends UI {
 	    }
 	    if (view.equals(CategoryMainView.class.getName())) {
 		shownView.addComponent(categoryView);
+		categoryView.calcGridHeight();
 		currentView = view;
 	    }
 	    if (view.equals(KontoMainView.class.getName())) {
@@ -79,6 +80,8 @@ public class MainApp extends UI {
 	    kontoView = new KontoMainView();
 	    transaktionsView = new TransaktionsMainView();
 	    paymentView = new PaymentMainView();
+	    categoryView = new CategoryMainView();
+	    
 
 	    main.removeAllComponents();
 	    main.setSizeUndefined();
