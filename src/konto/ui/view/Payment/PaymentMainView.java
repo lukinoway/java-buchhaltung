@@ -42,6 +42,7 @@ public class PaymentMainView extends VerticalLayout{
 	
 	grid = new PaymentGrid(container);
 	this.addComponent(grid);
+	calcGridHeight();
 
 	addPaymentBtn.setIcon(VaadinIcons.PLUS_CIRCLE);
 	addPaymentBtn.setStyleName("addButton");
@@ -83,6 +84,10 @@ public class PaymentMainView extends VerticalLayout{
 	    PaymentOrder temp = paymentContainer.buildPayment(paymentContainer.getItem(i));
 	    container.addPaymentLocal(temp);
 	}
+    }
+    
+    public void calcGridHeight() {
+	grid.setHeight(UI.getCurrent().getPage().getBrowserWindowHeight()-100, Unit.PIXELS);
     }
 
 }

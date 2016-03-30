@@ -8,6 +8,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -15,6 +16,7 @@ import konto.data.DBUtil.IKonto;
 import konto.data.DBUtil.KontoDBUtil;
 import konto.data.container.PaymentContainer;
 import konto.data.model.PaymentOrder;
+import konto.data.model.PaymentStatus;
 import konto.ui.elements.KontoComboBox;
 import konto.ui.elements.UserComboBox;
 import konto.ui.session.SessionManager;
@@ -41,6 +43,7 @@ public class PaymentWindow extends Window{
     PaymentOrder payment;
     private boolean update = false;
     private boolean paymentMode = false;
+    private boolean paid = false;
     Object itemId;
     
     IKonto kontoUtil = new KontoDBUtil();
@@ -71,15 +74,17 @@ public class PaymentWindow extends Window{
 
 	gridView.addComponent(paymentBetrag, 0, 1, 0, 1);
 	
-	gridView.addComponent(creatorBox, 0, 2, 0, 2);
+	gridView.addComponent(creatorBox, 0, 2, 1, 2);
 	creatorBox.setCaption("Empfänger");
+	creatorBox.setWidth(100, Unit.PERCENTAGE);
 	
 //	gridView.addComponent(userBox, 0, 3, 0, 3 );
 //	userBox.setCaption("Schuldner");
 	
-	gridView.addComponent(requestBox, 0, 3, 0, 3);
+	gridView.addComponent(requestBox, 0, 3, 1, 3);
 	requestBox.setCaption("Schuldner Konto");
 	requestBox.setContainerDataSource(kontoUtil.getVisibleKontos(SessionManager.getUser()));
+	requestBox.setWidth(100, Unit.PERCENTAGE);
 
 	gridView.addComponent(saveBtn, 0, 6, 0, 6);
 	gridView.addComponent(cancelBtn, 1, 6, 1, 6);
@@ -100,8 +105,15 @@ public class PaymentWindow extends Window{
     		    updatePayment();
     		}
     		if(paymentMode) {
-    		    container.onPayment(itemId, payment);
-    		    PaymentWindow.this.close();
+    		    if(!paid) {
+    			UI.getCurrent().getPage().open(kontoUtil.getBankURL(payment.getSchuldnerKontoId()), "_blank");
+    			saveBtn.setCaption("Wurde bezahlt");
+    			paid = true;
+    		    }
+    		    else {
+    			container.onPayment(itemId, payment);
+    			PaymentWindow.this.close();
+    		    }
     		}
     		if(!paymentMode && !update) {
     		    addPayment();
@@ -155,8 +167,13 @@ public class PaymentWindow extends Window{
 	    gridView.addComponent(transferInfo, 0, 2, 1, 4);
 	    transferInfo.setWidth(100, Unit.PERCENTAGE);
 
-	    saveBtn.setCaption("Bezahlen");
-	    saveBtn.addStyleName(ValoTheme.BUTTON_FRIENDLY);
+	    if(payment.getStatus() != PaymentStatus.BEZAHLT) {
+		saveBtn.setCaption("Jetzt bezahlen");
+		saveBtn.addStyleName(ValoTheme.BUTTON_FRIENDLY);
+	    }
+	    else {
+		saveBtn.setEnabled(false);
+	    }
 
 	} else {
 	    creatorBox.setComboBoxValue(payment.getErstellerKontoId());

@@ -130,10 +130,10 @@ public class TransaktionsTransferWindow extends Window {
 
 		    // create new Transaktion
 		    Transaktion fromTransaktion = new Transaktion(LocalDate.now(),
-			    betrag, text, fromkontoId, 0);
+			    betrag*-1, text, fromkontoId, 0);
 		    
 		    Transaktion toTransaktion = new Transaktion(LocalDate.now(),
-			    betrag*-1, text, tokontoId, 0);
+			    betrag, text, tokontoId, 0);
 
 		    container.addTransaktion(fromTransaktion);
 		    container.addTransaktion(toTransaktion);

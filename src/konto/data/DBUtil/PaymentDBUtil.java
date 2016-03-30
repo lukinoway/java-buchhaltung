@@ -50,7 +50,6 @@ public class PaymentDBUtil extends DBCommunicator implements IPayment {
 		    	+ "payment_creator_konto = ? , payment_borrower_konto = ? , payment_text = ? , "
 		    	+ "payment_betrag = ? , payment_datum = ? , payment_status = ? "
 		    	+ "where payment_id = ?";
-	    System.out.println(pSql);
 	    pStmt = connect.prepareStatement((pSql), Statement.RETURN_GENERATED_KEYS);
 	    pStmt.setInt(1, payment.getErstellerKontoId());
 	    pStmt.setInt(2, payment.getSchuldnerKontoId());
@@ -107,7 +106,8 @@ public class PaymentDBUtil extends DBCommunicator implements IPayment {
 	    String pSql = "select payment_id, payment_creator_konto, payment_borrower_konto, payment_text, payment_betrag, payment_datum, payment_status"
 		    	+ "  from db_payment "
 		    	+ " where payment_creator_konto IN (select konto_id from db_konto where owner = ?)"
-		    	+ "    or payment_borrower_konto IN (select konto_id from db_konto where owner = ?)";
+		    	+ "    or payment_borrower_konto IN (select konto_id from db_konto where owner = ?)"
+		    	+ " order by payment_status asc, payment_datum desc";
 	    
 	    pStmt = connect.prepareStatement(pSql);
 	    pStmt.setInt(1, user.getUserId());
@@ -118,9 +118,8 @@ public class PaymentDBUtil extends DBCommunicator implements IPayment {
 	    ArrayList<PaymentOrder> paymentList = new ArrayList<PaymentOrder>();
 	    while(resSet.next()) {
 		paymentList.add(new PaymentOrder(resSet.getInt(1), resSet.getString(4), resSet.getInt(2), 
-			resSet.getInt(3), resSet.getDouble(5), DateConverter.convertDateToLocalDate(resSet.getDate(6)), PaymentStatus.fromStatus(resSet.getInt(7))));
-		System.out.println("Status: " + resSet.getInt(7));
-		System.out.println(PaymentStatus.fromStatus(resSet.getInt(7)).toString());
+			resSet.getInt(3), resSet.getDouble(5), DateConverter.convertDateToLocalDate(resSet.getDate(6)), 
+			PaymentStatus.fromStatus(resSet.getInt(7))));
 	    }
 	    container = new PaymentContainer(paymentList);
 	} catch (Exception e) {
@@ -151,7 +150,5 @@ public class PaymentDBUtil extends DBCommunicator implements IPayment {
 	    e.printStackTrace();
 	}
     }
-
-
 
 }

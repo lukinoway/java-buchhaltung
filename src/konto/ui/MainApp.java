@@ -65,6 +65,7 @@ public class MainApp extends UI {
 	    if (view.equals(PaymentMainView.class.getName())) {
 		shownView.addComponent(paymentView);
 		paymentView.loadPayments();
+		paymentView.calcGridHeight();
 		currentView = view;
 	    }
 	}

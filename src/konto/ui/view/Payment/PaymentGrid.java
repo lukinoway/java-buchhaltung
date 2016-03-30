@@ -5,7 +5,6 @@ import com.vaadin.data.util.GeneratedPropertyContainer;
 import com.vaadin.data.util.PropertyValueGenerator;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
-import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.renderers.ButtonRenderer;
@@ -17,7 +16,6 @@ public class PaymentGrid extends Grid {
     private static final long serialVersionUID = 1L;
     
     public PaymentGrid(PaymentContainer container) {
-	this.setHeightMode(HeightMode.ROW);
 	this.setWidth(1000, Unit.PIXELS);
 
 	// create a wrapper container

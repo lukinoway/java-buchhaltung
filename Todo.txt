@@ -18,7 +18,7 @@
 -> Status ENUM muss richtig eingebaut werden, momentan werden sie im Status NEU angezeigt
 -> konto dropboxen auf 100%
 -> kategorie dropbox?
--> Link auf online Portal der jeweiligen bank
+-> Link auf online Portal der jeweiligen bank -> done
 
 - Liste mit BIC IBAN anderer Benutzer Konten
 -- Benutzer will Überweisungsdaten einsehen
