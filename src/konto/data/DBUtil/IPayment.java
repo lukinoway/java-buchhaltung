@@ -17,7 +17,5 @@ public interface IPayment {
     public PaymentContainer getAllPaymentsForUser(LoginUser user);
     
     public PaymentContainer getOpenPaymentsForUser(LoginUser user);
-    
-    
 
 }

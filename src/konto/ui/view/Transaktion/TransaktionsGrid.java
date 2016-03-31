@@ -1,5 +1,6 @@
 package konto.ui.view.Transaktion;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import com.vaadin.data.Item;
@@ -121,6 +122,8 @@ public class TransaktionsGrid extends Grid {
 	    }
 	    
 	});
+	
+	this.setColumns("Datum", "Text", "Konto", "Kategorie", "Betrag", "delete");
 	
     } 
 }

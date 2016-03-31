@@ -1,9 +1,13 @@
 package konto.ui.view.Transaktion;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.vaadin.haijian.ExcelExporter;
 import org.vaadin.teemu.VaadinIcons;
 
 import com.vaadin.data.Container.Indexed;
+import com.vaadin.data.Item;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
@@ -17,6 +21,7 @@ import konto.data.DBUtil.ITransaktion;
 import konto.data.DBUtil.TransaktionDBUtil;
 import konto.data.container.TransaktionsContainer;
 import konto.data.model.LoginUser;
+import konto.report.Report;
 import konto.ui.session.SessionManager;
 
 /**
@@ -116,6 +121,19 @@ public class TransaktionsMainView extends VerticalLayout {
 	excelExport.setIcon(VaadinIcons.DOWNLOAD);
 	actionBar.addComponent(excelExport);
 	actionBar.setComponentAlignment(excelExport, Alignment.MIDDLE_CENTER);
+	
+	// report button
+	Button reportBtn = new Button("Get Report");
+	actionBar.addComponent(reportBtn);
+	actionBar.setComponentAlignment(reportBtn, Alignment.MIDDLE_CENTER);
+	reportBtn.addClickListener(new ClickListener() {
+
+	    @Override
+	    public void buttonClick(ClickEvent event) {
+		transaktionUtil.getReport(SessionManager.getUser());
+	    }
+	    
+	});
 	
 	this.addComponent(actionBar);
 	this.setComponentAlignment(actionBar, Alignment.BOTTOM_CENTER);

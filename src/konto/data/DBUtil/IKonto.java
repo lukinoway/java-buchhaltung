@@ -1,5 +1,7 @@
 package konto.data.DBUtil;
 
+import java.util.HashMap;
+
 import konto.data.container.KontoContainer;
 import konto.data.model.Konto;
 import konto.data.model.LoginUser;
@@ -23,5 +25,7 @@ public interface IKonto {
     public String getTransferInformationforKonto(int kontoId);
     
     public String getBankURL(int kontoId);
+    
+    public HashMap<Integer, String> getUserNameforVisibleKonto();
 
 }

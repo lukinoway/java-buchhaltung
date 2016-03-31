@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import konto.data.container.KontoContainer;
 import konto.data.model.Konto;
@@ -212,6 +213,29 @@ public class KontoDBUtil extends DBCommunicator implements IKonto {
 	    close();
 	}
 	return bankURL;
+    }
+    
+    public HashMap<Integer, String> getUserNameforVisibleKonto() {
+	HashMap<Integer, String> userNameMap = new HashMap<Integer, String>();
+	
+	try {
+	    String pSql = "select konto_id, user_name || ' - ' || konto_desc_text"
+		    	+ "  from db_user "
+		    	+ "  join db_konto on owner = user_id "
+		    	+ " where visible = true";
+	    pStmt = connect.prepareStatement(pSql);
+	    resSet = pStmt.executeQuery();
+
+	    while (resSet.next()) {
+		userNameMap.put(resSet.getInt(1), resSet.getString(2));
+	    }
+
+	} catch (Exception e) {
+	    e.printStackTrace();
+	} finally {
+	    close();
+	}
+	return userNameMap;
     }
 
 

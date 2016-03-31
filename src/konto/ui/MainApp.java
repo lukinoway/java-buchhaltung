@@ -79,9 +79,10 @@ public class MainApp extends UI {
 
 	    // need to wait for current User
 	    kontoView = new KontoMainView();
+	    categoryView = new CategoryMainView();
 	    transaktionsView = new TransaktionsMainView();
 	    paymentView = new PaymentMainView();
-	    categoryView = new CategoryMainView();
+	    
 	    
 
 	    main.removeAllComponents();

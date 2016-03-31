@@ -9,6 +9,7 @@ import konto.data.Util.DateConverter;
 import konto.data.container.TransaktionsContainer;
 import konto.data.model.LoginUser;
 import konto.data.model.Transaktion;
+import konto.report.Report;
 
 public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 
@@ -321,6 +322,25 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 		pStmt.close();
 	    }
 	    super.close();
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+    
+    public void getReport(LoginUser user) {
+	try {
+	    String pSql = "SELECT t.transaktion_id, t.transaktion_date, transaktion_betrag, transaktion_text, "
+		    	+ "       tt.type_text, k.konto_desc_text "
+		    	+ "  FROM db_transaktion t "
+		    	+ "  LEFT JOIN db_konto k on k.konto_id = t.konto_id "
+		    	+ "  LEFT JOIN db_transaktion_type tt on tt.type_id = t.transaktion_type"
+		    	+ " WHERE k.owner = ? ORDER BY transaktion_date;";
+
+	    pStmt = connect.prepareStatement(pSql);
+	    pStmt.setInt(1, user.getUserId());
+	    resSet = pStmt.executeQuery();
+	    
+	    new Report(resSet);
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}

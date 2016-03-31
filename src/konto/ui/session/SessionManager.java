@@ -18,7 +18,6 @@ import konto.data.model.LoginUser;
  * @author lpichle
  *
  */
-@PreserveOnRefresh
 public class SessionManager implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -143,6 +142,7 @@ public class SessionManager implements Serializable {
 		int id = (Integer) item.getItemProperty("ID").getValue();
 		String text = (String) item.getItemProperty("Text").getValue();
 		categoryMap.put(id, text);
+		System.out.println("Stored categories: " +categoryMap);
 	    }
 
 	    try {
