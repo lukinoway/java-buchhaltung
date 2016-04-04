@@ -3,19 +3,30 @@ package konto.report;
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.renderer.category.BarRenderer;
+
 import java.sql.ResultSet;
 
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.DynamicReports;
 import net.sf.dynamicreports.report.builder.ReportBuilder;
 import net.sf.dynamicreports.report.builder.chart.Bar3DChartBuilder;
+import net.sf.dynamicreports.report.builder.chart.BarChartBuilder;
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
 import net.sf.dynamicreports.report.constant.VerticalTextAlignment;
+import net.sf.dynamicreports.report.definition.ReportParameters;
+import net.sf.dynamicreports.report.definition.chart.DRIChartCustomizer;
 
 public class TransaktionsReport {
     
@@ -47,10 +58,12 @@ public class TransaktionsReport {
 	TextColumnBuilder<BigDecimal> betragColumn = col.column("Betrag", "transaktion_betrag", type.bigDecimalType());
 	
 	// Charts
-	Bar3DChartBuilder kategorieChart = cht.bar3DChart()
+	BarChartBuilder kategorieChart = cht.barChart()
+		.customizers(new ChartCustomizer())
 		.setTitle("Summe pro Kategorie")
 		.setCategory(kategorieColumn)
-		.addSerie(cht.serie(betragColumn));
+		.addSerie(cht.serie(betragColumn))
+		.setCategoryAxisFormat(cht.axisFormat().setLabel("Kategorie"));
 
 	try {
 	    report
@@ -68,9 +81,9 @@ public class TransaktionsReport {
 	    	.pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))
 	    	.summary(kategorieChart)
 	    	.setDataSource(resSet)
-	    	.groupBy(kategorieColumn)
-	    	.subtotalsAtColumnFooter(sbt.sum(betragColumn).setStyle(boldStyle))
+	    	.groupBy(kategorieColumn.setStyle(boldStyle))
 	    	.subtotalsAtFirstGroupFooter(sbt.sum(betragColumn).setStyle(boldStyle));
+	    	
 	    	
 	    
 	} catch (Exception e) {
@@ -78,6 +91,19 @@ public class TransaktionsReport {
 	}
 	
 	return report;
+    }
+    
+    private class ChartCustomizer implements DRIChartCustomizer, Serializable {
+	private static final long serialVersionUID = 1L;
+	
+	@Override
+	public void customize(JFreeChart chart, ReportParameters reportParameters) {
+	    //BarRenderer renderer = (BarRenderer) chart.getCategoryPlot().getRenderer();
+	    CategoryAxis domainAxis = chart.getCategoryPlot().getDomainAxis();
+	    domainAxis.setCategoryLabelPositions(CategoryLabelPositions.createUpRotationLabelPositions(45.0));
+	    
+	}
+	
     }
 
 }
