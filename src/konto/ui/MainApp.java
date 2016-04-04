@@ -1,7 +1,11 @@
 package konto.ui;
 
+import javax.servlet.annotation.WebServlet;
+
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
 
 import konto.ui.SideBar;
 import konto.ui.session.SessionManager;
@@ -100,5 +104,10 @@ public class MainApp extends UI {
 
 	}
     }
+    
+//    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
+//    @VaadinServletConfiguration(ui = MainApp.class, productionMode = false)
+//    public static class MyUIServlet extends VaadinServlet {
+//    }
 
 }

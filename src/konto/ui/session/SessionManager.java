@@ -142,7 +142,6 @@ public class SessionManager implements Serializable {
 		int id = (Integer) item.getItemProperty("ID").getValue();
 		String text = (String) item.getItemProperty("Text").getValue();
 		categoryMap.put(id, text);
-		System.out.println("Stored categories: " +categoryMap);
 	    }
 
 	    try {

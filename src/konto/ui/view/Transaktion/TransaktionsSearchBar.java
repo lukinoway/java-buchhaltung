@@ -114,8 +114,6 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	// option buttons
 	searchType.addValueChangeListener(new ValueChangeListener() {
 
-	    private static final long serialVersionUID = 1L;
-
 	    @Override
 	    public void valueChange(ValueChangeEvent event) {
 		buildSearchElements(searchType.getValue().toString());

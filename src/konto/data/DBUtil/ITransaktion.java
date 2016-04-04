@@ -1,5 +1,6 @@
 package konto.data.DBUtil;
 
+import java.sql.ResultSet;
 import java.time.LocalDate;
 
 import konto.data.container.TransaktionsContainer;
@@ -28,6 +29,6 @@ public interface ITransaktion {
     
     public TransaktionsContainer getTransaktionsForYearKontoCategory(LocalDate year, int kontoId, int categoryId);
     
-    public void getReport(LoginUser user);
+    public ResultSet getReport(LoginUser user);
 
 }

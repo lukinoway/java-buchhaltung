@@ -1,3 +1,7 @@
+## 2016-04-04
+- added ReportUtil Class to generate a StreamResource
+- File is now pushed to client via FileDownloader
+
 ## 2016-03-31
 - started with report implementation
 - finished payment grid

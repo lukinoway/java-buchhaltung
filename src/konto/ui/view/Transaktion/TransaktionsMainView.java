@@ -21,7 +21,8 @@ import konto.data.DBUtil.ITransaktion;
 import konto.data.DBUtil.TransaktionDBUtil;
 import konto.data.container.TransaktionsContainer;
 import konto.data.model.LoginUser;
-import konto.report.Report;
+import konto.report.ReportUtil;
+import konto.report.TransaktionsReport;
 import konto.ui.session.SessionManager;
 
 /**
@@ -43,6 +44,7 @@ public class TransaktionsMainView extends VerticalLayout {
     Button exportGridBtn = new Button("Export");
 
     private TransaktionsContainer container;
+    private ReportUtil reportUtil;
 
     LoginUser user;
 
@@ -63,6 +65,9 @@ public class TransaktionsMainView extends VerticalLayout {
 	searchBar = new TransaktionsSearchBar();
 	this.addComponent(searchBar);
 	this.addComponent(transaktionsgrid);
+	
+	this.reportUtil = new ReportUtil();
+	
 	buildActionBar();
 
 	
@@ -128,12 +133,22 @@ public class TransaktionsMainView extends VerticalLayout {
 	actionBar.setComponentAlignment(reportBtn, Alignment.MIDDLE_CENTER);
 	reportBtn.addClickListener(new ClickListener() {
 
+	    private static final long serialVersionUID = 1L;
+
 	    @Override
 	    public void buttonClick(ClickEvent event) {
-		transaktionUtil.getReport(SessionManager.getUser());
+		reportUtil.prepareForPdfReport(
+			transaktionUtil.getReport(SessionManager.getUser()));
+		
 	    }
 	    
 	});
+	//only to this the first time
+	reportUtil.prepareForPdfReport(
+		transaktionUtil.getReport(SessionManager.getUser()));
+	reportUtil.extendButton(reportBtn);
+	
+
 	
 	this.addComponent(actionBar);
 	this.setComponentAlignment(actionBar, Alignment.BOTTOM_CENTER);
