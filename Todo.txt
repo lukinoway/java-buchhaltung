@@ -1,7 +1,33 @@
-## TODO
+﻿## TODO
 - Export Report
--- soll über dynamikreports generiert werden
+-- soll über dynamikreports generiert werden 
 -- muss noch weitere Nachforschungen anstellen
+
+-> report wird erstellt und nach kategorien gruppiert
+-> am Ende wird eine Chart angeführt welche die Kateogiren graphisch auflistet
+
+für button:
++               // get Option from SessionManager
++               String option = SessionManager.getQueryType();
++               System.out.println("Export Option: " + option);
++               if(option == null) {
++                   return;
++               }
++               if(option.equals("Monatsübersicht")) {
++                   reportUtil.prepareForPdfReport(
++                           reportDBUtil.getMonthReport(
++                                   SessionManager.getUser(),
++                                   SessionManager.getQueryDate()));
++               }
++               if(option.equals("Jahresübersicht")) {
++                   reportUtil.prepareForPdfReport(
++                           reportDBUtil.getYearReport(
++                                   SessionManager.getUser(),
++                                   SessionManager.getQueryDate()));
++               }
++               reportUtil.ExtendButton(reportBtn);
+
+
 
 - Eigenübertrag von eigenem Benutzer Konto
 1. Eigenübertrag ist nur möglich wenn Anzahl der Konten > 2
