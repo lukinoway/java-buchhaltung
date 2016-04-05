@@ -1,3 +1,8 @@
+## 2016-04-05
+- report Download is still buggy -> user needs to click twice to get correct report
+- added some fields to report
+- added report DB Util
+
 ## 2016-04-04
 - added ReportUtil Class to generate a StreamResource
 - File is now pushed to client via FileDownloader

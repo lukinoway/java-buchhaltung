@@ -14,10 +14,18 @@ import net.sf.dynamicreports.report.exception.DRException;
 public class ReportUtil {
     
     private StreamResource pdfRes;
+    FileDownloader fileDownloader = null;
     
     public void prepareForPdfReport(ResultSet resSet) {
+
 	TransaktionsReport trReport = new TransaktionsReport();
 	pdfRes = createPdfResource(trReport.build(resSet));
+	if(fileDownloader == null) {
+	    fileDownloader = new FileDownloader(pdfRes);
+	}
+	if(resSet != null) {
+	    fileDownloader.setFileDownloadResource(pdfRes);
+	}
     }
     
     private StreamResource createPdfResource(JasperReportBuilder report) {
@@ -41,9 +49,7 @@ public class ReportUtil {
     }
     
     public void extendButton(Button buttonToExtend) {
-        FileDownloader fileDownloader = new FileDownloader(pdfRes);
         fileDownloader.extend(buttonToExtend);
-        prepareForPdfReport(null);
     }
 
 }

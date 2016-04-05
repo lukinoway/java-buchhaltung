@@ -21,7 +21,10 @@ import net.sf.dynamicreports.report.builder.ReportBuilder;
 import net.sf.dynamicreports.report.builder.chart.Bar3DChartBuilder;
 import net.sf.dynamicreports.report.builder.chart.BarChartBuilder;
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
+import net.sf.dynamicreports.report.builder.component.TextFieldBuilder;
+import net.sf.dynamicreports.report.builder.group.GroupBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
+import net.sf.dynamicreports.report.builder.subtotal.AggregationSubtotalBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
 import net.sf.dynamicreports.report.constant.VerticalTextAlignment;
@@ -57,6 +60,13 @@ public class TransaktionsReport {
 	TextColumnBuilder<String> textColumn = col.column("Beschreibung", "transaktion_text", type.stringType());
 	TextColumnBuilder<BigDecimal> betragColumn = col.column("Betrag", "transaktion_betrag", type.bigDecimalType());
 	
+	// SubTotal
+	AggregationSubtotalBuilder<Date> minDateField = sbt.min(dateColumn).setLabel("Von: ");
+	AggregationSubtotalBuilder<Date> maxDateField = sbt.max(dateColumn).setLabel("Bis: ");
+	AggregationSubtotalBuilder<Long> transaktionCnt = sbt.count(betragColumn).setLabel("Anzahl an Transaktionen: ");
+	AggregationSubtotalBuilder<BigDecimal> summary = sbt.sum(betragColumn).setLabel("Summe: ");
+	
+		
 	// Charts
 	BarChartBuilder kategorieChart = cht.barChart()
 		.customizers(new ChartCustomizer())
@@ -74,7 +84,8 @@ public class TransaktionsReport {
 	    	.title(
 	    		cmp.horizontalList()
 	    		.add(
-	    		cmp.text("Auswertung:").setStyle(titleStyle).setHorizontalTextAlignment(HorizontalTextAlignment.LEFT))
+	    		cmp.text("Auswertung: ").setStyle(titleStyle).setHorizontalTextAlignment(HorizontalTextAlignment.LEFT)
+	    		)
 	    		.newRow()
 	    		.add(cmp.filler().setStyle(stl.style().setTopBorder(stl.pen2Point())).setFixedHeight(10))
 	    		)
@@ -82,7 +93,9 @@ public class TransaktionsReport {
 	    	.summary(kategorieChart)
 	    	.setDataSource(resSet)
 	    	.groupBy(kategorieColumn.setStyle(boldStyle))
-	    	.subtotalsAtFirstGroupFooter(sbt.sum(betragColumn).setStyle(boldStyle));
+	    	.subtotalsAtFirstGroupFooter(sbt.sum(betragColumn).setStyle(boldStyle).setLabel("Summe von " + "Kategorie"  + ": "))
+	    	.subtotalsAtTitle(minDateField, maxDateField, transaktionCnt)
+	    	.subtotalsAtLastPageFooter(summary.setStyle(boldStyle));
 	    	
 	    	
 	    

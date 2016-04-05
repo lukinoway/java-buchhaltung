@@ -6,27 +6,7 @@
 -> report wird erstellt und nach kategorien gruppiert
 -> am Ende wird eine Chart angeführt welche die Kateogiren graphisch auflistet
 
-für button:
-+               // get Option from SessionManager
-+               String option = SessionManager.getQueryType();
-+               System.out.println("Export Option: " + option);
-+               if(option == null) {
-+                   return;
-+               }
-+               if(option.equals("Monatsübersicht")) {
-+                   reportUtil.prepareForPdfReport(
-+                           reportDBUtil.getMonthReport(
-+                                   SessionManager.getUser(),
-+                                   SessionManager.getQueryDate()));
-+               }
-+               if(option.equals("Jahresübersicht")) {
-+                   reportUtil.prepareForPdfReport(
-+                           reportDBUtil.getYearReport(
-+                                   SessionManager.getUser(),
-+                                   SessionManager.getQueryDate()));
-+               }
-+               reportUtil.ExtendButton(reportBtn);
-
+-> Korrekter Report wird erst einen Click später generiert -> muss noch gefixed werden
 
 
 - Eigenübertrag von eigenem Benutzer Konto

@@ -1,13 +1,9 @@
 package konto.ui.view.Transaktion;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.vaadin.haijian.ExcelExporter;
 import org.vaadin.teemu.VaadinIcons;
 
 import com.vaadin.data.Container.Indexed;
-import com.vaadin.data.Item;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
@@ -17,12 +13,13 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 
+import konto.data.DBUtil.IReport;
 import konto.data.DBUtil.ITransaktion;
+import konto.data.DBUtil.ReportDBUtil;
 import konto.data.DBUtil.TransaktionDBUtil;
 import konto.data.container.TransaktionsContainer;
 import konto.data.model.LoginUser;
 import konto.report.ReportUtil;
-import konto.report.TransaktionsReport;
 import konto.ui.session.SessionManager;
 
 /**
@@ -137,8 +134,29 @@ public class TransaktionsMainView extends VerticalLayout {
 
 	    @Override
 	    public void buttonClick(ClickEvent event) {
-		reportUtil.prepareForPdfReport(
-			transaktionUtil.getReport(SessionManager.getUser()));
+		IReport reportDBUtil = new ReportDBUtil();
+		// get Option from SessionManager
+		String option = SessionManager.getQueryType();
+		System.out.println("Export Option: " + option);
+		if(option == null) {
+		    return;
+		}
+		if(option.equals("Monatsübersicht")) {
+		    reportUtil.prepareForPdfReport(
+		            reportDBUtil.getMonthReport(
+		                    SessionManager.getUser(),
+		                    SessionManager.getQueryDate()));
+		}
+		else if(option.equals("Jahresübersicht")) {
+		    reportUtil.prepareForPdfReport(
+		            reportDBUtil.getYearReport(
+		                    SessionManager.getUser(),
+		                    SessionManager.getQueryDate()));
+		}
+		else {
+		    reportUtil.prepareForPdfReport(
+			    transaktionUtil.getReport(SessionManager.getUser()));
+		}
 		
 	    }
 	    
