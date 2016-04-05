@@ -144,7 +144,7 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	return returnDate;
     }
     
-    private LocalDate getYearMonth() {
+    public LocalDate getYearMonth() {
 	LocalDate returnDate;
 	if (monthYear.getValue() == null) {
 	    returnDate = LocalDate.now();
@@ -154,7 +154,7 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	return returnDate;
     }
     
-    private LocalDate getYear() {
+    public LocalDate getYear() {
 	LocalDate returnDate;
 	if (year.getValue() == null) {
 	    returnDate = LocalDate.now();
@@ -169,6 +169,7 @@ public class TransaktionsSearchBar extends HorizontalLayout {
      */
     private void loadData() {
 	System.out.print("load data: " + selectedOption);
+	SessionManager.setQueryType(selectedOption);
 	// check main input
 	int kontoId = 0;
 	int categoryId = 0;
@@ -185,9 +186,11 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	}
 	if (selectedOption.equals("Monatsübersicht")) {
 	    refillContainer(transaktionsUtil.getTransaktionsForMonthKontoCategory(getYearMonth(), kontoId, categoryId));
+	    SessionManager.setQueryDate(getYearMonth());
 	}
 	if (selectedOption.equals("Jahresübersicht")) {
 	    refillContainer(transaktionsUtil.getTransaktionsForYearKontoCategory(getYear(), kontoId, categoryId));
+	    SessionManager.setQueryDate(getYear());
 	} 
 	if (selectedOption.equals("AlleDaten")) {
 	    if (kontoId > 0 || categoryId > 0) {
@@ -250,6 +253,10 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	}
 	
 	selectedOption = option;
+    }
+    
+    public String getCurrentSelection() {
+	return searchType.getValue().toString();
     }
 
 }

@@ -1,6 +1,7 @@
 package konto.ui.session;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.HashMap;
 
 import com.vaadin.annotations.PreserveOnRefresh;
@@ -160,6 +161,46 @@ public class SessionManager implements Serializable {
             @SuppressWarnings("unchecked")
 	    HashMap<Integer, String> map = (HashMap<Integer, String>) VaadinSession.getCurrent().getAttribute("categoryMap");
             return map;
+        }
+        
+        return null;
+    }
+    
+    public static void setQueryType(String queryType) {
+	if(queryType != null) {
+	    try {
+		VaadinSession.getCurrent().getLockInstance().lock();
+		VaadinSession.getCurrent().setAttribute("queryType", queryType);
+	    } finally {
+		VaadinSession.getCurrent().getLockInstance().unlock();
+	    }
+	}
+    }
+    
+    public static String getQueryType() {
+        if (VaadinSession.getCurrent().getAttribute("queryType") instanceof String) {
+            String queryType = (String) VaadinSession.getCurrent().getAttribute("queryType");
+            return queryType;
+        }
+        
+        return null;
+    }
+    
+    public static void setQueryDate(LocalDate date) {
+	if(date != null) {
+	    try {
+		VaadinSession.getCurrent().getLockInstance().lock();
+		VaadinSession.getCurrent().setAttribute("queryDate", date);
+	    } finally {
+		VaadinSession.getCurrent().getLockInstance().unlock();
+	    }
+	}
+    }
+    
+    public static LocalDate getQueryDate() {
+        if (VaadinSession.getCurrent().getAttribute("queryDate") instanceof LocalDate) {
+            LocalDate queryDate = (LocalDate) VaadinSession.getCurrent().getAttribute("queryDate");
+            return queryDate;
         }
         
         return null;
