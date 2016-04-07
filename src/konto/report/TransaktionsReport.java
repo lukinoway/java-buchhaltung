@@ -22,6 +22,7 @@ import net.sf.dynamicreports.report.builder.chart.Bar3DChartBuilder;
 import net.sf.dynamicreports.report.builder.chart.BarChartBuilder;
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
 import net.sf.dynamicreports.report.builder.component.TextFieldBuilder;
+import net.sf.dynamicreports.report.builder.datatype.BigDecimalType;
 import net.sf.dynamicreports.report.builder.group.GroupBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.builder.subtotal.AggregationSubtotalBuilder;
@@ -39,6 +40,7 @@ public class TransaktionsReport {
     public JasperReportBuilder build(ResultSet resSet) {
 	
 	final JasperReportBuilder report = DynamicReports.report();
+	CurrencyType currencyType = new CurrencyType();
 	    
 	// Style
 	StyleBuilder boldStyle = stl.style().bold();
@@ -58,7 +60,7 @@ public class TransaktionsReport {
 	TextColumnBuilder<String> kontoColumn = col.column("Konto", "konto_desc_text", type.stringType());
 	TextColumnBuilder<String> kategorieColumn = col.column("Kategorie", "type_text", type.stringType());
 	TextColumnBuilder<String> textColumn = col.column("Beschreibung", "transaktion_text", type.stringType());
-	TextColumnBuilder<BigDecimal> betragColumn = col.column("Betrag", "transaktion_betrag", type.bigDecimalType());
+	TextColumnBuilder<BigDecimal> betragColumn = col.column("Betrag", "transaktion_betrag", currencyType);
 	
 	// SubTotal
 	AggregationSubtotalBuilder<Date> minDateField = sbt.min(dateColumn).setLabel("Von: ");
@@ -93,7 +95,8 @@ public class TransaktionsReport {
 	    	.summary(kategorieChart)
 	    	.setDataSource(resSet)
 	    	.groupBy(kategorieColumn.setStyle(boldStyle))
-	    	.subtotalsAtFirstGroupFooter(sbt.sum(betragColumn).setStyle(boldStyle).setLabel("Summe von " + "Kategorie"  + ": "))
+	    	.subtotalsAtFirstGroupFooter(
+	    		sbt.sum(betragColumn).setStyle(boldStyle).setLabel("Summe von " + "Kategorie"  + ": ").setDataType(currencyType))
 	    	.subtotalsAtTitle(minDateField, maxDateField, transaktionCnt)
 	    	.subtotalsAtLastPageFooter(summary.setStyle(boldStyle));
 	    	
@@ -117,6 +120,15 @@ public class TransaktionsReport {
 	    
 	}
 	
+    }
+    
+    private class CurrencyType extends BigDecimalType {
+	private static final long serialVersionUID = 1L;
+	
+	@Override
+	public String getPattern() {
+	    return "€ #,###.00";
+	}
     }
 
 }
