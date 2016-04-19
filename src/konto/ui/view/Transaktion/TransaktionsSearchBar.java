@@ -18,11 +18,14 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.ui.Button.ClickEvent;
 
+import konto.data.DBUtil.IReport;
 import konto.data.DBUtil.ITransaktion;
+import konto.data.DBUtil.ReportDBUtil;
 import konto.data.DBUtil.TransaktionDBUtil;
 import konto.data.container.TransaktionsContainer;
 import konto.data.model.LoginUser;
 import konto.data.model.Transaktion;
+import konto.report.ReportUtil;
 import konto.ui.elements.CategoryComboBox;
 import konto.ui.elements.KontoComboBox;
 import konto.ui.session.SessionManager;
@@ -50,12 +53,13 @@ public class TransaktionsSearchBar extends HorizontalLayout {
     DateField year = new DateField("Jahr");
     Button searchBtn = new Button("Suche");
     
-    
     LoginUser user;
     TransaktionsContainer container;
     TransaktionsGrid grid;
     
     ITransaktion transaktionsUtil = new TransaktionDBUtil();
+    ReportUtil reportUtil;
+    TransaktionsMainView mainView;
     
     String selectedOption;
 
@@ -107,6 +111,25 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	    public void buttonClick(ClickEvent event) {
 		
 		loadData();
+		
+		// prepare Report
+		IReport reportDBUtil = new ReportDBUtil();
+		System.out.println("Export Option: " + selectedOption);
+		if(selectedOption == null) {
+		    return;
+		}
+		if(selectedOption.equals("Monatsübersicht")) {
+		    reportUtil.prepareForPdfReport(
+		            reportDBUtil.getMonthReport(
+		                    SessionManager.getUser(),
+		                    SessionManager.getQueryDate()));
+		}
+		else if(selectedOption.equals("Jahresübersicht")) {
+		    reportUtil.prepareForPdfReport(
+		            reportDBUtil.getYearReport(
+		                    SessionManager.getUser(),
+		                    SessionManager.getQueryDate()));
+		}
 	    }
 	});
 	
@@ -114,9 +137,13 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	// option buttons
 	searchType.addValueChangeListener(new ValueChangeListener() {
 
+	    private static final long serialVersionUID = 1L;
+
 	    @Override
 	    public void valueChange(ValueChangeEvent event) {
 		buildSearchElements(searchType.getValue().toString());
+		SessionManager.setQueryType(selectedOption);
+		mainView.rebuildActionBar();
 	    }
 	    
 	});
@@ -169,7 +196,6 @@ public class TransaktionsSearchBar extends HorizontalLayout {
      */
     private void loadData() {
 	System.out.print("load data: " + selectedOption);
-	SessionManager.setQueryType(selectedOption);
 	// check main input
 	int kontoId = 0;
 	int categoryId = 0;
@@ -257,6 +283,14 @@ public class TransaktionsSearchBar extends HorizontalLayout {
     
     public String getCurrentSelection() {
 	return searchType.getValue().toString();
+    }
+    
+    public void setReportUtil(ReportUtil reportUtil) {
+	this.reportUtil = reportUtil;
+    }
+    
+    public void setMainView(TransaktionsMainView mainView) {
+	this.mainView = mainView;
     }
 
 }

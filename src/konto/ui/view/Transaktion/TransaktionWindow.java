@@ -84,6 +84,7 @@ public class TransaktionWindow extends Window {
 	gridView.addComponent(transaktionsBetrag, 0, 1, 0, 1);
 	gridView.addComponent(transaktionsDatum, 0, 2, 0, 2);
 	gridView.addComponent(transaktionsKonto, 0, 3, 1, 3);
+	transaktionsKonto.setNullSelectionAllowed(true);
 	gridView.addComponent(transaktionsType, 0, 4, 1, 4);
 
 	gridView.addComponent(saveBtn, 0, 6, 0, 6);

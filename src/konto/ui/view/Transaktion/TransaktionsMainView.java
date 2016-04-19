@@ -13,9 +13,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 
-import konto.data.DBUtil.IReport;
 import konto.data.DBUtil.ITransaktion;
-import konto.data.DBUtil.ReportDBUtil;
 import konto.data.DBUtil.TransaktionDBUtil;
 import konto.data.container.TransaktionsContainer;
 import konto.data.model.LoginUser;
@@ -39,6 +37,7 @@ public class TransaktionsMainView extends VerticalLayout {
     Button addTransaktionBtn = new Button();
     Button addTransferBtn = new Button();
     Button exportGridBtn = new Button("Export");
+    Button reportBtn = new Button("Get Report");
 
     private TransaktionsContainer container;
     private ReportUtil reportUtil;
@@ -60,10 +59,16 @@ public class TransaktionsMainView extends VerticalLayout {
 	calGridHeight();
 
 	searchBar = new TransaktionsSearchBar();
+	searchBar.setMainView(this);
 	this.addComponent(searchBar);
 	this.addComponent(transaktionsgrid);
 	
 	this.reportUtil = new ReportUtil();
+	//only to this the first time
+	reportUtil.prepareForPdfReport(
+		transaktionUtil.getReport(SessionManager.getUser()));
+	reportUtil.extendButton(reportBtn);
+	searchBar.setReportUtil(reportUtil);
 	
 	buildActionBar();
 
@@ -125,46 +130,19 @@ public class TransaktionsMainView extends VerticalLayout {
 	actionBar.setComponentAlignment(excelExport, Alignment.MIDDLE_CENTER);
 	
 	// report button
-	Button reportBtn = new Button("Get Report");
-	actionBar.addComponent(reportBtn);
-	actionBar.setComponentAlignment(reportBtn, Alignment.MIDDLE_CENTER);
-	reportBtn.addClickListener(new ClickListener() {
-
-	    private static final long serialVersionUID = 1L;
-
-	    @Override
-	    public void buttonClick(ClickEvent event) {
-		IReport reportDBUtil = new ReportDBUtil();
-		// get Option from SessionManager
-		String option = SessionManager.getQueryType();
-		System.out.println("Export Option: " + option);
-		if(option == null) {
-		    return;
-		}
-		if(option.equals("Monatsübersicht")) {
-		    reportUtil.prepareForPdfReport(
-		            reportDBUtil.getMonthReport(
-		                    SessionManager.getUser(),
-		                    SessionManager.getQueryDate()));
-		}
-		else if(option.equals("Jahresübersicht")) {
-		    reportUtil.prepareForPdfReport(
-		            reportDBUtil.getYearReport(
-		                    SessionManager.getUser(),
-		                    SessionManager.getQueryDate()));
-		}
-		else {
-		    reportUtil.prepareForPdfReport(
-			    transaktionUtil.getReport(SessionManager.getUser()));
-		}
-		
+	try {
+	    System.out.println("option: " + SessionManager.getQueryType());
+	    if (SessionManager.getQueryType().equals("Monatsübersicht")
+		    || SessionManager.getQueryType().equals("Jahresübersicht")) {
+		actionBar.addComponent(reportBtn);
+		actionBar.setComponentAlignment(reportBtn, Alignment.MIDDLE_CENTER);
 	    }
-	    
-	});
-	//only to this the first time
-	reportUtil.prepareForPdfReport(
-		transaktionUtil.getReport(SessionManager.getUser()));
-	reportUtil.extendButton(reportBtn);
+	} catch (NullPointerException e) {
+	    System.out.println("initialize");
+	}
+	
+	
+	
 	
 
 	

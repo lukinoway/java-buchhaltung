@@ -20,6 +20,7 @@ import net.sf.dynamicreports.report.builder.DynamicReports;
 import net.sf.dynamicreports.report.builder.ReportBuilder;
 import net.sf.dynamicreports.report.builder.chart.Bar3DChartBuilder;
 import net.sf.dynamicreports.report.builder.chart.BarChartBuilder;
+import net.sf.dynamicreports.report.builder.chart.PieChartBuilder;
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
 import net.sf.dynamicreports.report.builder.component.TextFieldBuilder;
 import net.sf.dynamicreports.report.builder.datatype.BigDecimalType;
@@ -76,6 +77,14 @@ public class TransaktionsReport {
 		.setCategory(kategorieColumn)
 		.addSerie(cht.serie(betragColumn))
 		.setCategoryAxisFormat(cht.axisFormat().setLabel("Kategorie"));
+	
+//	PieChartBuilder pieChart = cht.pieChart()
+//		.customizers(new ChartCustomizer())
+//		.setTitle("Verteilung:")
+//		.setLabelFormat("{0} {2}")
+//		.setKey(kategorieColumn)
+//		.addSerie(cht.serie(betragColumn))
+//		.setCircular(true);
 
 	try {
 	    report
@@ -90,15 +99,22 @@ public class TransaktionsReport {
 	    		)
 	    		.newRow()
 	    		.add(cmp.filler().setStyle(stl.style().setTopBorder(stl.pen2Point())).setFixedHeight(10))
+//	    		.newRow()
+//	    		.add(pieChart)
 	    		)
 	    	.pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))
-	    	.summary(kategorieChart)
+	    	.summary(
+	    		cmp.horizontalList()
+	    		.add(cmp.filler().setStyle(stl.style().setTopBorder(stl.pen2Point())).setFixedHeight(10))
+	    		.newRow()
+	    		.add(kategorieChart)
+	    		)
 	    	.setDataSource(resSet)
 	    	.groupBy(kategorieColumn.setStyle(boldStyle))
 	    	.subtotalsAtFirstGroupFooter(
 	    		sbt.sum(betragColumn).setStyle(boldStyle).setLabel("Summe von " + "Kategorie"  + ": ").setDataType(currencyType))
-	    	.subtotalsAtTitle(minDateField, maxDateField, transaktionCnt)
-	    	.subtotalsAtLastPageFooter(summary.setStyle(boldStyle));
+	    	.subtotalsAtTitle(minDateField, maxDateField, transaktionCnt, summary.setStyle(boldStyle))
+	    	;
 	    	
 	    	
 	    
