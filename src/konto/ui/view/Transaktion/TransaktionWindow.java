@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 import com.vaadin.data.Item;
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
@@ -19,7 +20,6 @@ import konto.data.DBUtil.ICategory;
 import konto.data.DBUtil.IKonto;
 import konto.data.DBUtil.KontoDBUtil;
 import konto.data.container.TransaktionsContainer;
-import konto.data.model.LoginUser;
 import konto.data.model.Transaktion;
 import konto.ui.elements.KontoComboBox;
 import konto.ui.elements.CategoryComboBox;
@@ -33,8 +33,8 @@ public class TransaktionWindow extends Window {
     TextField transaktionsText = new TextField("Text");
     TextField transaktionsBetrag = new TextField("Betrag");
     DateField transaktionsDatum = new DateField("Datum");
-    KontoComboBox transaktionsKonto = new KontoComboBox();
-    CategoryComboBox transaktionsType = new CategoryComboBox();
+    KontoComboBox transaktionsKonto;
+    CategoryComboBox transaktionsType;
     Button saveBtn = new Button("speichern");
     Button cancelBtn = new Button("abbrechen");
 
@@ -54,7 +54,7 @@ public class TransaktionWindow extends Window {
 
 	this.container = SessionManager.getTransaktionsContainer();
 	this.setCaption("Neue Transaktion");
-
+	
 	// build grid
 	buildGrid();
 	
@@ -78,13 +78,19 @@ public class TransaktionWindow extends Window {
      */
     private void buildGrid() {
 	
+	// workaround for dirty connector error
+	IndexedContainer kcontainer = kontoUtil.getKontoForUser(SessionManager.getUser());
+	transaktionsKonto = new KontoComboBox(kcontainer);
+	
+	IndexedContainer tcontainer = categoryUtil.getAllCategories();
+	transaktionsType = new CategoryComboBox(tcontainer);
+	
 	gridView.addComponent(transaktionsText, 0, 0, 1, 0);
 	transaktionsText.setWidth(100, Unit.PERCENTAGE);
 
 	gridView.addComponent(transaktionsBetrag, 0, 1, 0, 1);
 	gridView.addComponent(transaktionsDatum, 0, 2, 0, 2);
 	gridView.addComponent(transaktionsKonto, 0, 3, 1, 3);
-	transaktionsKonto.setNullSelectionAllowed(true);
 	gridView.addComponent(transaktionsType, 0, 4, 1, 4);
 
 	gridView.addComponent(saveBtn, 0, 6, 0, 6);

@@ -1,25 +1,31 @@
 package konto.ui.elements;
 
-import com.vaadin.ui.Select;
+import com.vaadin.data.util.IndexedContainer;
 
-import konto.data.container.CategoryContainer;
 import konto.ui.session.SessionManager;
 
 public class CategoryComboBox extends TemplateComboBox {
 
     private static final long serialVersionUID = 1L;
+    private IndexedContainer tcontainer;
     
     public CategoryComboBox() {
 	super();
+	this.tcontainer = SessionManager.getCategoryContainer();
+	this.setCaption("Kategorie");
+	this.fillTypeComboBox();
+    }
+    
+    public CategoryComboBox(IndexedContainer tcontainer) {
+	super();
+	this.tcontainer = tcontainer;
 	this.setCaption("Kategorie");
 	this.fillTypeComboBox();
     }
     
     private void fillTypeComboBox() {
-	CategoryContainer kcontainer = SessionManager.getCategoryContainer();
-
-	this.setContainerDataSource(kcontainer);
-	this.setItemCaptionMode(Select.ITEM_CAPTION_MODE_PROPERTY);
+	this.setContainerDataSource(tcontainer);
+	this.setItemCaptionMode(ItemCaptionMode.PROPERTY);
 	this.setItemCaptionPropertyId("Text");
 	this.setNullSelectionAllowed(false);
 
