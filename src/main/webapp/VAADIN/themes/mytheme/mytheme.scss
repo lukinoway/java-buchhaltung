@@ -35,7 +35,7 @@
 
 	.icon {
 	    font-family: Vaadin-Icons;
-	    font-size: 56px;
+	    font-size: 32px;
 	    speak: none;
 	    font-weight: normal;
 	    font-variant: normal;
@@ -81,12 +81,9 @@
 	}
 	
 	.addButton {
-		height: 60px;
-		width: 60px;
+		font-family: Vaadin-Icons;
 		color: green;
-		background-color: transparent;
-		border: none;
-	    font-size: 56px;
+	    font-size: 40;
 	    speak: none;
 	    font-weight: normal;
 	    font-variant: normal;
@@ -94,10 +91,6 @@
 	    text-transform: none;
 	    line-height: 1;
 	    -webkit-font-smoothing: antialiased;
-		text-align: center;
-		outline: none;
-		padding: 5px;
-		box-shadow: none;
 	}
 	
 	.addButton:hover {

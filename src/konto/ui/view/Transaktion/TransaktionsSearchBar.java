@@ -45,6 +45,7 @@ public class TransaktionsSearchBar extends HorizontalLayout {
     OptionGroup searchType = new OptionGroup("Filter Auswahl");
     
     VerticalLayout searchElements = new VerticalLayout();
+    VerticalLayout searchElements2 = new VerticalLayout();
     KontoComboBox kontoBox = new KontoComboBox();
     CategoryComboBox categoryBox = new CategoryComboBox();
     DateField fromDate = new DateField("Von");
@@ -72,6 +73,7 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	// add style
 	this.addStyleName("searchbar");
 	this.setWidth(1000, Unit.PIXELS);
+	this.setHeight(200, Unit.PIXELS);
 	
 	// set datefield formats
 	fromDate.setDateFormat(format);
@@ -94,6 +96,7 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	optionLayout.addComponent(searchType);
 	this.addComponent(optionLayout);
 	this.addComponent(searchElements);
+	this.addComponent(searchElements2);
 	
 	this.addComponent(searchBtn);
 	this.setComponentAlignment(searchBtn, Alignment.MIDDLE_RIGHT);
@@ -247,6 +250,7 @@ public class TransaktionsSearchBar extends HorizontalLayout {
      */
     private void buildSearchElements(String option) {
 	searchElements.removeAllComponents();
+	searchElements2.removeAllComponents();
 	
 	// visible in all searchbars
 	searchElements.addComponent(kontoBox);
@@ -260,18 +264,18 @@ public class TransaktionsSearchBar extends HorizontalLayout {
 	System.out.println("option button: " + option);
 	// check for selected option
 	if (option.equals("von-bis Übersicht")) {
-	    searchElements.addComponent(fromDate);
-	    searchElements.addComponent(toDate);
+	    searchElements2.addComponent(fromDate);
+	    searchElements2.addComponent(toDate);
 	    
 	    fromDate.addStyleName(ValoTheme.DATEFIELD_SMALL);
 	    toDate.addStyleName(ValoTheme.DATEFIELD_SMALL);
 	}
 	if (option.equals("Monatsübersicht")) {
-	    searchElements.addComponent(monthYear);
+	    searchElements2.addComponent(monthYear);
 	    monthYear.addStyleName(ValoTheme.DATEFIELD_SMALL);
 	}
 	if (option.equals("Jahresübersicht")) {
-	    searchElements.addComponent(year);
+	    searchElements2.addComponent(year);
 	    year.addStyleName(ValoTheme.DATEFIELD_SMALL);
 	} 
 	if (option.equals("AlleDaten")) {

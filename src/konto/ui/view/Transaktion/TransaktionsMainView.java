@@ -9,10 +9,10 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
+
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
-
 import konto.data.DBUtil.ITransaktion;
 import konto.data.DBUtil.TransaktionDBUtil;
 import konto.data.container.TransaktionsContainer;
@@ -49,14 +49,13 @@ public class TransaktionsMainView extends VerticalLayout {
 	this.user = SessionManager.getUser();
 
 	// store data in session
-	container = transaktionUtil.getAllTransaktionsForUser(user);
+	container = transaktionUtil.getLast10TransaktionsForUser(user);
 	SessionManager.setTransaktionsContainer(container);
 
 	// set data
 	this.setWidth(100, Unit.PERCENTAGE);
 
 	transaktionsgrid = new TransaktionsGrid(container);
-	calGridHeight();
 
 	searchBar = new TransaktionsSearchBar();
 	searchBar.setMainView(this);
@@ -71,17 +70,9 @@ public class TransaktionsMainView extends VerticalLayout {
 	searchBar.setReportUtil(reportUtil);
 	
 	buildActionBar();
-
+	calcHeight();
 	
-    }
-    
-    private void buildActionBar() {
-	
-	actionBar.addComponent(addTransaktionBtn);
-	actionBar.setComponentAlignment(addTransaktionBtn, Alignment.MIDDLE_CENTER);
-	addTransaktionBtn.setIcon(VaadinIcons.PLUS_CIRCLE);
-	addTransaktionBtn.setStyleName("addButton");
-	addTransaktionBtn.addStyleName(ValoTheme.BUTTON_BORDERLESS);
+	// add ClickListener only once
 	addTransaktionBtn.addClickListener(new ClickListener() {
 
 	    private static final long serialVersionUID = 1L;
@@ -93,17 +84,6 @@ public class TransaktionsMainView extends VerticalLayout {
 		w.focus();
 	    }
 	});
-
-	// only show button if there are more than 2 kontos
-	if(SessionManager.getKontoMap().size()>1) {
-	    actionBar.addComponent(addTransferBtn);
-	    actionBar.setComponentAlignment(addTransferBtn, Alignment.MIDDLE_CENTER);
-	}
-	
-	
-	addTransferBtn.setIcon(VaadinIcons.EXCHANGE);
-	addTransferBtn.addStyleName(ValoTheme.BUTTON_BORDERLESS);
-	addTransferBtn.addStyleName("icon");
 	addTransferBtn.addClickListener(new ClickListener() {
 
 	    private static final long serialVersionUID = 1L;
@@ -117,6 +97,29 @@ public class TransaktionsMainView extends VerticalLayout {
 	    }
 	    
 	});
+	
+
+    }
+    
+    private void buildActionBar() {
+	
+	actionBar.addComponent(addTransaktionBtn);
+	actionBar.setComponentAlignment(addTransaktionBtn, Alignment.MIDDLE_CENTER);
+	addTransaktionBtn.setIcon(VaadinIcons.PLUS_CIRCLE);
+	addTransaktionBtn.setStyleName("addButton");
+	addTransaktionBtn.addStyleName(ValoTheme.BUTTON_BORDERLESS);
+
+
+	// only show button if there are more than 2 kontos
+	if(SessionManager.getKontoMap().size()>1) {
+	    actionBar.addComponent(addTransferBtn);
+	    actionBar.setComponentAlignment(addTransferBtn, Alignment.MIDDLE_CENTER);
+	}
+	
+	
+	addTransferBtn.setIcon(VaadinIcons.EXCHANGE);
+	addTransferBtn.addStyleName(ValoTheme.BUTTON_BORDERLESS);
+	addTransferBtn.addStyleName("icon");
 
 	// prepare for export
 	Indexed trData = transaktionsgrid.getContainerDataSource();
@@ -140,14 +143,10 @@ public class TransaktionsMainView extends VerticalLayout {
 	} catch (NullPointerException e) {
 	    System.out.println("initialize");
 	}
-	
-	
-	
-	
 
-	
 	this.addComponent(actionBar);
 	this.setComponentAlignment(actionBar, Alignment.BOTTOM_CENTER);
+	actionBar.setHeight(50, Unit.PIXELS);
 	
     }
     
@@ -155,10 +154,17 @@ public class TransaktionsMainView extends VerticalLayout {
 	this.removeComponent(actionBar);
 	actionBar.removeAllComponents();
 	buildActionBar();
+	calcHeight();
     }
     
-    public void calGridHeight() {
-	transaktionsgrid.setHeight(UI.getCurrent().getPage().getBrowserWindowHeight()-300, Unit.PIXELS);
+    private void calcHeight() {
+	int browserHeight = UI.getCurrent().getPage().getBrowserWindowHeight();
+	int searchBarHeight = (int)searchBar.getHeight();
+	int actionBarHeight = (int)actionBar.getHeight();
+	
+	System.out.println("browser = '" + browserHeight + "'; searchBar = '" + searchBarHeight + "'; actionBar = '" + actionBarHeight + "'");
+	
+	transaktionsgrid.setHeight(browserHeight-searchBarHeight-actionBarHeight, Unit.PIXELS);
     }
 
 }
