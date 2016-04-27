@@ -9,7 +9,6 @@ import konto.data.Util.DateConverter;
 import konto.data.container.TransaktionsContainer;
 import konto.data.model.LoginUser;
 import konto.data.model.Transaktion;
-import konto.report.TransaktionsReport;
 
 public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 
@@ -347,6 +346,37 @@ public class TransaktionDBUtil extends DBCommunicator implements ITransaktion {
 	} finally {
 	    //close();
 	}
+    }
+
+    @Override
+    public TransaktionsContainer getLast10TransaktionsForUser(LoginUser user) {
+	TransaktionsContainer data = null;
+	try {
+	    String pSql = "SELECT transaktion_id, transaktion_date, transaktion_betrag, transaktion_text, "
+		    	+ "transaktion_type, t.konto_id, transaktion_hash " 
+		    	+ "FROM db_transaktion t "
+		    	+ "JOIN db_konto k on k.konto_id = t.konto_id " 
+		    	+ "WHERE k.owner = ? ORDER BY transaktion_date DESC LIMIT 10";
+	    pStmt = connect.prepareStatement(pSql);
+	    pStmt.setInt(1, user.getUserId());
+	    resSet = pStmt.executeQuery();
+
+	    ArrayList<Transaktion> transaktionList = new ArrayList<Transaktion>();
+	    while (resSet.next()) {
+
+		transaktionList.add(new Transaktion(resSet.getInt(1), DateConverter.convertDateToLocalDate(resSet.getDate(2)),
+			resSet.getDouble(3), resSet.getString(4), resSet.getString(7), resSet.getInt(6),
+			resSet.getInt(5)));
+	    }
+	    data = new TransaktionsContainer(transaktionList);
+
+	} catch (Exception e) {
+	    e.printStackTrace();
+	} finally {
+	    close();
+	}
+
+	return data;
     }
 
 }

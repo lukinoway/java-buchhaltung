@@ -29,6 +29,8 @@ public interface ITransaktion {
     
     public TransaktionsContainer getTransaktionsForYearKontoCategory(LocalDate year, int kontoId, int categoryId);
     
+    public TransaktionsContainer getLast10TransaktionsForUser(LoginUser user);
+    
     public ResultSet getReport(LoginUser user);
 
 }
