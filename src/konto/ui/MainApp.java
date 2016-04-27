@@ -1,13 +1,8 @@
 package konto.ui;
 
-import javax.servlet.annotation.WebServlet;
-
 import com.vaadin.annotations.Theme;
-import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinServlet;
-
 import konto.ui.SideBar;
 import konto.ui.session.SessionManager;
 import konto.ui.view.Category.CategoryMainView;
@@ -55,7 +50,6 @@ public class MainApp extends UI {
 	    shownView.removeAllComponents();
 	    if (view.equals(TransaktionsMainView.class.getName())) {
 		shownView.addComponent(transaktionsView);
-		transaktionsView.calGridHeight();
 		transaktionsView.rebuildActionBar();
 		currentView = view;
 	    }
