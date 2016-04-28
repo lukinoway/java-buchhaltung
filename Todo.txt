@@ -3,6 +3,11 @@
 -- Report muss noch optisch aufbereitet werden
 
 - MenüLeiste soll übersichtlicher dargestellt werden
+--> teilweise erledigt - feste höhe + icons sind nun kleiner
+
+- Upload möglichkeit für Rechnungen
+
+- mobile Version -> handy app?
 
 - Issues von Github:
 https://github.com/lukinoway/java-buchhaltung/issues

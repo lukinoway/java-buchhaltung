@@ -162,8 +162,6 @@ public class TransaktionsMainView extends VerticalLayout {
 	int searchBarHeight = (int)searchBar.getHeight();
 	int actionBarHeight = (int)actionBar.getHeight();
 	
-	System.out.println("browser = '" + browserHeight + "'; searchBar = '" + searchBarHeight + "'; actionBar = '" + actionBarHeight + "'");
-	
 	transaktionsgrid.setHeight(browserHeight-searchBarHeight-actionBarHeight, Unit.PIXELS);
     }
 
