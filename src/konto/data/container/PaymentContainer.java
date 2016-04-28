@@ -133,6 +133,7 @@ public class PaymentContainer extends IndexedContainer {
 	    // now for schuldner
 	    transaktion.setKontoId(payment.getSchuldnerKontoId());
 	    transaktion.setTransaktionsBetrag(payment.getBetrag()*-1);
+	    transaktion.createTransaktionsHash();
 	    
 	    transaktionUtil.createTransaktion(transaktion);
 	    
