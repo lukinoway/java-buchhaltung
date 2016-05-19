@@ -1,3 +1,7 @@
+# 2016-05-19
+- added mockups for mobile version
+-- will start this project within the next days
+
 # 2016-04-21
 - fixed transaktionswindow combobox issue
 
