@@ -29,6 +29,7 @@ import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.builder.subtotal.AggregationSubtotalBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
+import net.sf.dynamicreports.report.constant.Orientation;
 import net.sf.dynamicreports.report.constant.VerticalTextAlignment;
 import net.sf.dynamicreports.report.definition.ReportParameters;
 import net.sf.dynamicreports.report.definition.chart.DRIChartCustomizer;
@@ -58,25 +59,29 @@ public class TransaktionsReport {
 	
 	// Columns
 	TextColumnBuilder<Date> dateColumn = col.column("Datum", "transaktion_date", type.dateType()).setStyle(leftColumn);
-	TextColumnBuilder<String> kontoColumn = col.column("Konto", "konto_desc_text", type.stringType());
+//	TextColumnBuilder<String> kontoColumn = col.column("Konto", "konto_desc_text", type.stringType());
 	TextColumnBuilder<String> kategorieColumn = col.column("Kategorie", "type_text", type.stringType());
 	TextColumnBuilder<String> textColumn = col.column("Beschreibung", "transaktion_text", type.stringType());
 	TextColumnBuilder<BigDecimal> betragColumn = col.column("Betrag", "transaktion_betrag", currencyType);
+	TextColumnBuilder<BigDecimal> betragColumnConv = col.column("Betrag", "transaktion_betrag", currencyType).multiply(-1);
 	
 	// SubTotal
 	AggregationSubtotalBuilder<Date> minDateField = sbt.min(dateColumn).setLabel("Von: ");
 	AggregationSubtotalBuilder<Date> maxDateField = sbt.max(dateColumn).setLabel("Bis: ");
 	AggregationSubtotalBuilder<Long> transaktionCnt = sbt.count(betragColumn).setLabel("Anzahl an Transaktionen: ");
 	AggregationSubtotalBuilder<BigDecimal> summary = sbt.sum(betragColumn).setLabel("Summe: ");
-	
 		
 	// Charts
 	BarChartBuilder kategorieChart = cht.barChart()
 		.customizers(new ChartCustomizer())
-		.setTitle("Summe pro Kategorie")
+		.setTitle("Übersicht der Kategorien")		
 		.setCategory(kategorieColumn)
-		.addSerie(cht.serie(betragColumn))
-		.setCategoryAxisFormat(cht.axisFormat().setLabel("Kategorie"));
+		.addSerie(cht.serie(betragColumnConv))
+		//.setCategoryAxisFormat(cht.axisFormat().setLabel("Kategorie"))
+		.setOrientation(Orientation.HORIZONTAL)
+		.setShowLegend(false)
+		.setShowValues(true);
+	
 	
 //	PieChartBuilder pieChart = cht.pieChart()
 //		.customizers(new ChartCustomizer())
@@ -89,7 +94,7 @@ public class TransaktionsReport {
 	try {
 	    report
 	    	.columns(
-	    		dateColumn, kontoColumn, kategorieColumn, textColumn, betragColumn)
+	    		dateColumn, kategorieColumn, textColumn, betragColumn)
 	    	.setColumnTitleStyle(columnTitleStyle)
 	    	.highlightDetailEvenRows()
 	    	.title(
@@ -99,15 +104,19 @@ public class TransaktionsReport {
 	    		)
 	    		.newRow()
 	    		.add(cmp.filler().setStyle(stl.style().setTopBorder(stl.pen2Point())).setFixedHeight(10))
-//	    		.newRow()
+	    		.newRow()
+	    		.add(kategorieChart)
+	    		.newRow()
+	    		.add(cmp.filler().setStyle(stl.style().setTopBorder(stl.pen2Point())).setFixedHeight(10))
+	    		.newRow()
 //	    		.add(pieChart)
 	    		)
 	    	.pageFooter(cmp.pageXofY().setStyle(boldCenteredStyle))
 	    	.summary(
-	    		cmp.horizontalList()
-	    		.add(cmp.filler().setStyle(stl.style().setTopBorder(stl.pen2Point())).setFixedHeight(10))
-	    		.newRow()
-	    		.add(kategorieChart)
+//	    		cmp.horizontalList()
+//	    		.add(cmp.filler().setStyle(stl.style().setTopBorder(stl.pen2Point())).setFixedHeight(10))
+//	    		.newRow()
+//	    		.add(kategorieChart)
 	    		)
 	    	.setDataSource(resSet)
 	    	.groupBy(kategorieColumn.setStyle(boldStyle))
@@ -132,7 +141,7 @@ public class TransaktionsReport {
 	public void customize(JFreeChart chart, ReportParameters reportParameters) {
 	    //BarRenderer renderer = (BarRenderer) chart.getCategoryPlot().getRenderer();
 	    CategoryAxis domainAxis = chart.getCategoryPlot().getDomainAxis();
-	    domainAxis.setCategoryLabelPositions(CategoryLabelPositions.createUpRotationLabelPositions(45.0));
+	    //domainAxis.setCategoryLabelPositions(CategoryLabelPositions.createUpRotationLabelPositions(45.0));
 	    
 	}
 	
